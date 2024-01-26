@@ -5,9 +5,8 @@ This application was generated using JHipster 7.9.4, you can find documentation 
 ## This repository belongs to team 14
 
 - Zaine-Ul-Abideen Qayyum (zxq190@student.bham.ac.uk)
-
+- Abdelmalek Maskri (axm1962@student.bham.ac.uk)
 - (insert the list of team mates)
-
 ## changes for Teamproject
 
 Modified by Madasar Shah for Team Project
