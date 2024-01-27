@@ -6,6 +6,7 @@ This application was generated using JHipster 7.9.4, you can find documentation 
 
 - Zaine-Ul-Abideen Qayyum (zxq190@student.bham.ac.uk)
 - Abdelmalek Maskri (axm1962@student.bham.ac.uk)
+- Muneeb Parwaz (mxp356@student.bham.ac.uk)
 - (insert the list of team mates)
 ## changes for Teamproject
 
