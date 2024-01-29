@@ -10,7 +10,7 @@ This application was generated using JHipster 7.9.4, you can find documentation 
 - Shlok Chaudhry (sxc1477@student.bham.ac.uk)
 - Zhiwen Chen (zxc181@student.bham.ac.uk)
 - Jonathan Oakley (jxo256@student.bham.ac.uk)
-- (insert the list of team mates)
+- Ben Squire (bxs227@student.bham.ac.uk)
 ## changes for Teamproject
 
 Modified by Madasar Shah for Team Project
