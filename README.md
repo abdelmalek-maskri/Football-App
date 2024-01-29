@@ -9,6 +9,7 @@ This application was generated using JHipster 7.9.4, you can find documentation 
 - Muneeb Parwaz (mxp356@student.bham.ac.uk)
 - Shlok Chaudhry (sxc1477@student.bham.ac.uk)
 - Zhiwen Chen (zxc181@student.bham.ac.uk)
+- Jonathan Oakley (jxo256@student.bham.ac.uk)
 - (insert the list of team mates)
 ## changes for Teamproject
 
