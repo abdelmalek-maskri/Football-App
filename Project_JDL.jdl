@@ -117,89 +117,82 @@ relationship OneToOne{
 
 //Abdelmalek
 
+
+entity Tournament {
+    name String required,
+    startDate Instant required,
+    endDate Instant required,
+    location String required,
+    maxTeams Integer required
+}
 //
-//entity Tournament {
-//    name String required,
-//    startDate Instant required,
-//    endDate Instant required,
-//    location String required,
-//    maxTeams Integer required
-//}
+entity Registration {
+    registrationDate Instant required,
+    status RegistrationStatus required,
+    teamName String required
+}
 //
-//entity Registration {
-//    registrationDate Instant required,
-//    status RegistrationStatus required,
-//    teamName String required
-//}
-//
-//enum RegistrationStatus {
-//    PENDING
-//    CONFIRMED
-//    CANCELLED
-//}
+enum RegistrationStatus {
+    PENDING
+    CONFIRMED
+    CANCELLED
+}
 //
 //
-//relationship OneToMany {
-//    Tournament{matches} to Match
-//}
+relationship OneToMany {
+    Tournament{matches} to Match
+}
 //
-//relationship ManyToOne {
-//    Match{tournament} to Tournament
-//}
+relationship ManyToOne {
+    Match{tournament} to Tournament
+}
+
+relationship ManyToOne {
+    Team{tournaments} to Tournament
+}
+
+relationship ManyToOne {
+    Match{team} to Team
+}
+
+relationship ManyToOne {
+    Registration{team} to Team
+}
+relationship OneToOne{
+    Player to Team
+}
+relationship OneToMany{
+    Team to Player
+}
 //
-//relationship ManyToOne {
-//    Team{tournaments} to Tournament
-//}
-//
-//relationship ManyToOne {
-//    Match{team} to Team
-//}
-//
-//relationship ManyToOne {
-//    Registration{team} to Team
-//}
-//relationship OneToOne{
-//    Player to Team
-//}
-//relationship OneToMany{
-//    Team to Player
-//}
-//
-//relationship ManyToOne {
-//    Registration{tournament} to Tournament
-//}
-//
+relationship ManyToOne {
+    Registration{tournament} to Tournament
+}
+
 ////zaine
 //
-//entity PitchBooking {
-//    bookingDate ZonedDateTime,
-//    startTime Instant,
-//    endTime Instant,
-//    pitch Pitch,
-//    player PlayerProfile
+entity PitchBooking {
+    bookingID Integer required
+    bookingDate ZonedDateTime,
+    startTime Instant,
+    endTime Instant,
+}
+
+relationship OneToMany{
+    Team to PitchBooking
+}
+
+relationship OneToOne{
+    PitchBooking to Pitch
+}
+entity Pitch{
+    pitchID Integer required
+    name String,
+    location String,
+}
 //
-//}
 //
-//entity Pitch {
-//    name String,
-//    location String,
-//}
-//
-//
-//entity Team {
-//    teamId String,
-//    teamName String,
-//    teamProfile ImageBlob,
-//}
-//
-//relationship ManyToMany {
-//    Team{players} to Player{teams},
-//}
-//
-//relationship ManyToOne {
-//    Player{pitchBooking(s)} to PitchBooking{player},
-//    Pitch{pitchBooking(s)} to PitchBooking{pitch}
-//}
+
 //
 ////zhiwen
 
@@ -208,6 +201,7 @@ entity Comment{
     rating Integer
     content String
     liked Integer
+    matchID Integer
 }
 
 relationship OneToOne{
@@ -215,49 +209,94 @@ relationship OneToOne{
 }
 
 relationship OneToMany{
-    PlayerProfile{comments} to Comment
+    PlayerProfile to Comment
 }
 
-relationship ManyToOne {
-    PlayerProfile{comments} to Comment{player}
-}
 //link to muneeb
 //relationship ManyToOne {
 //    Comment{match} to Match
 //}
+
+//Jon
+entity Match {
+    matchId Integer
+    homeScore Integer
+    awayScore Integer
+    date LocalDate
+}
+
+relationship OneToOne {
+    Match{pitch} to Pitch
+}
+
 relationship OneToMany {
-    User{comments} to Comment{author(User)}
+    Tournament to Match
 }
 
-relationship ManyToMany {
-    Comment{likedBy} to User{likedComments}
+relationship OneToOne {
+    Match{home} to Team
+    Match{away} to Team
 }
 
-////Jon
-//entity Match {
-//    matchId Integer
-//    homeScore Integer
-//    awayScore Integer
-//    date LocalDate
+////Muneeb
+//entity User {
+//    userId String unique required,
+//    username String,
+//    email String,
+//    phoneNumber String,
+//    profilePicture ImageBlob
 //}
 //
-//entity Team {
-//    teamName String
-//    color Color
-//    stateProvince String
-//}
+entity Team {
+    teamId String unique required,
+    teamOwner String,
+    created Instant,
+
+    name String maxlength(40) required,
+    description String maxlength(512),
+    memberCount Integer,
+    image ImageBlob,
+    colour String,
+
+    schedule String,
+    playType PlayType
+}
+
+entity TeamMember {
+    userId String,
+    teamId String
+}
+
+entity TeamContact {
+    type ContactType,
+    value String
+}
+
+relationship OneToMany {
+    Team{members} to TeamMember{team}
+}
+
+
+relationship OneToOne {
+TeamMember{user} to PlayerProfile{userID}
+}
+
+relationship OneToMany {
+Team{contacts} to TeamContact
+}
+
+relationship OneToOne {
+Team{owner} to PlayerProfile{userID}
+}
 //
 //
+enum PlayType {
+SOCIAL(Social),
+COMPETITIVE(Competitive)
+}
 //
-//relationship OneToOne {
-//    Match{pitch} to Pitch
-//}
-//
-//relationship OneToMany {
-//    Tournament to Match
-//}
-//
-//relationship OneToOne {
-//    Match{home} to Team
-//    Match{away} to Team
+//enum ContactType {
+//EMAIL(Email),
+//TWITTER(Twitter),
+//INSTAGRAM(Instagram)
 //}
