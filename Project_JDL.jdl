@@ -160,10 +160,10 @@ relationship ManyToOne {
     Registration{team} to Team
 }
 relationship OneToOne{
-    Player to Team
+    PlayerProfile to Team
 }
 relationship OneToMany{
-    Team to Player
+    Team to PlayerProfile
 }
 //
 relationship ManyToOne {
