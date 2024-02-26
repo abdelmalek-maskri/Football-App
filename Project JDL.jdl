@@ -1,0 +1,263 @@
+// Ben
+entity PlayerProfile {
+    userID Integer required
+    Name String required
+    Gender Genders required
+    Location String
+    Rating Integer
+    Position Positions
+    Contact ContactType
+    Comments String
+    Rating Integer
+}
+
+entity RefereeProfile {
+    userID Integer required
+    Name String required
+    Gender Genders required
+    Location String
+    Rating Integer
+    Contact ContactType
+    Comments String
+    Rating Integer
+}
+
+entity Availability {
+    monday Boolean,
+    tuesday Boolean,
+    wednesday Boolean,
+    thursday Boolean,
+    friday Boolean,
+    saturday Boolean,
+    sunday Boolean
+}
+
+
+enum Genders{
+    Male
+    Female
+    Unknown
+}
+
+enum Positions{
+    GK
+    LB
+    CB
+    RB
+    DM
+    CM
+    AM
+    LM
+    RM
+    ST
+    LW
+    RW
+}
+
+relationship OneToOne {
+    PlayerProfile{availability} to Availability{playerProfile}
+}
+
+relationship OneToOne {
+    RefereeProfile{availability} to Availability{playerProfile}
+}
+
+// Shlok
+
+//Entities
+
+entity FindPlayerAndReferee {
+    userID String required,
+    profilePicture ImageBlob required,
+    name String required,
+    position String required,
+    area String required,
+}
+
+//This entity will be used to calculate the distance
+//Of the user to all other players
+//And then the user can find players according to the distance
+entity Distance {
+    myPlayerID String required,
+    otherPlayerID String required,
+    distance Double required,
+}
+
+//Define the entity for Available Dates
+//The user can filter out players available for specific dates
+entity AvailableDate{
+    playerID String required,
+    day LocalDate,
+}
+
+// Define the enum for contact type
+//Each player can have a mail and/or a contact number
+enum ContactType {
+    EMAIL
+    PHONE_NUMBER
+}
+
+//Relationships
+
+relationship OneToMany {
+    FindPlayerAndReferee{search} to Distance,
+    FindPlayerAndReferee to AvailableDate,
+}
+
+relationship OneToOne{
+    FindPlayerAndReferee{userID} to PlayerProfile,
+    FindPlayerAndReferee{userID} to RefereeProfile
+}
+
+relationship OneToOne{
+    Availability to AvailableDate
+}
+// Define the relationship between Player and Contact
+//each player can have multiple contacts
+
+//Abdelmalek
+
+//
+//entity Tournament {
+//    name String required,
+//    startDate Instant required,
+//    endDate Instant required,
+//    location String required,
+//    maxTeams Integer required
+//}
+//
+//entity Registration {
+//    registrationDate Instant required,
+//    status RegistrationStatus required,
+//    teamName String required
+//}
+//
+//enum RegistrationStatus {
+//    PENDING
+//    CONFIRMED
+//    CANCELLED
+//}
+//
+//
+//relationship OneToMany {
+//    Tournament{matches} to Match
+//}
+//
+//relationship ManyToOne {
+//    Match{tournament} to Tournament
+//}
+//
+//relationship ManyToOne {
+//    Team{tournaments} to Tournament
+//}
+//
+//relationship ManyToOne {
+//    Match{team} to Team
+//}
+//
+//relationship ManyToOne {
+//    Registration{team} to Team
+//}
+//relationship OneToOne{
+//    Player to Team
+//}
+//relationship OneToMany{
+//    Team to Player
+//}
+//
+//relationship ManyToOne {
+//    Registration{tournament} to Tournament
+//}
+//
+////zaine
+//
+//entity PitchBooking {
+//    bookingDate ZonedDateTime,
+//    startTime Instant,
+//    endTime Instant,
+//    pitch Pitch,
+//    player PlayerProfile
+//
+//}
+//
+//entity Pitch {
+//    name String,
+//    location String,
+//}
+//
+//
+//entity Team {
+//    teamId String,
+//    teamName String,
+//    teamProfile ImageBlob,
+//}
+//
+//relationship ManyToMany {
+//    Team{players} to Player{teams},
+//}
+//
+//relationship ManyToOne {
+//    Player{pitchBooking(s)} to PitchBooking{player},
+//    Pitch{pitchBooking(s)} to PitchBooking{pitch}
+//}
+//
+////zhiwen
+
+entity Comment{
+    AuthorID Integer
+    rating Integer
+    content String
+    liked Integer
+}
+
+relationship OneToOne{
+    Comment{authorID} to PlayerProfile{userID}
+}
+
+relationship OneToMany{
+    PlayerProfile{comments} to Comment
+}
+
+relationship ManyToOne {
+    PlayerProfile{comments} to Comment{player}
+}
+//link to muneeb
+//relationship ManyToOne {
+//    Comment{match} to Match
+//}
+relationship OneToMany {
+    User{comments} to Comment{author(User)}
+}
+
+relationship ManyToMany {
+    Comment{likedBy} to User{likedComments}
+}
+
+////Jon
+//entity Match {
+//    matchId Integer
+//    homeScore Integer
+//    awayScore Integer
+//    date LocalDate
+//}
+//
+//entity Team {
+//    teamName String
+//    color Color
+//    stateProvince String
+//}
+//
+//
+//
+//relationship OneToOne {
+//    Match{pitch} to Pitch
+//}
+//
+//relationship OneToMany {
+//    Tournament to Match
+//}
+//
+//relationship OneToOne {
+//    Match{home} to Team
+//    Match{away} to Team
+//}
