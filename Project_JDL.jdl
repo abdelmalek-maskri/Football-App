@@ -95,6 +95,7 @@ entity AvailableDate{
 enum ContactType {
     EMAIL
     PHONE_NUMBER
+    INSTAGRAM(Instagram)
 }
 
 //Relationships
@@ -219,7 +220,7 @@ relationship OneToMany{
 
 //Jon
 entity Match {
-    matchId Integer
+    matchId Integer required
     homeScore Integer
     awayScore Integer
     date LocalDate
@@ -296,7 +297,5 @@ COMPETITIVE(Competitive)
 }
 //
 //enum ContactType {
-//EMAIL(Email),
-//TWITTER(Twitter),
-//INSTAGRAM(Instagram)
+
 //}
