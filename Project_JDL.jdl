@@ -106,8 +106,8 @@ relationship OneToMany {
 }
 
 relationship OneToOne{
-    FindPlayerAndReferee{userID} to PlayerProfile,
-    FindPlayerAndReferee{userID} to RefereeProfile
+    FindPlayerAndReferee{player} to PlayerProfile,
+    FindPlayerAndReferee{referee} to RefereeProfile
 }
 
 relationship OneToOne{
@@ -141,12 +141,9 @@ enum RegistrationStatus {
 //
 //
 relationship OneToMany {
-    Tournament{matches} to Match
+    Tournament{matches} to Match{tournament}
 }
 //
-relationship ManyToOne {
-    Match{tournament} to Tournament
-}
 
 relationship ManyToOne {
     Team{tournaments} to Tournament
@@ -203,7 +200,7 @@ entity Comment{
 }
 
 relationship OneToOne{
-    Comment{authorID} to PlayerProfile{userID}
+    Comment{author} to PlayerProfile{userID}
 }
 
 relationship OneToMany{
@@ -228,7 +225,7 @@ relationship OneToOne {
 }
 
 relationship OneToMany {
-    Tournament to Match
+    Tournament{matches} to Match
 }
 
 relationship OneToOne {
