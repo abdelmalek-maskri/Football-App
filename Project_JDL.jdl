@@ -159,9 +159,6 @@ relationship ManyToOne {
 relationship ManyToOne {
     Registration{team} to Team
 }
-relationship OneToOne{
-    PlayerProfile to Team
-}
 relationship OneToMany{
     Team to PlayerProfile
 }
