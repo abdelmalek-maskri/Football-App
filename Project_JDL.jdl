@@ -7,8 +7,7 @@ entity PlayerProfile {
     Rating Integer
     Position Positions
     Contact ContactType
-    Comments String
-    Rating Integer
+    Rating Double
 }
 
 entity RefereeProfile {
@@ -18,7 +17,6 @@ entity RefereeProfile {
     Location String
     Rating Integer
     Contact ContactType
-    Comments String
     Rating Integer
 }
 
@@ -55,11 +53,11 @@ enum Positions{
 }
 
 relationship OneToOne {
-    PlayerProfile{availability} to Availability{playerProfile}
+    PlayerProfile{availability} to Availability
 }
 
 relationship OneToOne {
-    RefereeProfile{availability} to Availability{playerProfile}
+    RefereeProfile{availability} to Availability
 }
 
 // Shlok
@@ -192,20 +190,23 @@ entity Pitch{
 ////zhiwen
 
 entity Comment{
-    AuthorID Integer
+    authorID Integer
+    userId Integer
     rating Integer
     content String
     liked Integer
     matchID Integer
 }
 
-relationship OneToOne{
-    Comment{author} to PlayerProfile{userID}
+relationship ManyToOne{
+    Comment to PlayerProfile{comments}
+}
+relationship ManyToOne{
+    Comment to RefereeProfile{comments}
 }
 
-relationship OneToMany{
-    PlayerProfile to Comment
-}
+
+
 
 //link to muneeb
 //relationship ManyToOne {
@@ -243,7 +244,7 @@ relationship OneToOne {
 //}
 //
 entity Team {
-    teamId String unique required,
+    //teamId String unique required,
     teamOwner String,
     created Instant,
 
@@ -258,8 +259,8 @@ entity Team {
 }
 
 entity TeamMember {
-    userId String,
-    teamId String
+    userIdentifier String required, // had to change userId and teamId to userIdentifier and teamIdentifier to get rid of a duplicate column error
+    teamIdentifier String required
 }
 
 entity TeamContact {
@@ -271,23 +272,22 @@ relationship OneToMany {
     Team{members} to TeamMember{team}
 }
 
-
 relationship OneToOne {
-TeamMember{user} to PlayerProfile{userID}
+    TeamMember{user} to PlayerProfile{teamMembership}
 }
 
 relationship OneToMany {
-Team{contacts} to TeamContact
+    Team{contacts} to TeamContact
 }
 
 relationship OneToOne {
-Team{owner} to PlayerProfile{userID}
+    Team{owner} to PlayerProfile
 }
 //
 //
 enum PlayType {
-SOCIAL(Social),
-COMPETITIVE(Competitive)
+    SOCIAL(Social),
+    COMPETITIVE(Competitive)
 }
 //
 //enum ContactType {
