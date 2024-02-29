@@ -143,8 +143,9 @@ relationship OneToMany {
 }
 //
 
-relationship ManyToOne {
-    Team{tournaments} to Tournament
+
+relationship ManyToMany {
+    Tournament{teams} to Team{tournaments}
 }
 
 relationship ManyToOne {
@@ -153,9 +154,6 @@ relationship ManyToOne {
 
 relationship ManyToOne {
     Registration{team} to Team
-}
-relationship OneToMany{
-    Team to PlayerProfile
 }
 //
 relationship ManyToOne {
@@ -172,7 +170,7 @@ entity PitchBooking {
 }
 
 relationship OneToMany{
-    Team to PitchBooking
+    Team{bookings} to PitchBooking{team}
 }
 
 relationship OneToOne{
@@ -281,7 +279,7 @@ relationship OneToMany {
 }
 
 relationship OneToOne {
-    Team{owner} to PlayerProfile
+    Team{owner} to TeamMember
 }
 //
 //
