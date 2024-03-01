@@ -1,0 +1,52 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <div *ngIf="availableDate">
+      <h2 data-cy="availableDateDetailsHeading"><span>Available Date</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span>ID</span></dt>
+        <dd>
+          <span>{{ availableDate.id }}</span>
+        </dd>
+        <dt><span>From Time</span></dt>
+        <dd>
+          <span>{{ availableDate.fromTime | formatMediumDatetime }}</span>
+        </dd>
+        <dt><span>To Time</span></dt>
+        <dd>
+          <span>{{ availableDate.toTime | formatMediumDatetime }}</span>
+        </dd>
+        <dt><span>Is Available</span></dt>
+        <dd>
+          <span>{{ availableDate.isAvailable }}</span>
+        </dd>
+        <dt><span>User Profile</span></dt>
+        <dd>
+          <div *ngIf="availableDate.userProfile">
+            <a [routerLink]="['/user-profile', availableDate.userProfile.id, 'view']">{{ availableDate.userProfile.id }}</a>
+          </div>
+        </dd>
+        <dt><span>Team</span></dt>
+        <dd>
+          <div *ngIf="availableDate.team">
+            <a [routerLink]="['/team', availableDate.team.id, 'view']">{{ availableDate.team.id }}</a>
+          </div>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/available-date', availableDate.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

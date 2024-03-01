@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+    <!--
+        Added the constraints for entity Match.
+    -->
+    <changeSet id="20240301154134-2" author="jhipster">
+
+        <addForeignKeyConstraint baseColumnNames="referee_id"
+                                 baseTableName="match"
+                                 constraintName="fk_match__referee_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="user_profile"/>
+
+        <addForeignKeyConstraint baseColumnNames="pitch_id"
+                                 baseTableName="match"
+                                 constraintName="fk_match__pitch_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="pitch"/>
+
+        <addForeignKeyConstraint baseColumnNames="home_id"
+                                 baseTableName="match"
+                                 constraintName="fk_match__home_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="team"/>
+
+        <addForeignKeyConstraint baseColumnNames="away_id"
+                                 baseTableName="match"
+                                 constraintName="fk_match__away_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="team"/>
+
+        <addForeignKeyConstraint baseColumnNames="tournament_id"
+                                 baseTableName="match"
+                                 constraintName="fk_match__tournament_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="tournament"/>
+    </changeSet>
+</databaseChangeLog>

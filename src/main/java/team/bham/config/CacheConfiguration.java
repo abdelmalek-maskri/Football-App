@@ -48,6 +48,24 @@ public class CacheConfiguration {
             createCache(cm, team.bham.domain.User.class.getName());
             createCache(cm, team.bham.domain.Authority.class.getName());
             createCache(cm, team.bham.domain.User.class.getName() + ".authorities");
+            createCache(cm, team.bham.domain.UserProfile.class.getName());
+            createCache(cm, team.bham.domain.UserProfile.class.getName() + ".contacts");
+            createCache(cm, team.bham.domain.UserProfile.class.getName() + ".availableDates");
+            createCache(cm, team.bham.domain.AvailableDate.class.getName());
+            createCache(cm, team.bham.domain.Tournament.class.getName());
+            createCache(cm, team.bham.domain.Tournament.class.getName() + ".matches");
+            createCache(cm, team.bham.domain.Tournament.class.getName() + ".teams");
+            createCache(cm, team.bham.domain.PitchBooking.class.getName());
+            createCache(cm, team.bham.domain.Pitch.class.getName());
+            createCache(cm, team.bham.domain.Comment.class.getName());
+            createCache(cm, team.bham.domain.Match.class.getName());
+            createCache(cm, team.bham.domain.Team.class.getName());
+            createCache(cm, team.bham.domain.Team.class.getName() + ".bookings");
+            createCache(cm, team.bham.domain.Team.class.getName() + ".availableDates");
+            createCache(cm, team.bham.domain.Team.class.getName() + ".members");
+            createCache(cm, team.bham.domain.Team.class.getName() + ".contacts");
+            createCache(cm, team.bham.domain.Contact.class.getName());
+            createCache(cm, team.bham.domain.Team.class.getName() + ".tournaments");
             // jhipster-needle-ehcache-add-entry
         };
     }

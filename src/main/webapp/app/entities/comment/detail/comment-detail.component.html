@@ -1,0 +1,64 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <div *ngIf="comment">
+      <h2 data-cy="commentDetailsHeading"><span>Comment</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span>ID</span></dt>
+        <dd>
+          <span>{{ comment.id }}</span>
+        </dd>
+        <dt><span>Rating</span></dt>
+        <dd>
+          <span>{{ comment.rating }}</span>
+        </dd>
+        <dt><span>Content</span></dt>
+        <dd>
+          <span>{{ comment.content }}</span>
+        </dd>
+        <dt><span>Like Count</span></dt>
+        <dd>
+          <span>{{ comment.likeCount }}</span>
+        </dd>
+        <dt><span>Replying To</span></dt>
+        <dd>
+          <div *ngIf="comment.replyingTo">
+            <a [routerLink]="['/comment', comment.replyingTo.id, 'view']">{{ comment.replyingTo.id }}</a>
+          </div>
+        </dd>
+        <dt><span>Author</span></dt>
+        <dd>
+          <div *ngIf="comment.author">
+            <a [routerLink]="['/user-profile', comment.author.id, 'view']">{{ comment.author.id }}</a>
+          </div>
+        </dd>
+        <dt><span>Target User</span></dt>
+        <dd>
+          <div *ngIf="comment.targetUser">
+            <a [routerLink]="['/user-profile', comment.targetUser.id, 'view']">{{ comment.targetUser.id }}</a>
+          </div>
+        </dd>
+        <dt><span>Match</span></dt>
+        <dd>
+          <div *ngIf="comment.match">
+            <a [routerLink]="['/match', comment.match.id, 'view']">{{ comment.match.id }}</a>
+          </div>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/comment', comment.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

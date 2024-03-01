@@ -1,0 +1,150 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2 id="jhi-user-profile-heading" data-cy="UserProfileCreateUpdateHeading">Create or edit a User Profile</h2>
+
+      <div>
+        <jhi-alert-error></jhi-alert-error>
+
+        <div class="row mb-3" *ngIf="editForm.controls.id.value !== null">
+          <label class="form-label" for="field_id">ID</label>
+          <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_created">Created</label>
+          <div class="d-flex">
+            <input
+              id="field_created"
+              data-cy="created"
+              type="datetime-local"
+              class="form-control"
+              name="created"
+              formControlName="created"
+              placeholder="YYYY-MM-DD HH:mm"
+            />
+          </div>
+          <div *ngIf="editForm.get('created')!.invalid && (editForm.get('created')!.dirty || editForm.get('created')!.touched)">
+            <small class="form-text text-danger" *ngIf="editForm.get('created')?.errors?.required"> This field is required. </small>
+            <small class="form-text text-danger" [hidden]="!editForm.get('created')?.errors?.datetimelocal">
+              This field should be a date and time.
+            </small>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_name">Name</label>
+          <input type="text" class="form-control" name="name" id="field_name" data-cy="name" formControlName="name" />
+          <div *ngIf="editForm.get('name')!.invalid && (editForm.get('name')!.dirty || editForm.get('name')!.touched)">
+            <small class="form-text text-danger" *ngIf="editForm.get('name')?.errors?.required"> This field is required. </small>
+            <small class="form-text text-danger" *ngIf="editForm.get('name')?.errors?.maxlength">
+              This field cannot be longer than 32 characters.
+            </small>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_profilePic">Profile Pic</label>
+          <div>
+            <img
+              [src]="'data:' + editForm.get('profilePicContentType')!.value + ';base64,' + editForm.get('profilePic')!.value"
+              style="max-height: 100px"
+              *ngIf="editForm.get('profilePic')!.value"
+              alt="userProfile image"
+            />
+            <div *ngIf="editForm.get('profilePic')!.value" class="form-text text-danger clearfix">
+              <span class="pull-start"
+                >{{ editForm.get('profilePicContentType')!.value }}, {{ byteSize(editForm.get('profilePic')!.value!) }}</span
+              >
+              <button
+                type="button"
+                (click)="clearInputImage('profilePic', 'profilePicContentType', 'file_profilePic')"
+                class="btn btn-secondary btn-xs pull-end"
+              >
+                <fa-icon icon="times"></fa-icon>
+              </button>
+            </div>
+            <input
+              type="file"
+              id="file_profilePic"
+              data-cy="profilePic"
+              (change)="setFileData($event, 'profilePic', true)"
+              accept="image/*"
+            />
+          </div>
+          <input
+            type="hidden"
+            class="form-control"
+            name="profilePic"
+            id="field_profilePic"
+            data-cy="profilePic"
+            formControlName="profilePic"
+          />
+          <input
+            type="hidden"
+            class="form-control"
+            name="profilePicContentType"
+            id="field_profilePicContentType"
+            formControlName="profilePicContentType"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_gender">Gender</label>
+          <select class="form-control" name="gender" formControlName="gender" id="field_gender" data-cy="gender">
+            <option [ngValue]="null"></option>
+            <option *ngFor="let genders of gendersValues" [value]="genders">genders</option>
+          </select>
+          <div *ngIf="editForm.get('gender')!.invalid && (editForm.get('gender')!.dirty || editForm.get('gender')!.touched)">
+            <small class="form-text text-danger" *ngIf="editForm.get('gender')?.errors?.required"> This field is required. </small>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_location">Location</label>
+          <input type="text" class="form-control" name="location" id="field_location" data-cy="location" formControlName="location" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_position">Position</label>
+          <select class="form-control" name="position" formControlName="position" id="field_position" data-cy="position">
+            <option [ngValue]="null"></option>
+            <option *ngFor="let positions of positionsValues" [value]="positions">positions</option>
+          </select>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_referee">Referee</label>
+          <input type="checkbox" class="form-check" name="referee" id="field_referee" data-cy="referee" formControlName="referee" />
+          <div *ngIf="editForm.get('referee')!.invalid && (editForm.get('referee')!.dirty || editForm.get('referee')!.touched)">
+            <small class="form-text text-danger" *ngIf="editForm.get('referee')?.errors?.required"> This field is required. </small>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_team">Team</label>
+          <select class="form-control" id="field_team" data-cy="team" name="team" formControlName="team" [compareWith]="compareTeam">
+            <option [ngValue]="null"></option>
+            <option [ngValue]="teamOption" *ngFor="let teamOption of teamsSharedCollection">{{ teamOption.id }}</option>
+          </select>
+        </div>
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span>Cancel</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span>Save</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

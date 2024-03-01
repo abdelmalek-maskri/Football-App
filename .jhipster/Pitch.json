@@ -1,0 +1,32 @@
+{
+  "applications": "*",
+  "changelogDate": "20240301154132",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "pitch",
+  "fields": [
+    {
+      "fieldName": "name",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "location",
+      "fieldType": "String"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "Pitch",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "pitchBooking",
+      "otherEntityRelationshipName": "pitch",
+      "ownerSide": false,
+      "relationshipName": "pitchBooking",
+      "relationshipType": "one-to-one"
+    }
+  ],
+  "service": "no"
+}

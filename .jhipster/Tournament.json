@@ -1,0 +1,58 @@
+{
+  "applications": "*",
+  "changelogDate": "20240301154130",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "tournament",
+  "fields": [
+    {
+      "fieldName": "name",
+      "fieldType": "String",
+      "fieldValidateRules": ["required", "maxlength"],
+      "fieldValidateRulesMaxlength": "128"
+    },
+    {
+      "fieldName": "startDate",
+      "fieldType": "Instant",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "endDate",
+      "fieldType": "Instant",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "location",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "maxTeams",
+      "fieldType": "Integer",
+      "fieldValidateRules": ["required", "max", "min"],
+      "fieldValidateRulesMax": "32",
+      "fieldValidateRulesMin": "4"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "Tournament",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "match",
+      "otherEntityRelationshipName": "tournament",
+      "relationshipName": "matches",
+      "relationshipType": "one-to-many"
+    },
+    {
+      "otherEntityName": "team",
+      "otherEntityRelationshipName": "tournaments",
+      "ownerSide": true,
+      "relationshipName": "teams",
+      "relationshipType": "many-to-many"
+    }
+  ],
+  "service": "no"
+}

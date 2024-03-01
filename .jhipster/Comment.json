@@ -1,0 +1,60 @@
+{
+  "applications": "*",
+  "changelogDate": "20240301154133",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "comment",
+  "fields": [
+    {
+      "fieldName": "rating",
+      "fieldType": "Integer",
+      "fieldValidateRules": ["min", "max", "required"],
+      "fieldValidateRulesMax": "5",
+      "fieldValidateRulesMin": "0"
+    },
+    {
+      "fieldName": "content",
+      "fieldType": "String",
+      "fieldValidateRules": ["maxlength"],
+      "fieldValidateRulesMaxlength": "256"
+    },
+    {
+      "fieldName": "likeCount",
+      "fieldType": "Integer",
+      "fieldValidateRules": ["min"],
+      "fieldValidateRulesMin": "0"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "Comment",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "comment",
+      "ownerSide": true,
+      "relationshipName": "replyingTo",
+      "relationshipType": "one-to-one"
+    },
+    {
+      "otherEntityName": "userProfile",
+      "ownerSide": true,
+      "relationshipName": "author",
+      "relationshipType": "one-to-one"
+    },
+    {
+      "otherEntityName": "userProfile",
+      "ownerSide": true,
+      "relationshipName": "targetUser",
+      "relationshipType": "one-to-one"
+    },
+    {
+      "otherEntityName": "match",
+      "ownerSide": true,
+      "relationshipName": "match",
+      "relationshipType": "one-to-one"
+    }
+  ],
+  "service": "no"
+}

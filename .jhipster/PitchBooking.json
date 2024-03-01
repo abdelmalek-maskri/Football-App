@@ -1,0 +1,45 @@
+{
+  "applications": "*",
+  "changelogDate": "20240301154131",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "pitch_booking",
+  "fields": [
+    {
+      "fieldName": "bookingDate",
+      "fieldType": "Instant",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "startTime",
+      "fieldType": "Instant",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "endTime",
+      "fieldType": "Instant",
+      "fieldValidateRules": ["required"]
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "PitchBooking",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "pitch",
+      "otherEntityRelationshipName": "pitchBooking",
+      "ownerSide": true,
+      "relationshipName": "pitch",
+      "relationshipType": "one-to-one"
+    },
+    {
+      "otherEntityName": "team",
+      "otherEntityRelationshipName": "bookings",
+      "relationshipName": "team",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "service": "no"
+}

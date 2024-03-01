@@ -1,0 +1,95 @@
+{
+  "applications": "*",
+  "changelogDate": "20240301154135",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "team",
+  "fields": [
+    {
+      "fieldName": "created",
+      "fieldType": "Instant",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "name",
+      "fieldType": "String",
+      "fieldValidateRules": ["minlength", "maxlength", "required"],
+      "fieldValidateRulesMaxlength": "40",
+      "fieldValidateRulesMinlength": "2"
+    },
+    {
+      "fieldName": "description",
+      "fieldType": "String",
+      "fieldValidateRules": ["maxlength"],
+      "fieldValidateRulesMaxlength": "512"
+    },
+    {
+      "fieldName": "image",
+      "fieldType": "byte[]",
+      "fieldTypeBlobContent": "image"
+    },
+    {
+      "fieldName": "colour",
+      "fieldType": "String",
+      "fieldValidateRules": ["maxlength"],
+      "fieldValidateRulesMaxlength": "6"
+    },
+    {
+      "fieldName": "schedule",
+      "fieldType": "String",
+      "fieldValidateRules": ["maxlength"],
+      "fieldValidateRulesMaxlength": "64"
+    },
+    {
+      "fieldName": "playType",
+      "fieldType": "PlayType",
+      "fieldValues": "SOCIAL (Social),COMPETITIVE (Competitive)"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "Team",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "userProfile",
+      "otherEntityRelationshipName": "teamOwned",
+      "ownerSide": true,
+      "relationshipName": "owner",
+      "relationshipType": "one-to-one"
+    },
+    {
+      "otherEntityName": "pitchBooking",
+      "otherEntityRelationshipName": "team",
+      "relationshipName": "bookings",
+      "relationshipType": "one-to-many"
+    },
+    {
+      "otherEntityName": "availableDate",
+      "otherEntityRelationshipName": "team",
+      "relationshipName": "availableDates",
+      "relationshipType": "one-to-many"
+    },
+    {
+      "otherEntityName": "userProfile",
+      "otherEntityRelationshipName": "team",
+      "relationshipName": "members",
+      "relationshipType": "one-to-many"
+    },
+    {
+      "otherEntityName": "contact",
+      "otherEntityRelationshipName": "team",
+      "relationshipName": "contacts",
+      "relationshipType": "one-to-many"
+    },
+    {
+      "otherEntityName": "tournament",
+      "otherEntityRelationshipName": "teams",
+      "ownerSide": false,
+      "relationshipName": "tournaments",
+      "relationshipType": "many-to-many"
+    }
+  ],
+  "service": "no"
+}

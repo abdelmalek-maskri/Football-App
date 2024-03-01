@@ -1,0 +1,64 @@
+{
+  "applications": "*",
+  "changelogDate": "20240301154134",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "match",
+  "fields": [
+    {
+      "fieldName": "homeScore",
+      "fieldType": "Integer",
+      "fieldValidateRules": ["min"],
+      "fieldValidateRulesMin": "0"
+    },
+    {
+      "fieldName": "awayScore",
+      "fieldType": "Integer",
+      "fieldValidateRules": ["min"],
+      "fieldValidateRulesMin": "0"
+    },
+    {
+      "fieldName": "date",
+      "fieldType": "Instant",
+      "fieldValidateRules": ["required"]
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "Match",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "userProfile",
+      "ownerSide": true,
+      "relationshipName": "referee",
+      "relationshipType": "one-to-one"
+    },
+    {
+      "otherEntityName": "pitch",
+      "ownerSide": true,
+      "relationshipName": "pitch",
+      "relationshipType": "one-to-one"
+    },
+    {
+      "otherEntityName": "team",
+      "ownerSide": true,
+      "relationshipName": "home",
+      "relationshipType": "one-to-one"
+    },
+    {
+      "otherEntityName": "team",
+      "ownerSide": true,
+      "relationshipName": "away",
+      "relationshipType": "one-to-one"
+    },
+    {
+      "otherEntityName": "tournament",
+      "otherEntityRelationshipName": "matches",
+      "relationshipName": "tournament",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "service": "no"
+}
