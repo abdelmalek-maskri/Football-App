@@ -1,0 +1,124 @@
+<div>
+  <h2 id="page-heading" data-cy="AvailableDateHeading">
+    <span>Available Dates</span>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading">
+        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+        <span>Refresh list</span>
+      </button>
+
+      <button
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-primary jh-create-entity create-available-date"
+        [routerLink]="['/available-date/new']"
+      >
+        <fa-icon icon="plus"></fa-icon>
+        <span> Create a new Available Date </span>
+      </button>
+    </div>
+  </h2>
+
+  <jhi-alert-error></jhi-alert-error>
+
+  <jhi-alert></jhi-alert>
+
+  <div class="alert alert-warning" id="no-result" *ngIf="availableDates?.length === 0">
+    <span>No Available Dates found</span>
+  </div>
+
+  <div class="table-responsive table-entities" id="entities" *ngIf="availableDates && availableDates.length > 0">
+    <table class="table table-striped" aria-describedby="page-heading">
+      <thead>
+        <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="navigateToWithComponentValues()">
+          <th scope="col" jhiSortBy="id">
+            <div class="d-flex">
+              <span>ID</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="fromTime">
+            <div class="d-flex">
+              <span>From Time</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="toTime">
+            <div class="d-flex">
+              <span>To Time</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="isAvailable">
+            <div class="d-flex">
+              <span>Is Available</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="userProfile.id">
+            <div class="d-flex">
+              <span>User Profile</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="team.id">
+            <div class="d-flex">
+              <span>Team</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let availableDate of availableDates; trackBy: trackId" data-cy="entityTable">
+          <td>
+            <a [routerLink]="['/available-date', availableDate.id, 'view']">{{ availableDate.id }}</a>
+          </td>
+          <td>{{ availableDate.fromTime | formatMediumDatetime }}</td>
+          <td>{{ availableDate.toTime | formatMediumDatetime }}</td>
+          <td>{{ availableDate.isAvailable }}</td>
+          <td>
+            <div *ngIf="availableDate.userProfile">
+              <a [routerLink]="['/user-profile', availableDate.userProfile.id, 'view']">{{ availableDate.userProfile.id }}</a>
+            </div>
+          </td>
+          <td>
+            <div *ngIf="availableDate.team">
+              <a [routerLink]="['/team', availableDate.team.id, 'view']">{{ availableDate.team.id }}</a>
+            </div>
+          </td>
+          <td class="text-end">
+            <div class="btn-group">
+              <button
+                type="submit"
+                [routerLink]="['/available-date', availableDate.id, 'view']"
+                class="btn btn-info btn-sm"
+                data-cy="entityDetailsButton"
+              >
+                <fa-icon icon="eye"></fa-icon>
+                <span class="d-none d-md-inline">View</span>
+              </button>
+
+              <button
+                type="submit"
+                [routerLink]="['/available-date', availableDate.id, 'edit']"
+                class="btn btn-primary btn-sm"
+                data-cy="entityEditButton"
+              >
+                <fa-icon icon="pencil-alt"></fa-icon>
+                <span class="d-none d-md-inline">Edit</span>
+              </button>
+
+              <button type="submit" (click)="delete(availableDate)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                <fa-icon icon="times"></fa-icon>
+                <span class="d-none d-md-inline">Delete</span>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

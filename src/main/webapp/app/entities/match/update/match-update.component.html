@@ -1,0 +1,135 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2 id="jhi-match-heading" data-cy="MatchCreateUpdateHeading">
+        Entity translation missing for teamprojectApp.match.home.createOrEditLabel
+      </h2>
+
+      <div>
+        <jhi-alert-error></jhi-alert-error>
+
+        <div class="row mb-3" *ngIf="editForm.controls.id.value !== null">
+          <label class="form-label" for="field_id">ID</label>
+          <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_homeScore">Home Score</label>
+          <input type="number" class="form-control" name="homeScore" id="field_homeScore" data-cy="homeScore" formControlName="homeScore" />
+          <div *ngIf="editForm.get('homeScore')!.invalid && (editForm.get('homeScore')!.dirty || editForm.get('homeScore')!.touched)">
+            <small class="form-text text-danger" *ngIf="editForm.get('homeScore')?.errors?.min"> This field should be at least 0. </small>
+            <small class="form-text text-danger" [hidden]="!editForm.get('homeScore')?.errors?.number">
+              This field should be a number.
+            </small>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_awayScore">Away Score</label>
+          <input type="number" class="form-control" name="awayScore" id="field_awayScore" data-cy="awayScore" formControlName="awayScore" />
+          <div *ngIf="editForm.get('awayScore')!.invalid && (editForm.get('awayScore')!.dirty || editForm.get('awayScore')!.touched)">
+            <small class="form-text text-danger" *ngIf="editForm.get('awayScore')?.errors?.min"> This field should be at least 0. </small>
+            <small class="form-text text-danger" [hidden]="!editForm.get('awayScore')?.errors?.number">
+              This field should be a number.
+            </small>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_date">Date</label>
+          <div class="d-flex">
+            <input
+              id="field_date"
+              data-cy="date"
+              type="datetime-local"
+              class="form-control"
+              name="date"
+              formControlName="date"
+              placeholder="YYYY-MM-DD HH:mm"
+            />
+          </div>
+          <div *ngIf="editForm.get('date')!.invalid && (editForm.get('date')!.dirty || editForm.get('date')!.touched)">
+            <small class="form-text text-danger" *ngIf="editForm.get('date')?.errors?.required"> This field is required. </small>
+            <small class="form-text text-danger" [hidden]="!editForm.get('date')?.errors?.datetimelocal">
+              This field should be a date and time.
+            </small>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_referee">Referee</label>
+          <select
+            class="form-control"
+            id="field_referee"
+            data-cy="referee"
+            name="referee"
+            formControlName="referee"
+            [compareWith]="compareUserProfile"
+          >
+            <option [ngValue]="null"></option>
+            <option [ngValue]="userProfileOption" *ngFor="let userProfileOption of userProfilesSharedCollection">
+              {{ userProfileOption.id }}
+            </option>
+          </select>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_pitch">Pitch</label>
+          <select class="form-control" id="field_pitch" data-cy="pitch" name="pitch" formControlName="pitch" [compareWith]="comparePitch">
+            <option [ngValue]="null"></option>
+            <option [ngValue]="pitchOption" *ngFor="let pitchOption of pitchesSharedCollection">{{ pitchOption.id }}</option>
+          </select>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_home">Home</label>
+          <select class="form-control" id="field_home" data-cy="home" name="home" formControlName="home" [compareWith]="compareTeam">
+            <option [ngValue]="null"></option>
+            <option [ngValue]="teamOption" *ngFor="let teamOption of teamsSharedCollection">{{ teamOption.id }}</option>
+          </select>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_away">Away</label>
+          <select class="form-control" id="field_away" data-cy="away" name="away" formControlName="away" [compareWith]="compareTeam">
+            <option [ngValue]="null"></option>
+            <option [ngValue]="teamOption" *ngFor="let teamOption of teamsSharedCollection">{{ teamOption.id }}</option>
+          </select>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_tournament">Tournament</label>
+          <select
+            class="form-control"
+            id="field_tournament"
+            data-cy="tournament"
+            name="tournament"
+            formControlName="tournament"
+            [compareWith]="compareTournament"
+          >
+            <option [ngValue]="null"></option>
+            <option [ngValue]="tournamentOption" *ngFor="let tournamentOption of tournamentsSharedCollection">
+              {{ tournamentOption.id }}
+            </option>
+          </select>
+        </div>
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span>Cancel</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span>Save</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

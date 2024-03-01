@@ -1,0 +1,38 @@
+{
+  "applications": "*",
+  "changelogDate": "20240301154136",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "contact",
+  "fields": [
+    {
+      "fieldName": "contactType",
+      "fieldType": "ContactType",
+      "fieldValues": "EMAIL,PHONE_NUMBER,INSTAGRAM,TWITTER,WEBSITE"
+    },
+    {
+      "fieldName": "contactValue",
+      "fieldType": "String"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "Contact",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "userProfile",
+      "otherEntityRelationshipName": "contacts",
+      "relationshipName": "userProfile",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityName": "team",
+      "otherEntityRelationshipName": "contacts",
+      "relationshipName": "team",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "service": "no"
+}

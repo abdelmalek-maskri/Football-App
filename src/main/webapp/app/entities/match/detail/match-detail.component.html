@@ -1,0 +1,70 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <div *ngIf="match">
+      <h2 data-cy="matchDetailsHeading"><span>Match</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span>ID</span></dt>
+        <dd>
+          <span>{{ match.id }}</span>
+        </dd>
+        <dt><span>Home Score</span></dt>
+        <dd>
+          <span>{{ match.homeScore }}</span>
+        </dd>
+        <dt><span>Away Score</span></dt>
+        <dd>
+          <span>{{ match.awayScore }}</span>
+        </dd>
+        <dt><span>Date</span></dt>
+        <dd>
+          <span>{{ match.date | formatMediumDatetime }}</span>
+        </dd>
+        <dt><span>Referee</span></dt>
+        <dd>
+          <div *ngIf="match.referee">
+            <a [routerLink]="['/user-profile', match.referee.id, 'view']">{{ match.referee.id }}</a>
+          </div>
+        </dd>
+        <dt><span>Pitch</span></dt>
+        <dd>
+          <div *ngIf="match.pitch">
+            <a [routerLink]="['/pitch', match.pitch.id, 'view']">{{ match.pitch.id }}</a>
+          </div>
+        </dd>
+        <dt><span>Home</span></dt>
+        <dd>
+          <div *ngIf="match.home">
+            <a [routerLink]="['/team', match.home.id, 'view']">{{ match.home.id }}</a>
+          </div>
+        </dd>
+        <dt><span>Away</span></dt>
+        <dd>
+          <div *ngIf="match.away">
+            <a [routerLink]="['/team', match.away.id, 'view']">{{ match.away.id }}</a>
+          </div>
+        </dd>
+        <dt><span>Tournament</span></dt>
+        <dd>
+          <div *ngIf="match.tournament">
+            <a [routerLink]="['/tournament', match.tournament.id, 'view']">{{ match.tournament.id }}</a>
+          </div>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/match', match.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

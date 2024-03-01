@@ -1,0 +1,78 @@
+{
+  "applications": "*",
+  "changelogDate": "20240301154128",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "user_profile",
+  "fields": [
+    {
+      "fieldName": "created",
+      "fieldType": "Instant",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "name",
+      "fieldType": "String",
+      "fieldValidateRules": ["required", "maxlength"],
+      "fieldValidateRulesMaxlength": "32"
+    },
+    {
+      "fieldName": "profilePic",
+      "fieldType": "byte[]",
+      "fieldTypeBlobContent": "image"
+    },
+    {
+      "fieldName": "gender",
+      "fieldType": "Genders",
+      "fieldValidateRules": ["required"],
+      "fieldValues": "MALE,FEMALE,OTHER"
+    },
+    {
+      "fieldName": "location",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "position",
+      "fieldType": "Positions",
+      "fieldValues": "GK (Goalkeeper),LB (LeftBack),CB (CentreBack),RB (RightBack),DM (DefenceMid),CM (CentreMid),AM (AttackMid),LM (LeftMid),RM (RightMid),ST (Striker),LW (LeftWing),RW (RightWing)"
+    },
+    {
+      "fieldName": "referee",
+      "fieldType": "Boolean",
+      "fieldValidateRules": ["required"]
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "UserProfile",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "contact",
+      "otherEntityRelationshipName": "userProfile",
+      "relationshipName": "contacts",
+      "relationshipType": "one-to-many"
+    },
+    {
+      "otherEntityName": "availableDate",
+      "otherEntityRelationshipName": "userProfile",
+      "relationshipName": "availableDates",
+      "relationshipType": "one-to-many"
+    },
+    {
+      "otherEntityName": "team",
+      "otherEntityRelationshipName": "owner",
+      "ownerSide": false,
+      "relationshipName": "teamOwned",
+      "relationshipType": "one-to-one"
+    },
+    {
+      "otherEntityName": "team",
+      "otherEntityRelationshipName": "members",
+      "relationshipName": "team",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "service": "no"
+}

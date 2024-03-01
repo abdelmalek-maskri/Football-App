@@ -1,0 +1,48 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <div *ngIf="contact">
+      <h2 data-cy="contactDetailsHeading"><span>Contact</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span>ID</span></dt>
+        <dd>
+          <span>{{ contact.id }}</span>
+        </dd>
+        <dt><span>Contact Type</span></dt>
+        <dd>
+          <span>{{ contact.contactType }}</span>
+        </dd>
+        <dt><span>Contact Value</span></dt>
+        <dd>
+          <span>{{ contact.contactValue }}</span>
+        </dd>
+        <dt><span>User Profile</span></dt>
+        <dd>
+          <div *ngIf="contact.userProfile">
+            <a [routerLink]="['/user-profile', contact.userProfile.id, 'view']">{{ contact.userProfile.id }}</a>
+          </div>
+        </dd>
+        <dt><span>Team</span></dt>
+        <dd>
+          <div *ngIf="contact.team">
+            <a [routerLink]="['/team', contact.team.id, 'view']">{{ contact.team.id }}</a>
+          </div>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/contact', contact.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,67 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <div *ngIf="team">
+      <h2 data-cy="teamDetailsHeading"><span>Team</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span>ID</span></dt>
+        <dd>
+          <span>{{ team.id }}</span>
+        </dd>
+        <dt><span>Created</span></dt>
+        <dd>
+          <span>{{ team.created | formatMediumDatetime }}</span>
+        </dd>
+        <dt><span>Name</span></dt>
+        <dd>
+          <span>{{ team.name }}</span>
+        </dd>
+        <dt><span>Description</span></dt>
+        <dd>
+          <span>{{ team.description }}</span>
+        </dd>
+        <dt><span>Image</span></dt>
+        <dd>
+          <div *ngIf="team.image">
+            <a (click)="openFile(team.image, team.imageContentType)">
+              <img [src]="'data:' + team.imageContentType + ';base64,' + team.image" style="max-width: 100%" alt="team image" />
+            </a>
+            {{ team.imageContentType }}, {{ byteSize(team.image) }}
+          </div>
+        </dd>
+        <dt><span>Colour</span></dt>
+        <dd>
+          <span>{{ team.colour }}</span>
+        </dd>
+        <dt><span>Schedule</span></dt>
+        <dd>
+          <span>{{ team.schedule }}</span>
+        </dd>
+        <dt><span>Play Type</span></dt>
+        <dd>
+          <span>{{ team.playType }}</span>
+        </dd>
+        <dt><span>Owner</span></dt>
+        <dd>
+          <div *ngIf="team.owner">
+            <a [routerLink]="['/user-profile', team.owner.id, 'view']">{{ team.owner.id }}</a>
+          </div>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/team', team.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
+      </button>
+    </div>
+  </div>
+</div>
