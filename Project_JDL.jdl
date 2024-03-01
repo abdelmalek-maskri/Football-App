@@ -1,116 +1,75 @@
 // Ben
-entity PlayerProfile {
-    userID Integer required
-    Name String required
-    Gender Genders required
-    Location String
-    Rating Integer
-    Position Positions
-    Contact ContactType
-    Rating Double
-}
-
-entity RefereeProfile {
-    userID Integer required
-    Name String required
-    Gender Genders required
-    Location String
-    Rating Integer
-    Contact ContactType
-    Rating Integer
-}
-
-entity Availability {
-    monday Boolean,
-    tuesday Boolean,
-    wednesday Boolean,
-    thursday Boolean,
-    friday Boolean,
-    saturday Boolean,
-    sunday Boolean
+entity UserProfile {
+    created Instant required
+    name String required maxlength(32)
+    profilePic ImageBlob
+    gender Genders required
+    location String
+    position Positions
+    referee Boolean required
 }
 
 
-enum Genders{
-    Male
-    Female
-    Unknown
+relationship OneToMany {
+    UserProfile{contacts} to Contact{userProfile}
+}
+
+
+
+entity AvailableDate {
+    fromTime Instant required,
+    toTime Instant required,
+    isAvailable Boolean required
+}
+
+relationship OneToMany {
+    UserProfile{availableDates} to AvailableDate
+}
+
+
+enum Genders {
+    MALE
+    FEMALE
+    OTHER
 }
 
 enum Positions{
-    GK
-    LB
-    CB
-    RB
-    DM
-    CM
-    AM
-    LM
-    RM
-    ST
-    LW
-    RW
+    GK(Goalkeeper)
+    LB(LeftBack)
+    CB(CentreBack)
+    RB(RightBack)
+    DM(DefenceMid)
+    CM(CentreMid)
+    AM(AttackMid)
+    LM(LeftMid)
+    RM(RightMid)
+    ST(Striker)
+    LW(LeftWing)
+    RW(RightWing)
 }
 
-relationship OneToOne {
-    PlayerProfile{availability} to Availability
-}
-
-relationship OneToOne {
-    RefereeProfile{availability} to Availability
-}
 
 // Shlok
 
 //Entities
 
-entity FindPlayerAndReferee {
-    userID String required,
-    profilePicture ImageBlob required,
-    name String required,
-    position String required,
-    area String required,
-}
 
-//This entity will be used to calculate the distance
-//Of the user to all other players
-//And then the user can find players according to the distance
-entity Distance {
-    myPlayerID String required,
-    otherPlayerID String required,
-    distance Double required,
-}
 
-//Define the entity for Available Dates
-//The user can filter out players available for specific dates
-entity AvailableDate{
-    playerID String required,
-    day LocalDate,
-}
+
 
 // Define the enum for contact type
 //Each player can have a mail and/or a contact number
 enum ContactType {
     EMAIL
     PHONE_NUMBER
-    INSTAGRAM(Instagram)
+    INSTAGRAM
+    TWITTER
+    WEBSITE
 }
 
 //Relationships
 
-relationship OneToMany {
-    FindPlayerAndReferee{search} to Distance,
-    FindPlayerAndReferee to AvailableDate,
-}
 
-relationship OneToOne{
-    FindPlayerAndReferee{player} to PlayerProfile,
-    FindPlayerAndReferee{referee} to RefereeProfile
-}
-
-relationship OneToOne{
-    Availability to AvailableDate
-}
 // Define the relationship between Player and Contact
 //each player can have multiple contacts
 
@@ -118,55 +77,31 @@ relationship OneToOne{
 
 
 entity Tournament {
-    name String required,
+    name String required maxlength(128),
     startDate Instant required,
     endDate Instant required,
     location String required,
-    maxTeams Integer required
+    maxTeams Integer required max(32) min(4)
 }
 //
-entity Registration {
-    registrationDate Instant required,
-    status RegistrationStatus required,
-    teamName String required
-}
-//
-enum RegistrationStatus {
-    PENDING
-    CONFIRMED
-    CANCELLED
-}
+
 //
 //
 relationship OneToMany {
     Tournament{matches} to Match{tournament}
 }
 //
-
-
 relationship ManyToMany {
     Tournament{teams} to Team{tournaments}
 }
 
-relationship ManyToOne {
-    Match{team} to Team
-}
-
-relationship ManyToOne {
-    Registration{team} to Team
-}
-//
-relationship ManyToOne {
-    Registration{tournament} to Tournament
-}
 
 ////zaine
 //
 entity PitchBooking {
-    bookingID Integer required
-    bookingDate ZonedDateTime,
-    startTime Instant,
-    endTime Instant,
+    bookingDate Instant required, // bookingDate refers to the timestamp that the pitch booking was actually made at
+    startTime Instant required,
+    endTime Instant required,
 }
 
 relationship OneToMany{
@@ -174,10 +109,9 @@ relationship OneToMany{
 }
 
 relationship OneToOne{
-    PitchBooking to Pitch
+    PitchBooking to Pitch // One pitch should have many bookings(?)
 }
-entity Pitch{
-    pitchID Integer required
+entity Pitch {
     name String,
     location String,
 }
@@ -187,21 +121,23 @@ entity Pitch{
 //
 ////zhiwen
 
-entity Comment{
-    authorID Integer
-    userId Integer
-    rating Integer
-    content String
-    liked Integer
-    matchID Integer
+entity Comment {
+    rating Integer min(0) max(5) required
+    content String maxlength(256)
+    likeCount Integer min(0)
 }
 
-relationship ManyToOne{
-    Comment to PlayerProfile{comments}
+relationship OneToOne {
+    Comment{replyingTo} to Comment
 }
-relationship ManyToOne{
-    Comment to RefereeProfile{comments}
+
+
+relationship OneToOne {
+    Comment{author} to UserProfile
+    Comment{targetUser} to UserProfile
+    Comment{match} to Match
 }
+
 
 
 
@@ -213,18 +149,17 @@ relationship ManyToOne{
 
 //Jon
 entity Match {
-    matchId Integer required
-    homeScore Integer
-    awayScore Integer
-    date LocalDate
+    homeScore Integer min(0)
+    awayScore Integer min(0)
+    date Instant required
+}
+
+relationship OneToOne {
+    Match{referee} to UserProfile
 }
 
 relationship OneToOne {
     Match{pitch} to Pitch
-}
-
-relationship OneToMany {
-    Tournament{matches} to Match
 }
 
 relationship OneToOne {
@@ -233,53 +168,40 @@ relationship OneToOne {
 }
 
 ////Muneeb
-//entity User {
-//    userId String unique required,
-//    username String,
-//    email String,
-//    phoneNumber String,
-//    profilePicture ImageBlob
-//}
-//
+
 entity Team {
-    //teamId String unique required,
-    teamOwner String,
-    created Instant,
+    created Instant required,
 
-    name String maxlength(40) required,
+    name String minlength(2) maxlength(40) required,
     description String maxlength(512),
-    memberCount Integer,
     image ImageBlob,
-    colour String,
+    colour String maxlength(6), // Stored as hex string
 
-    schedule String,
+    schedule String maxlength(64),
     playType PlayType
 }
 
-entity TeamMember {
-    userIdentifier String required, // had to change userId and teamId to userIdentifier and teamIdentifier to get rid of a duplicate column error
-    teamIdentifier String required
+relationship OneToMany {
+    Team{availableDates} to AvailableDate
+}
+relationship OneToMany {
+    Team{members} to UserProfile{team}
 }
 
-entity TeamContact {
-    type ContactType,
-    value String
+
+entity Contact {
+    contactType ContactType,
+    contactValue String
 }
 
 relationship OneToMany {
-    Team{members} to TeamMember{team}
+    Team{contacts} to Contact
 }
+
+
 
 relationship OneToOne {
-    TeamMember{user} to PlayerProfile{teamMembership}
-}
-
-relationship OneToMany {
-    Team{contacts} to TeamContact
-}
-
-relationship OneToOne {
-    Team{owner} to TeamMember
+    Team{owner} to UserProfile{teamOwned}
 }
 //
 //
