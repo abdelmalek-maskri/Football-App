@@ -1,6 +1,100 @@
 <div>
+  <!-- MUNEEB -->
+
+  <div class="navbar section">
+    <a href="/tournament">Tournaments</a>
+    <a href="/team" class="selected">Teams</a>
+    <a href="/player-profile">Players</a>
+    <a href="/pitch">Pitches</a>
+    <a href="/leaderboard">Leaderboards</a>
+  </div>
+
+  <h1 class="page-title">Teams</h1>
+
+  <div id="top-row">
+    <div id="top-row-left-aligned">
+      <input type="text" id="search-box" placeholder="Search Teams..." />
+    </div>
+
+    <div id="top-row-right-aligned">
+      <input type="button" id="filter-button" />
+      <a id="create-team-button" href="/team/new">CREATE TEAM</a>
+    </div>
+  </div>
+
+  <div style="margin: 2em" class="alert alert-warning" id="no-result" *ngIf="teams?.length === 0">
+    <span>No results found. Please try another search instead.</span>
+  </div>
+
+  <div class="searchResultsGrid section">
+    <!--
+
+
+    <tr *ngFor="let team of teams; trackBy: trackId" data-cy="entityTable">
+          <td>
+            <a [routerLink]="['/team', team.id, 'view']">{{ team.id }}</a>
+          </td>
+          <td>{{ team.teamOwner }}</td>
+          <td>{{ team.created | formatMediumDatetime }}</td>
+          <td>{{ team.name }}</td>
+          <td>{{ team.description }}</td>
+          <td>{{ team.memberCount }}</td>
+          <td>
+            <a *ngIf="team.image" (click)="openFile(team.image, team.imageContentType)">
+              <img [src]="'data:' + team.imageContentType + ';base64,' + team.image" style="max-height: 30px" alt="team image" />
+            </a>
+            <span *ngIf="team.image">{{ team.imageContentType }}, {{ byteSize(team.image) }}</span>
+          </td>
+          <td>{{ team.colour }}</td>
+          <td>{{ team.schedule }}</td>
+          <td>{{ team.playType }}</td>
+          <td>
+            <div *ngIf="team.owner">
+              <a [routerLink]="['/team-member', team.owner.id, 'view']">{{ team.owner.id }}</a>
+            </div>
+          </td>
+          <td class="text-end">
+            <div class="btn-group">
+              <button type="submit" [routerLink]="['/team', team.id, 'view']" class="btn btn-info btn-sm" data-cy="entityDetailsButton">
+                <fa-icon icon="eye"></fa-icon>
+                <span class="d-none d-md-inline">View</span>
+              </button>
+
+              <button type="submit" [routerLink]="['/team', team.id, 'edit']" class="btn btn-primary btn-sm" data-cy="entityEditButton">
+                <fa-icon icon="pencil-alt"></fa-icon>
+                <span class="d-none d-md-inline">Edit</span>
+              </button>
+
+              <button type="submit" (click)="delete(team)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                <fa-icon icon="times"></fa-icon>
+                <span class="d-none d-md-inline">Delete</span>
+              </button>
+            </div>
+          </td>
+        </tr>
+    -->
+
+    <a *ngFor="let team of teams" class="card" [routerLink]="['/team', team.id, 'view']">
+      <!--href="https://www.birmingham.ac.uk/" target="_blank"-->
+
+      <ng-container *ngIf="team.image; else defaultImage">
+        <img [src]="'data:' + team.imageContentType + ';base64,' + team.image" alt="team image" />
+      </ng-container>
+      <ng-template #defaultImage>
+        <img src="https://i.ibb.co/nDtHC4K/images.jpg" alt="default team image" />
+      </ng-template>
+
+      <div class="card-content">
+        <h1>{{ team.name }}</h1>
+        <p>{{ team.memberCount }} Members</p>
+      </div>
+    </a>
+  </div>
+
+  <!-- /MUNEEB -->
+
   <h2 id="page-heading" data-cy="TeamHeading">
-    <span>Discover Football Teams</span>
+    <span>Teams</span>
 
     <div class="d-flex justify-content-end">
       <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading">
@@ -38,6 +132,12 @@
               <fa-icon class="p-1" icon="sort"></fa-icon>
             </div>
           </th>
+          <th scope="col" jhiSortBy="teamOwner">
+            <div class="d-flex">
+              <span>Team Owner</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
           <th scope="col" jhiSortBy="created">
             <div class="d-flex">
               <span>Created</span>
@@ -53,6 +153,12 @@
           <th scope="col" jhiSortBy="description">
             <div class="d-flex">
               <span>Description</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="memberCount">
+            <div class="d-flex">
+              <span>Member Count</span>
               <fa-icon class="p-1" icon="sort"></fa-icon>
             </div>
           </th>
@@ -94,9 +200,11 @@
           <td>
             <a [routerLink]="['/team', team.id, 'view']">{{ team.id }}</a>
           </td>
+          <td>{{ team.teamOwner }}</td>
           <td>{{ team.created | formatMediumDatetime }}</td>
           <td>{{ team.name }}</td>
           <td>{{ team.description }}</td>
+          <td>{{ team.memberCount }}</td>
           <td>
             <a *ngIf="team.image" (click)="openFile(team.image, team.imageContentType)">
               <img [src]="'data:' + team.imageContentType + ';base64,' + team.image" style="max-height: 30px" alt="team image" />
@@ -108,7 +216,7 @@
           <td>{{ team.playType }}</td>
           <td>
             <div *ngIf="team.owner">
-              <a [routerLink]="['/user-profile', team.owner.id, 'view']">{{ team.owner.id }}</a>
+              <a [routerLink]="['/team-member', team.owner.id, 'view']">{{ team.owner.id }}</a>
             </div>
           </td>
           <td class="text-end">

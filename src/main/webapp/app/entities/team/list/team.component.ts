@@ -13,9 +13,11 @@ import { SortService } from 'app/shared/sort/sort.service';
 @Component({
   selector: 'jhi-team',
   templateUrl: './team.component.html',
+  styleUrls: ['./team.component.scss'],
 })
 export class TeamComponent implements OnInit {
   teams?: ITeam[];
+  emptyListMP = [];
   isLoading = false;
 
   predicate = 'id';
