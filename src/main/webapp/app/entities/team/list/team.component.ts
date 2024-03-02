@@ -13,10 +13,13 @@ import { SortService } from 'app/shared/sort/sort.service';
 @Component({
   selector: 'jhi-team',
   templateUrl: './team.component.html',
+  styleUrls: ['./team.component.scss'],
 })
 export class TeamComponent implements OnInit {
   teams?: ITeam[];
+  emptyListMP = [];
   isLoading = false;
+  searchQuery = '';
 
   predicate = 'id';
   ascending = true;
@@ -63,6 +66,18 @@ export class TeamComponent implements OnInit {
   load(): void {
     this.loadFromBackendWithRouteInformations().subscribe({
       next: (res: EntityArrayResponseType) => {
+        this.onResponseSuccess(res);
+      },
+    });
+  }
+
+  loadSearchResultsMP(hey: string): void {
+    this.isLoading = true;
+    console.log('Searching for Teams w/ query: ' + this.searchQuery);
+    var a: Observable<EntityArrayResponseType> = this.teamService.searchMP(this.searchQuery);
+    a.subscribe({
+      next: (res: EntityArrayResponseType) => {
+        this.isLoading = false;
         this.onResponseSuccess(res);
       },
     });

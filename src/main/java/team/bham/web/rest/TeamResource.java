@@ -10,6 +10,7 @@ import javax.validation.constraints.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -167,6 +168,22 @@ public class TeamResource {
     public List<Team> getAllTeams() {
         log.debug("REST request to get all Teams");
         return teamRepository.findAll();
+    }
+
+    /**
+     * GET  /teams/search?name={name} : search for teams by name.
+     *
+     * @param name the name of the team to search for.
+     * @return the ResponseEntity with status 200 (OK) and the list of teams in body.
+     */
+    @GetMapping("/teams/search")
+    public List<Team> searchTeamsByName(@RequestParam(required = false) String name) {
+        log.debug("REST request to search Teams by name : {}", name);
+        if (name != null) {
+            return teamRepository.findByNameContainingIgnoreCase(name);
+        } else {
+            return teamRepository.findAll();
+        }
     }
 
     /**

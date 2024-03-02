@@ -1,5 +1,6 @@
 package team.bham.repository;
 
+import java.util.List;
 import org.springframework.data.jpa.repository.*;
 import org.springframework.stereotype.Repository;
 import team.bham.domain.Team;
@@ -9,4 +10,6 @@ import team.bham.domain.Team;
  */
 @SuppressWarnings("unused")
 @Repository
-public interface TeamRepository extends JpaRepository<Team, Long> {}
+public interface TeamRepository extends JpaRepository<Team, Long> {
+    List<Team> findByNameContainingIgnoreCase(String name);
+}
