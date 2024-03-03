@@ -1,0 +1,42 @@
+/* Reset some default styles */
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+/* Zaine styles */
+
+#zainework {
+  font-family: Arial;
+}
+body {
+  background-color: #e6e6e6; /* Set your desired background color using a color code */
+  margin: 0; /* Remove default margin */
+  padding: 0; /* Remove default padding */
+}
+
+.section {
+  margin-bottom: 0;
+}
+
+.page-title {
+  font-size: 4em;
+  font-weight: 500;
+  margin-left: 0.5em;
+}
+
+.image-section {
+  width: 100%;
+}
+
+.image-section img {
+  top: 32px;
+  left: 0;
+  z-index: 9999;
+  height: auto;
+  width: 100%;
+
+  display: flex;
+}
