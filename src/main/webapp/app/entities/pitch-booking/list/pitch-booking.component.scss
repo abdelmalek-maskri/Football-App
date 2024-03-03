@@ -1,0 +1,114 @@
+/* Reset some default styles */
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+/* Zaine styles */
+
+#zainework {
+  font-family: Arial;
+}
+body {
+  background-color: #e6e6e6; /* Set your desired background color using a color code */
+  margin: 0; /* Remove default margin */
+  padding: 0; /* Remove default padding */
+}
+
+.section {
+  margin-bottom: 0;
+}
+
+.page-title {
+  font-size: 4em;
+  font-weight: 500;
+  margin-left: 0.5em;
+}
+
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 9999;
+  width: 100%;
+  height: auto;
+  background-color: #029352;
+  padding: 0;
+
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: right;
+  align-items: stretch;
+  column-gap: 1em;
+  row-gap: 0;
+
+  box-shadow: 0 0.25em 0.5em rgba(0, 0, 0, 0.5);
+}
+
+.navbar > a {
+  text-decoration: none;
+  color: #ffffff;
+  padding-left: 0.5%;
+  padding-right: 0.5%;
+  font-size: 1.35em;
+  font-weight: normal;
+  font-weight: 550;
+}
+
+.navbar > a:hover {
+  background-color: #02a65c;
+}
+
+.navbar > .selected {
+  color: #000000;
+  background-color: #ffffff;
+}
+
+/* Image section styles */
+
+.image-section {
+  width: 100%;
+}
+
+.image-section img {
+  top: 32px;
+  left: 0;
+  z-index: 9999;
+  height: auto;
+  width: 100%;
+
+  display: flex;
+}
+
+/* Top row styles */
+
+#top-row {
+  display: flex;
+  justify-content: space-between;
+}
+
+#top-row-left-aligned,
+#top-row-right-aligned {
+  flex: 1;
+  text-align: left;
+}
+
+#top-row-right-aligned {
+  text-align: right;
+}
+
+#search-box {
+  width: 100%;
+  padding: 0.5em;
+}
+
+#filter-button {
+  /* Add styles for filter button */
+}
+
+#create-team-button {
+  /* Add styles for create team button */
+}
