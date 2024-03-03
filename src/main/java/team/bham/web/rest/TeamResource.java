@@ -15,7 +15,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import team.bham.domain.Team;
+import team.bham.domain.UserProfile;
 import team.bham.repository.TeamRepository;
+import team.bham.repository.UserProfileRepository;
+import team.bham.repository.UserRepository;
 import team.bham.web.rest.errors.BadRequestAlertException;
 import tech.jhipster.web.util.HeaderUtil;
 import tech.jhipster.web.util.ResponseUtil;
@@ -36,9 +39,11 @@ public class TeamResource {
     private String applicationName;
 
     private final TeamRepository teamRepository;
+    private final UserProfileRepository userProfileRepository;
 
-    public TeamResource(TeamRepository teamRepository) {
+    public TeamResource(TeamRepository teamRepository, UserProfileRepository userProfileRepository) {
         this.teamRepository = teamRepository;
+        this.userProfileRepository = userProfileRepository;
     }
 
     /**
@@ -180,10 +185,22 @@ public class TeamResource {
     public List<Team> searchTeamsByName(@RequestParam(required = false) String name) {
         log.debug("REST request to search Teams by name : {}", name);
         if (name != null) {
-            return teamRepository.findByNameContainingIgnoreCase(name);
+            return teamRepository.findByNameContainingIgnoreCaseWithEagerRelationships(name);
         } else {
             return teamRepository.findAll();
         }
+    }
+
+    /**
+     * GET  /teams/:teamId/members : search for members by team.
+     *
+     * @param teamId the id of the team to get members of.
+     * @return the ResponseEntity with status 200 (OK) and the list of user profiles in body.
+     */
+    @GetMapping("/teams/{teamId}/members")
+    public List<UserProfile> getTeamMembers(@PathVariable Long teamId) {
+        log.debug("REST request to search team members for team id : {}", teamId);
+        return userProfileRepository.findByTeamId(teamId);
     }
 
     /**
