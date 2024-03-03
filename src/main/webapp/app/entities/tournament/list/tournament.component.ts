@@ -12,6 +12,7 @@ import { SortService } from 'app/shared/sort/sort.service';
 @Component({
   selector: 'jhi-tournament',
   templateUrl: './tournament.component.html',
+  styleUrls: ['./tournament.component.scss'],
 })
 export class TournamentComponent implements OnInit {
   tournaments?: ITournament[];

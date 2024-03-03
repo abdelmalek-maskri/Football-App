@@ -1,0 +1,154 @@
+// abdelmalek
+
+/* ==========================================================================
+Navbar
+========================================================================== */
+
+html {
+  background-color: #eeeeee;
+  margin-top: 3em;
+}
+
+html * {
+  font-family: Arial;
+  font-weight: 400;
+}
+
+.section {
+  margin-bottom: 2em;
+}
+
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 9999;
+  width: 100%;
+  height: auto;
+  background-color: #029352;
+  padding: 0;
+
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: right;
+  align-items: stretch;
+  column-gap: 1em;
+  row-gap: 0;
+
+  box-shadow: 0 0.25em 0.5em rgba(0, 0, 0, 0.5);
+}
+
+.navbar > a {
+  text-decoration: none;
+  color: #ffffff;
+  padding-left: 0.5%;
+  padding-right: 0.5%;
+  font-size: 1.35em;
+  font-weight: normal;
+  font-weight: 550;
+}
+.navbar > a:hover {
+  background-color: #02a65c;
+}
+
+.navbar > .selected {
+  color: #000000;
+  background-color: #ffffff;
+}
+
+// second nav bar
+.sub-navbar {
+  background-color: #5ada86;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  width: 100%;
+  position: fixed;
+  top: 30px;
+  left: 0;
+  z-index: 10000;
+  height: 50px;
+}
+
+.left-nav {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  // align-items: center;
+  justify-content: space-between;
+  align-items: center;
+}
+.link {
+  text-decoration: none;
+  color: white;
+  padding-left: 30px;
+}
+.right-nav {
+  display: flex;
+  align-items: center;
+  margin-right: 35px;
+}
+
+.hovered:hover {
+  background-color: white;
+}
+
+.link2 {
+  padding-left: 45px;
+}
+
+.relative-container {
+  position: relative;
+}
+
+.arrow {
+  border: solid white;
+  border-width: 0 3px 3px 0;
+  display: inline-block;
+  padding: 3px;
+  position: absolute;
+  left: 88px;
+  bottom: 8px;
+  margin-right: 100px;
+}
+.down {
+  transform: rotate(45deg);
+  -webkit-transform: rotate(45deg);
+}
+
+.table-striped {
+  padding-bottom: 20000px;
+}
+
+.text-end {
+  margin-bottom: 1000px;
+}
+
+#join-button {
+  text-decoration: none;
+  font-size: 1.25em;
+  color: #ffffff;
+  background-color: #029352;
+  border-radius: 20px;
+  height: 35px;
+  padding: 0 18px;
+  font-weight: bold;
+}
+
+.img-fluid {
+  max-width: 100%;
+  height: auto;
+}
+.image {
+  display: block;
+  vertical-align: middle;
+  border-style: none;
+  box-sizing: border-box;
+  width: 1920px;
+  aspect-ratio: auto 1920 /695;
+  overflow-clip-margin: content-box;
+  overflow: clip;
+}
