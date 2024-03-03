@@ -1,10 +1,11 @@
-<nav data-cy="navbar" class="navbar navbar-light navbar-expand-md bg-light">
+<nav data-cy="navbar" class="navbar navbar-light navbar-expand-md">
   <div class="container-fluid">
+    <!--
     <a class="navbar-brand logo" routerLink="/" (click)="collapseNavbar()">
       <span class="logo-img"></span>
-      <span class="navbar-title">Teamproject</span>
-      <span class="navbar-version">{{ version }}</span>
     </a>
+    -->
+
     <a
       class="navbar-toggler d-lg-none"
       href="javascript:void(0);"
@@ -17,8 +18,10 @@
     >
       <fa-icon icon="bars"></fa-icon>
     </a>
+
     <div class="navbar-collapse collapse" id="navbarResponsive" [ngbCollapse]="isNavbarCollapsed" [ngSwitch]="account !== null">
       <ul class="navbar-nav ms-auto">
+        <!-- MP
         <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
           <a class="nav-link" routerLink="/" (click)="collapseNavbar()">
             <span>
@@ -27,6 +30,29 @@
             </span>
           </a>
         </li>
+        -->
+
+        <li class="nav-item" routerLinkActive="active selectedNavBarItem" [routerLinkActiveOptions]="{ exact: true }">
+          <a class="nav-link" routerLink="/tournament" (click)="collapseNavbar()">
+            <span>TOURNAMENT</span>
+          </a>
+        </li>
+        <li class="nav-item" routerLinkActive="active selectedNavBarItem" [routerLinkActiveOptions]="{ exact: true }">
+          <a class="nav-link" routerLink="/team" (click)="collapseNavbar()">
+            <span>TEAMS</span>
+          </a>
+        </li>
+        <li class="nav-item" routerLinkActive="active selectedNavBarItem" [routerLinkActiveOptions]="{ exact: true }">
+          <a class="nav-link" routerLink="/user-profile" (click)="collapseNavbar()">
+            <span>PLAYERS</span>
+          </a>
+        </li>
+        <li class="nav-item" routerLinkActive="active selectedNavBarItem" [routerLinkActiveOptions]="{ exact: true }">
+          <a class="nav-link" routerLink="/pitch" (click)="collapseNavbar()">
+            <span>PITCHES</span>
+          </a>
+        </li>
+
         <!-- jhipster-needle-add-element-to-menu - JHipster will add new menu items here -->
         <li
           *ngSwitchCase="true"
@@ -39,7 +65,7 @@
           <a class="nav-link dropdown-toggle" ngbDropdownToggle href="javascript:void(0);" id="entity-menu" data-cy="entity">
             <span>
               <fa-icon icon="th-list"></fa-icon>
-              <span>Entities</span>
+              <span>ENTITIES</span>
             </span>
           </a>
           <ul class="dropdown-menu" ngbDropdownMenu aria-labelledby="entity-menu">
@@ -165,7 +191,7 @@
           <a class="nav-link dropdown-toggle" ngbDropdownToggle href="javascript:void(0);" id="admin-menu" data-cy="adminMenu">
             <span>
               <fa-icon icon="users-cog"></fa-icon>
-              <span>Administration</span>
+              <span>ADMIN</span>
             </span>
           </a>
           <ul class="dropdown-menu" ngbDropdownMenu aria-labelledby="admin-menu">
@@ -224,7 +250,7 @@
           <a class="nav-link dropdown-toggle" ngbDropdownToggle href="javascript:void(0);" id="account-menu" data-cy="accountMenu">
             <span *ngIf="!account?.imageUrl">
               <fa-icon icon="user"></fa-icon>
-              <span>Account</span>
+              <span>ACCOUNT</span>
             </span>
             <span *ngIf="account?.imageUrl">
               <img [src]="account!.imageUrl" class="profile-image rounded-circle" alt="Avatar" />

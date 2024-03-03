@@ -62,6 +62,12 @@ export class TeamService {
       .pipe(map(res => this.convertResponseArrayFromServer(res)));
   }
 
+  searchMP(name?: string): Observable<EntityArrayResponseType> {
+    return this.http
+      .get<RestTeam[]>(`${this.resourceUrl}/search?name=${name}`, { observe: 'response' })
+      .pipe(map(res => this.convertResponseArrayFromServer(res)));
+  }
+
   delete(id: number): Observable<HttpResponse<{}>> {
     return this.http.delete(`${this.resourceUrl}/${id}`, { observe: 'response' });
   }
