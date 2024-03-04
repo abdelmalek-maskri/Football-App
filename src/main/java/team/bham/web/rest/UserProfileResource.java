@@ -15,8 +15,11 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+import team.bham.domain.User;
 import team.bham.domain.UserProfile;
 import team.bham.repository.UserProfileRepository;
+import team.bham.repository.UserRepository;
+import team.bham.security.SecurityUtils;
 import team.bham.web.rest.errors.BadRequestAlertException;
 import tech.jhipster.web.util.HeaderUtil;
 import tech.jhipster.web.util.ResponseUtil;
@@ -37,9 +40,11 @@ public class UserProfileResource {
     private String applicationName;
 
     private final UserProfileRepository userProfileRepository;
+    private final UserRepository userRepository;
 
-    public UserProfileResource(UserProfileRepository userProfileRepository) {
+    public UserProfileResource(UserProfileRepository userProfileRepository, UserRepository userRepository) {
         this.userProfileRepository = userProfileRepository;
+        this.userRepository = userRepository;
     }
 
     /**
@@ -55,11 +60,21 @@ public class UserProfileResource {
         if (userProfile.getId() != null) {
             throw new BadRequestAlertException("A new userProfile cannot already have an ID", ENTITY_NAME, "idexists");
         }
-        UserProfile result = userProfileRepository.save(userProfile);
-        return ResponseEntity
-            .created(new URI("/api/user-profiles/" + result.getId()))
-            .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, result.getId().toString()))
-            .body(result);
+
+        Optional<User> userLoggedIn = SecurityUtils.getCurrentUserLogin().flatMap(userRepository::findOneWithAuthoritiesByLogin);
+        if (userLoggedIn.isPresent()) {
+            Long userId = userLoggedIn.get().getId();
+            if (!userProfileRepository.existsById(userId)) {
+                userProfile.setId(userLoggedIn.get().getId());
+                UserProfile result = userProfileRepository.save(userProfile);
+                return ResponseEntity
+                    .created(new URI("/api/user-profiles/" + result.getId()))
+                    .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, result.getId().toString()))
+                    .body(result);
+            }
+        }
+        log.debug("this should not happen cuz the front end should save us :)");
+        return null;
     }
 
     /**
@@ -88,12 +103,18 @@ public class UserProfileResource {
         if (!userProfileRepository.existsById(id)) {
             throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
         }
-
-        UserProfile result = userProfileRepository.save(userProfile);
-        return ResponseEntity
-            .ok()
-            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, userProfile.getId().toString()))
-            .body(result);
+        Optional<User> userLoggedIn = SecurityUtils.getCurrentUserLogin().flatMap(userRepository::findOneWithAuthoritiesByLogin);
+        if (userLoggedIn.isPresent()) {
+            Long userId = userLoggedIn.get().getId();
+            if (Objects.equals(userId, userProfile.getId())) {
+                UserProfile result = userProfileRepository.save(userProfile);
+                return ResponseEntity
+                    .ok()
+                    .headers(HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, userProfile.getId().toString()))
+                    .body(result);
+            }
+        }
+        return ResponseEntity.badRequest().body(userProfile);
     }
 
     /**

@@ -12,27 +12,6 @@
         </div>
 
         <div class="row mb-3">
-          <label class="form-label" for="field_created">Created</label>
-          <div class="d-flex">
-            <input
-              id="field_created"
-              data-cy="created"
-              type="datetime-local"
-              class="form-control"
-              name="created"
-              formControlName="created"
-              placeholder="YYYY-MM-DD HH:mm"
-            />
-          </div>
-          <div *ngIf="editForm.get('created')!.invalid && (editForm.get('created')!.dirty || editForm.get('created')!.touched)">
-            <small class="form-text text-danger" *ngIf="editForm.get('created')?.errors?.required"> This field is required. </small>
-            <small class="form-text text-danger" [hidden]="!editForm.get('created')?.errors?.datetimelocal">
-              This field should be a date and time.
-            </small>
-          </div>
-        </div>
-
-        <div class="row mb-3">
           <label class="form-label" for="field_name">Name</label>
           <input type="text" class="form-control" name="name" id="field_name" data-cy="name" formControlName="name" />
           <div *ngIf="editForm.get('name')!.invalid && (editForm.get('name')!.dirty || editForm.get('name')!.touched)">
@@ -93,7 +72,7 @@
           <label class="form-label" for="field_gender">Gender</label>
           <select class="form-control" name="gender" formControlName="gender" id="field_gender" data-cy="gender">
             <option [ngValue]="null"></option>
-            <option *ngFor="let genders of gendersValues" [value]="genders">genders</option>
+            <option *ngFor="let genders of gendersValues" [value]="genders">{{ genders }}</option>
           </select>
           <div *ngIf="editForm.get('gender')!.invalid && (editForm.get('gender')!.dirty || editForm.get('gender')!.touched)">
             <small class="form-text text-danger" *ngIf="editForm.get('gender')?.errors?.required"> This field is required. </small>
@@ -109,7 +88,7 @@
           <label class="form-label" for="field_position">Position</label>
           <select class="form-control" name="position" formControlName="position" id="field_position" data-cy="position">
             <option [ngValue]="null"></option>
-            <option *ngFor="let positions of positionsValues" [value]="positions">positions</option>
+            <option *ngFor="let positions of positionsValues" [value]="positions">{{ positions }}</option>
           </select>
         </div>
 
