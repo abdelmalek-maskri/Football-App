@@ -34,7 +34,7 @@
     <h2>Members ({{ team.members.length }})</h2>
 
     <div class="scrollingFrame">
-      <a *ngFor="let teamMember of team.members" class="teamMemberListItem">
+      <a *ngFor="let teamMember of team.members" class="teamMemberListItem" [routerLink]="['/user-profile', teamMember.id, 'view']">
         <ng-container *ngIf="teamMember.profilePic; else defaultImage">
           <img [src]="'data:' + teamMember.profilePicContentType + ';base64,' + teamMember.profilePic" alt="profile picture" />
         </ng-container>
