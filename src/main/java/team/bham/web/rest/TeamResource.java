@@ -2,9 +2,7 @@ package team.bham.web.rest;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import org.slf4j.Logger;
@@ -172,7 +170,15 @@ public class TeamResource {
     @GetMapping("/teams")
     public List<Team> getAllTeams() {
         log.debug("REST request to get all Teams");
-        return teamRepository.findAll();
+        List<Team> searchResults = teamRepository.findAll();
+
+        // Get team members.
+        for (Team team : searchResults) {
+            Set<UserProfile> teamMembers = new HashSet<>(userProfileRepository.findByTeamId(team.getId()));
+            team.setMembers(teamMembers);
+        }
+
+        return searchResults;
     }
 
     /**
@@ -182,13 +188,23 @@ public class TeamResource {
      * @return the ResponseEntity with status 200 (OK) and the list of teams in body.
      */
     @GetMapping("/teams/search")
-    public List<Team> searchTeamsByName(@RequestParam(required = false) String name) {
+    public List<Team> searchTeams(@RequestParam(required = false) String name) {
         log.debug("REST request to search Teams by name : {}", name);
+
+        List<Team> searchResults;
         if (name != null) {
-            return teamRepository.findByNameContainingIgnoreCaseWithEagerRelationships(name);
+            searchResults = teamRepository.findByNameContainingIgnoreCaseWithEagerRelationships(name);
         } else {
-            return teamRepository.findAll();
+            searchResults = teamRepository.findAll();
         }
+
+        // Get team members.
+        for (Team team : searchResults) {
+            Set<UserProfile> teamMembers = new HashSet<>(userProfileRepository.findByTeamId(team.getId()));
+            team.setMembers(teamMembers);
+        }
+
+        return searchResults;
     }
 
     /**

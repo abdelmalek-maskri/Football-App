@@ -32,7 +32,7 @@
   </div>
 
   <div style="margin: 2em" class="alert alert-warning" id="no-result" *ngIf="teams?.length === 0">
-    <span>No results found. Please try another search instead.</span>
+    <span>Sorry, no teams were found. Please try another search query instead.</span>
   </div>
 
   <div class="searchResultsGrid section" *ngIf="teams !== null && teams !== undefined && teams.length > 0">
@@ -48,7 +48,15 @@
 
       <div class="card-content">
         <h1>{{ team.name }}</h1>
-        <p>{{ 12 }} Members</p>
+        <p>
+          <fa-icon icon="user"></fa-icon>
+          {{
+            (team.members != undefined &&
+              team.members != null &&
+              team.members.length + ' Member' + (team.members.length === 1 ? '' : 's')) ||
+              'Members N/A'
+          }}
+        </p>
       </div>
     </a>
   </div>

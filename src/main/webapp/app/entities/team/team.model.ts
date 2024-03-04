@@ -15,6 +15,7 @@ export interface ITeam {
   playType?: PlayType | null;
   owner?: Pick<IUserProfile, 'id'> | null;
   tournaments?: Pick<ITournament, 'id'>[] | null;
+  members?: Pick<IUserProfile, 'id'>[] | null;
 }
 
 export type NewTeam = Omit<ITeam, 'id'> & { id: null };
