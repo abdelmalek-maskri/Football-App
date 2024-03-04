@@ -29,7 +29,7 @@ public class MailService {
 
     private static final String USER = "user";
 
-    private static final String BASE_URL = "baseUrl";
+    private static final String BASE_URL = "team14.dev.bham.team";
 
     private final JHipsterProperties jHipsterProperties;
 
