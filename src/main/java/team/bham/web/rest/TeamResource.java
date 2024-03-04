@@ -229,6 +229,13 @@ public class TeamResource {
     public ResponseEntity<Team> getTeam(@PathVariable Long id) {
         log.debug("REST request to get Team : {}", id);
         Optional<Team> team = teamRepository.findById(id);
+
+        if (team.isPresent()) {
+            // Get team members.
+            Set<UserProfile> teamMembers = new HashSet<>(userProfileRepository.findByTeamId(team.get().getId()));
+            team.get().setMembers(teamMembers);
+        }
+
         return ResponseUtil.wrapOrNotFound(team);
     }
 
