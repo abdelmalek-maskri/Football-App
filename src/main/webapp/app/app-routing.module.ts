@@ -7,7 +7,7 @@ import { DEBUG_INFO_ENABLED } from 'app/app.constants';
 import { Authority } from 'app/config/authority.constants';
 
 import { UserRouteAccessService } from 'app/core/auth/user-route-access.service';
-
+import { GdprPageComponent } from 'app/gdpr-page/gdpr-page.component';
 @NgModule({
   imports: [
     RouterModule.forRoot(
@@ -31,6 +31,14 @@ import { UserRouteAccessService } from 'app/core/auth/user-route-access.service'
         {
           path: '',
           loadChildren: () => import(`./entities/entity-routing.module`).then(m => m.EntityRoutingModule),
+        },
+
+        {
+          path: 'gdpr',
+          component: GdprPageComponent,
+          data: {
+            pageTitle: 'gdpr page',
+          },
         },
         navbarRoute,
         ...errorRoute,
