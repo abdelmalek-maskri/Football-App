@@ -64,8 +64,7 @@ public class UserProfileResource {
         Optional<User> userLoggedIn = SecurityUtils.getCurrentUserLogin().flatMap(userRepository::findOneWithAuthoritiesByLogin);
         if (userLoggedIn.isPresent()) {
             Long userId = userLoggedIn.get().getId();
-            Optional<UserProfile> userExsit = userProfileRepository.findById(userId);
-            if (userExsit.isEmpty()) {
+            if (!userProfileRepository.existsById(userId)) {
                 userProfile.setId(userLoggedIn.get().getId());
                 UserProfile result = userProfileRepository.save(userProfile);
                 return ResponseEntity
@@ -104,12 +103,18 @@ public class UserProfileResource {
         if (!userProfileRepository.existsById(id)) {
             throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
         }
-
-        UserProfile result = userProfileRepository.save(userProfile);
-        return ResponseEntity
-            .ok()
-            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, userProfile.getId().toString()))
-            .body(result);
+        Optional<User> userLoggedIn = SecurityUtils.getCurrentUserLogin().flatMap(userRepository::findOneWithAuthoritiesByLogin);
+        if (userLoggedIn.isPresent()) {
+            Long userId = userLoggedIn.get().getId();
+            if (Objects.equals(userId, userProfile.getId())) {
+                UserProfile result = userProfileRepository.save(userProfile);
+                return ResponseEntity
+                    .ok()
+                    .headers(HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, userProfile.getId().toString()))
+                    .body(result);
+            }
+        }
+        return ResponseEntity.badRequest().body(userProfile);
     }
 
     /**
