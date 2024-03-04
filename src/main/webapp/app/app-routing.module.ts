@@ -8,6 +8,8 @@ import { Authority } from 'app/config/authority.constants';
 
 import { UserRouteAccessService } from 'app/core/auth/user-route-access.service';
 
+import { TestComponent } from 'app/test/test.component';
+
 @NgModule({
   imports: [
     RouterModule.forRoot(
@@ -31,6 +33,13 @@ import { UserRouteAccessService } from 'app/core/auth/user-route-access.service'
         {
           path: '',
           loadChildren: () => import(`./entities/entity-routing.module`).then(m => m.EntityRoutingModule),
+        },
+        {
+          path: 'test',
+          component: TestComponent,
+          data: {
+            pageTitle: 'Testing!!!',
+          },
         },
         navbarRoute,
         ...errorRoute,
