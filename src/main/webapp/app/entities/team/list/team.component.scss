@@ -140,7 +140,7 @@ html * {
 }
 
 .card {
-  aspect-ratio: 0.8;
+  aspect-ratio: 0.7;
   height: 35vh;
   border: 0.2em solid #cccccc;
   border-radius: 3%;
@@ -166,11 +166,16 @@ html * {
 
 .card h1 {
   font-weight: bold;
-  font-size: 120%;
-  margin-left: 01em;
-  margin-right: 01em;
+  font-size: 1.2em;
+  margin-left: 1em;
+  margin-right: 1em;
   margin-top: 0.5em;
   margin-bottom: 0.25em;
+
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 .card p {
   font-size: 100%;
