@@ -7,35 +7,6 @@
   font-family: 'Poppins', sans-serif;
 }
 
-body {
-  height: 100vh;
-  width: 100vw;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  gap: 30px;
-  background-color: rgb(231, 231, 231);
-}
-
-header {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-}
-
-.heading {
-  color: green;
-}
-
-.title {
-  font-weight: 400;
-  letter-spacing: 1.5px;
-}
-
 .container {
   position: absolute;
   top: 50%;
