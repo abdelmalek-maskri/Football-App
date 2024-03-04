@@ -14,11 +14,18 @@ html * {
   margin-bottom: 2em;
 }
 
+#pageBanner {
+  width: 100%;
+  height: auto;
+}
+
 .page-title {
   font-size: 4em;
   font-weight: 500;
   margin-left: 0.5em;
 }
+
+/* Old Navbar */
 
 .navbar {
   position: fixed;
@@ -123,6 +130,21 @@ html * {
   background-position: center;
   background-repeat: no-repeat;
   background-size: 70%;
+}
+
+#noSearchResultsFoundWarning {
+  background-color: #e6e6e6;
+  font-size: 1.5em;
+  padding: 0.5em;
+  border-radius: 0.25em;
+  margin: 1.25em;
+
+  img {
+    aspect-ratio: 1;
+    height: 5em;
+    margin: auto;
+    display: block;
+  }
 }
 
 /* Team Search */

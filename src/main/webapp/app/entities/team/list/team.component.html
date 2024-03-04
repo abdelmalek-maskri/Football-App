@@ -11,6 +11,8 @@
   </div>
   -->
 
+  <img id="pageBanner" src="../../../../content/images/FootballTeamsPageBanner.png" alt="Football Team at UoB" />
+
   <h1 class="page-title">Teams</h1>
 
   <div id="top-row">
@@ -26,13 +28,15 @@
     </div>
 
     <div id="top-row-right-aligned">
-      <input type="button" id="filter-button" />
+      <input type="button" id="filter-button" style="display: none" />
       <a id="create-team-button" href="/team/new">CREATE TEAM</a>
     </div>
   </div>
 
-  <div style="margin: 2em" class="alert alert-warning" id="no-result" *ngIf="teams?.length === 0">
-    <span>Sorry, no teams were found. Please try another search query instead.</span>
+  <div id="noSearchResultsFoundWarning" *ngIf="teams?.length === 0">
+    <div>Sorry, no matching football teams were found.</div>
+    <img src="../../../../content/images/NoSearchResultsFound.png" alt="No search results found" />
+    <div>Why not try another search, or <a href="/team/new">create a team</a> instead?</div>
   </div>
 
   <div class="searchResultsGrid section" *ngIf="teams !== null && teams !== undefined && teams.length > 0">
