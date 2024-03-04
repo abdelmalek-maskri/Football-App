@@ -14,48 +14,48 @@ html * {
   font-weight: 400;
 }
 
-.section {
-  margin-bottom: 2em;
-}
+// .section {
+//   margin-bottom: 2em;
+// }
 
-.navbar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 9999;
-  width: 100%;
-  height: auto;
-  background-color: #029352;
-  padding: 0;
+// .navbar {
+//   position: fixed;
+//   top: 0;
+//   left: 0;
+//   z-index: 9999;
+//   width: 100%;
+//   height: auto;
+//   background-color: #029352;
+//   padding: 0;
 
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: right;
-  align-items: stretch;
-  column-gap: 1em;
-  row-gap: 0;
+//   display: flex;
+//   flex-direction: row;
+//   flex-wrap: wrap;
+//   justify-content: right;
+//   align-items: stretch;
+//   column-gap: 1em;
+//   row-gap: 0;
 
-  box-shadow: 0 0.25em 0.5em rgba(0, 0, 0, 0.5);
-}
+//   box-shadow: 0 0.25em 0.5em rgba(0, 0, 0, 0.5);
+// }
 
-.navbar > a {
-  text-decoration: none;
-  color: #ffffff;
-  padding-left: 0.5%;
-  padding-right: 0.5%;
-  font-size: 1.35em;
-  font-weight: normal;
-  font-weight: 550;
-}
-.navbar > a:hover {
-  background-color: #02a65c;
-}
+// .navbar > a {
+//   text-decoration: none;
+//   color: #ffffff;
+//   padding-left: 0.5%;
+//   padding-right: 0.5%;
+//   font-size: 1.35em;
+//   font-weight: normal;
+//   font-weight: 550;
+// }
+// .navbar > a:hover {
+//   background-color: #02a65c;
+// }
 
-.navbar > .selected {
-  color: #000000;
-  background-color: #ffffff;
-}
+// .navbar > .selected {
+//   color: #000000;
+//   background-color: #ffffff;
+// }
 
 // second nav bar
 .sub-navbar {
@@ -67,9 +67,9 @@ html * {
   flex-wrap: wrap;
   width: 100%;
   position: fixed;
-  top: 30px;
+  top: 45px;
   left: 0;
-  z-index: 10000;
+  z-index: 1000;
   height: 50px;
 }
 
