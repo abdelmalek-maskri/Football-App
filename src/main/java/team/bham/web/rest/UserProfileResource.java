@@ -77,6 +77,9 @@ public class UserProfileResource {
             throw new BadRequestAlertException("A new userProfile cannot already have an ID", ENTITY_NAME, "idexists");
         }
         long userId = userProfileService.getUserId();
+        if (userProfileRepository.existsById(userId)) {
+            throw new UserProfileResource.UserProfileResourceException("Profile Already exists");
+        }
         userProfile.setId(userId);
         UserProfile result = userProfileRepository.save(userProfile);
         return ResponseEntity
