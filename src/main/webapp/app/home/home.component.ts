@@ -13,7 +13,6 @@ import { Account } from 'app/core/auth/account.model';
 })
 export class HomeComponent implements OnInit, OnDestroy {
   account: Account | null = null;
-
   private readonly destroy$ = new Subject<void>();
 
   constructor(private accountService: AccountService, private router: Router) {}
@@ -32,5 +31,18 @@ export class HomeComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
+  }
+
+  toggleForm(formType: string): void {
+    const slider = document.querySelector('.slider') as HTMLElement;
+    const formSection = document.querySelector('.form-section') as HTMLElement;
+
+    if (formType === 'login') {
+      slider.classList.remove('moveslider');
+      formSection.classList.remove('form-section-move');
+    } else if (formType === 'signup') {
+      slider.classList.add('moveslider');
+      formSection.classList.add('form-section-move');
+    }
   }
 }

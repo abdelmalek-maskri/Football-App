@@ -26,13 +26,13 @@
     </div>
 
     <div id="top-row-right-aligned">
-      <input type="button" id="filter-button" />
+      <input type="button" id="filter-button" style="display: none" />
       <a id="create-team-button" href="/team/new">CREATE TEAM</a>
     </div>
   </div>
 
   <div style="margin: 2em" class="alert alert-warning" id="no-result" *ngIf="teams?.length === 0">
-    <span>No results found. Please try another search instead.</span>
+    <span>Sorry, no teams were found. Please try another search query instead.</span>
   </div>
 
   <div class="searchResultsGrid section" *ngIf="teams !== null && teams !== undefined && teams.length > 0">
@@ -43,12 +43,20 @@
         <img [src]="'data:' + team.imageContentType + ';base64,' + team.image" alt="team image" />
       </ng-container>
       <ng-template #defaultImage>
-        <img src="https://i.ibb.co/nDtHC4K/images.jpg" alt="default team image" />
+        <img src="../../../../content/images/FootballIcon.png" alt="default team image" />
       </ng-template>
 
       <div class="card-content">
         <h1>{{ team.name }}</h1>
-        <p>{{ 'X' }} Members</p>
+        <p>
+          <fa-icon icon="user"></fa-icon>
+          {{
+            (team.members != undefined &&
+              team.members != null &&
+              team.members.length + ' Member' + (team.members.length === 1 ? '' : 's')) ||
+              'Members N/A'
+          }}
+        </p>
       </div>
     </a>
   </div>
