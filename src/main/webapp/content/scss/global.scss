@@ -39,13 +39,15 @@ Generic styles
 ========================================================================== */
 
 /* other generic styles */
-/* -- the component that's causing the page width to be limited :(
+
 .jh-card {
-  padding: 1.5%;
+  //padding: 1.5%;
+  padding-top: 1.5%;
+  padding-bottom: 1.5%;
   margin-top: 20px;
   border: none;
 }
-*/
+
 .error {
   color: white;
   background-color: red;

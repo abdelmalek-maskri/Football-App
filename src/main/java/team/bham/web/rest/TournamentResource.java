@@ -2,6 +2,7 @@ package team.bham.web.rest;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -13,8 +14,11 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+import team.bham.domain.Team;
 import team.bham.domain.Tournament;
+import team.bham.repository.TeamRepository;
 import team.bham.repository.TournamentRepository;
+import team.bham.security.SecurityUtils;
 import team.bham.web.rest.errors.BadRequestAlertException;
 import tech.jhipster.web.util.HeaderUtil;
 import tech.jhipster.web.util.ResponseUtil;
@@ -35,9 +39,11 @@ public class TournamentResource {
     private String applicationName;
 
     private final TournamentRepository tournamentRepository;
+    private final TeamRepository teamRepository;
 
-    public TournamentResource(TournamentRepository tournamentRepository) {
+    public TournamentResource(TournamentRepository tournamentRepository, TeamRepository teamRepository) {
         this.tournamentRepository = tournamentRepository;
+        this.teamRepository = teamRepository;
     }
 
     /**
@@ -82,6 +88,9 @@ public class TournamentResource {
         if (!Objects.equals(id, tournament.getId())) {
             throw new BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid");
         }
+        //HashSet<Team> teamsInTournament = tournament.getTeams();
+        //Team teamToAddToTournament = teamRepository.findById();
+        //teamsInTournament.add(teamToAddToTournament)
 
         if (!tournamentRepository.existsById(id)) {
             throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
