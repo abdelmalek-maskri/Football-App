@@ -1,0 +1,228 @@
+/* MUNEEB: */
+
+html {
+  background-color: #eeeeee;
+  margin-top: 3em;
+}
+
+html * {
+  font-family: Arial;
+  font-weight: 400;
+}
+
+.section {
+  margin-bottom: 2em;
+}
+
+#pageBanner {
+  width: 100%;
+  height: auto;
+}
+
+.page-title {
+  font-size: 4em;
+  font-weight: 500;
+  margin-left: 0.5em;
+}
+
+/* Top Row */
+#top-row {
+  margin-top: 1em;
+  margin-left: 2em;
+  margin-right: 2em;
+  height: auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#top-row-right-aligned {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  height: auto;
+  gap: 0.5em;
+  /*background-color: #BBBBBB;*/
+}
+#top-row-left-aligned {
+  /*background-color: #BBBBBB;*/
+}
+
+#search-box {
+  width: 75%;
+  height: 1.25em;
+  border-radius: 0.25em;
+  font-weight: 500;
+  font-size: 2em;
+  padding-left: 0.5em;
+  padding-right: 0.5em;
+  background-color: #d9d9d9;
+  color: #8f8f8f;
+  border: 0px;
+}
+
+#create-team-button {
+  text-decoration: none;
+  height: auto;
+  font-size: 1.25em;
+  padding-left: 0.25em;
+  padding-right: 0.25em;
+  padding-top: 0.1em;
+  padding-bottom: 0.1em;
+
+  color: #ffffff;
+  background-color: #029352;
+  border-radius: 0.3em;
+}
+
+#filter-button {
+  width: 1.1em;
+  height: 1.1em;
+  aspect-ratio: 1;
+  color: #ffffff;
+  font-size: 2em;
+  border-radius: 0.3em;
+  overflow: hidden;
+
+  background-color: #444444;
+  background-image: url('../../../../content/images/FilterIcon.png');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 70%;
+}
+
+#noSearchResultsFoundWarning {
+  background-color: #e6e6e6;
+  font-size: 1.5em;
+  padding: 0.5em;
+  border-radius: 0.25em;
+  margin: 1.25em;
+
+  img {
+    aspect-ratio: 1;
+    height: 5em;
+    margin: auto;
+    display: block;
+  }
+}
+
+/* Team Search */
+.searchResultsGrid {
+  height: auto;
+  margin: 2em;
+  padding: 1em;
+  background-color: #e6e6e6;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-content: space-between;
+  gap: 1em 1em;
+  border-radius: 6px;
+}
+
+.card {
+  aspect-ratio: 1.6;
+  height: 35vh;
+  border: 0.2em solid #cccccc;
+  border-radius: 3%;
+  overflow: hidden;
+  box-shadow: 0 0.25em 0.5em rgba(0, 0, 0, 0.1);
+  flex-shrink: 0;
+
+  /* remove default <a> element css values*/
+  text-decoration: none;
+  color: #000000;
+}
+
+.playerCardContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0;
+  height: 100%;
+  * {
+    //background-color: black;
+  }
+  div {
+    flex: 2;
+  }
+  img {
+    flex: 2;
+  }
+}
+
+.card img {
+  width: 40%;
+  height: 80%;
+  aspect-ratio: 1;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  border-radius: 2.5%;
+}
+
+.card h1 {
+  font-weight: bold;
+  font-size: 1.2em;
+  margin-left: 1em;
+  margin-right: 1em;
+  margin-top: 0.5em;
+  margin-bottom: 0.25em;
+
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+
+  height: 2.4em;
+}
+.card p {
+  font-size: 100%;
+  margin-left: 1em;
+  margin-right: 1em;
+}
+
+/* Team Profile */
+
+#teamDetailsContainer {
+  margin: 2em;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 1em;
+  height: auto;
+}
+
+#teamDetailsContainer > div {
+  background-color: #e6e6e6;
+}
+#teamDetailsContainer > .left {
+  flex: 3;
+  padding: 1em;
+}
+#teamDetailsContainer > .left p {
+  font-weight: 400;
+}
+#teamDetailsContainer > .right {
+  padding-top: 1em;
+  padding-bottom: 1em;
+  flex: 1.5;
+  display: flex;
+  gap: 1em;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+#teamDetailsContainer > .right img {
+  border-radius: 8px;
+  aspect-ratio: 1;
+  border: 0.2em solid #cccccc;
+  border-radius: 5%;
+  overflow: hidden;
+  box-shadow: 0 0.25em 0.5em rgba(0, 0, 0, 0.1);
+}
+#teamDetailsContainer > .right h1 {
+  font-size: 1.5em;
+  font-weight: 600;
+}

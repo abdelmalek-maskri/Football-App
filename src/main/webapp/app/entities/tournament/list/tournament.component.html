@@ -1,6 +1,35 @@
+<!-- /Abdelmalek -->
+<div class="image-container">
+  <img id="pageImage" style="margin-bottom: -1.5%" src="./../../../content/images/tournamentBackground-4.jpg" alt="tournament image" />
+  <h2>Football Tournament</h2>
+</div>
+
+<div class="sub-navbar">
+  <div class="left-nav">
+    <div>
+      <a class="link" href="/groups" target="_self">Groups</a>
+    </div>
+    <div class="relative-container">
+      <span class="link details-button">Details <i class="arrow down"></i></span>
+    </div>
+    <div>
+      <a class="link link2" href="/matches" target="_self">Matches</a>
+    </div>
+  </div>
+  <!-- <div *ngFor="let tournament of tournaments">
+    <p>{{ tournament.name }}</p>
+    <button id="join-button" (click)="joinTournament(tournament.id)">Join</button>
+  </div> -->
+  <div>
+    <button id="join-button" (click)="joinTournament()">Join</button>
+  </div>
+</div>
+
+<!-- /Abdelmalek -->
+
 <div>
-  <h2 id="page-heading" data-cy="TournamentHeading">
-    <span>Tournaments</span>
+  <h2 id="page-heading" data-cy="TournamentHeading" style="padding-top: 100px">
+    <span>Tournament</span>
 
     <div class="d-flex justify-content-end">
       <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading">

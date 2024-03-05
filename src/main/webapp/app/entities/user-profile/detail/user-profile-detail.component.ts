@@ -12,12 +12,18 @@ import { AccountService } from '../../../core/auth/account.service';
   styleUrls: ['./user-profile-detail.component.scss'],
 })
 export class UserProfileDetailComponent implements OnInit {
+  theAccount?: Account;
   userProfile: IUserProfile | null = null;
   theAccount?: Account;
 
   constructor(protected dataUtils: DataUtils, protected activatedRoute: ActivatedRoute, private accountService: AccountService) {}
 
   ngOnInit(): void {
+    this.accountService.getAuthenticationState().subscribe(account => {
+      if (account) {
+        this.theAccount = account;
+      }
+    });
     this.activatedRoute.data.subscribe(({ userProfile }) => {
       this.userProfile = userProfile;
     });
