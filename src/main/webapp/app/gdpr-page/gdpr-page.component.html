@@ -1,1 +1,53 @@
-<p>gdpr-page works!</p>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Show PDF file</title>
+    <style>
+      #pdfContainer {
+        width: 100%;
+        height: 100vh;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="pdfContainer">
+      <embed id="pdfEmbed" src="src/main/resources/GDPR.pdf" type="application/pdf" width="100%" height="100%" />
+    </div>
+
+    <script>
+      const pdfContainer = document.getElementById('pdfContainer');
+      const pdfEmbed = document.getElementById('pdfEmbed');
+
+      pdfContainer.addEventListener('click', toggleFullScreen);
+
+      function toggleFullScreen() {
+        if (!document.fullscreenElement) {
+          if (pdfContainer.requestFullscreen) {
+            pdfContainer.requestFullscreen();
+          } else if (pdfContainer.mozRequestFullScreen) {
+            /* Firefox */
+            pdfContainer.mozRequestFullScreen();
+          } else if (pdfContainer.webkitRequestFullscreen) {
+            /* Chrome, Safari and Opera */
+            pdfContainer.webkitRequestFullscreen();
+          } else if (pdfContainer.msRequestFullscreen) {
+            /* IE/Edge */
+            pdfContainer.msRequestFullscreen();
+          }
+        } else {
+          if (document.exitFullscreen) {
+            document.exitFullscreen();
+          } else if (document.mozCancelFullScreen) {
+            document.mozCancelFullScreen();
+          } else if (document.webkitExitFullscreen) {
+            document.webkitExitFullscreen();
+          } else if (document.msExitFullscreen) {
+            document.msExitFullscreen();
+          }
+        }
+      }
+    </script>
+  </body>
+</html>
