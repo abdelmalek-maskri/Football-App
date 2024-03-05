@@ -10,11 +10,17 @@
 .container {
   height: auto;
   width: 75%;
-  aspect-ratio: 0.85;
   box-shadow: 8px 8px 20px rgb(128, 128, 128);
   overflow: hidden;
-  margin-top: 380px;
   margin: auto;
+  padding: 2em;
+  margin-top: 2em;
+}
+
+.alert {
+  margin: auto;
+  font-size: 2em;
+  padding: 0.25em;
 }
 
 .btn {
@@ -36,7 +42,6 @@
   align-items: center;
   justify-content: center;
   gap: 0.5em;
-  padding-top: 2em;
 }
 
 .textField {
@@ -69,7 +74,7 @@
   padding-right: 1em;
   border: none;
   cursor: pointer;
-  margin-bottom: 7em;
+  margin-bottom: 3em;
 }
 
 .form-check-label {
