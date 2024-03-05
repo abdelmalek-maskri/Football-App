@@ -28,7 +28,6 @@ export type EntityArrayResponseType = HttpResponse<IUserProfile[]>;
 @Injectable({ providedIn: 'root' })
 export class UserProfileService {
   protected resourceUrl = this.applicationConfigService.getEndpointFor('api/user-profiles');
-  private resourceUrlUser = this.applicationConfigService.getEndpointFor('api/admin/users');
 
   constructor(protected http: HttpClient, protected applicationConfigService: ApplicationConfigService) {}
 
