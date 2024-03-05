@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import team.bham.domain.User;
+import team.bham.domain.UserProfile;
 import team.bham.repository.UserProfileRepository;
 import team.bham.repository.UserRepository;
 import team.bham.security.SecurityUtils;
@@ -43,5 +44,11 @@ public class UserProfileService {
         }
 
         return potentialUser.get().getId();
+    }
+
+    public Optional<UserProfile> findUserProfile() {
+        long userId = this.getUserId();
+        Optional<UserProfile> potentialUserProfile = userProfileRepository.findById(userId);
+        return potentialUserProfile;
     }
 }

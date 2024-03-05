@@ -65,16 +65,12 @@ public class TeamResource {
         }
 
         // team.setOwner() to the authenticated user's UserProfile:
-        try {
-            long teamCreatorId = userProfileService.getUserId();
-            Optional<UserProfile> teamOwner = userProfileRepository.findById(teamCreatorId);
-            if (teamOwner.isPresent()) {
-                team.setOwner(teamOwner.get());
-            } else {
-                throw new BadRequestAlertException("You have not created a User Profile yet!", ENTITY_NAME, "userprofilenotfound");
-            }
-        } catch (Exception e) {
-            throw new BadRequestAlertException("You have not created a User Profile yet!", ENTITY_NAME, "userprofilenotfound");
+        Optional<UserProfile> teamOwner = userProfileService.findUserProfile();
+        if (teamOwner.isPresent()) {
+            team.setOwner(teamOwner.get());
+            // TODO: Set teamOwner's team to this new team.
+        } else {
+            throw new RuntimeException("You have not created a User Profile yet!");
         }
 
         Team result = teamRepository.save(team);
@@ -109,8 +105,11 @@ public class TeamResource {
             throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
         }
 
+        if (userProfileService.findUserProfile().isEmpty()) {
+            throw new RuntimeException("You have not created a user profile yet!");
+        }
         if (team.getOwner() == null || team.getOwner().getId() != userProfileService.getUserId()) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+            throw new RuntimeException("Unauthorized: You are not the owner of this team.");
         }
 
         Team result = teamRepository.save(team);
@@ -141,8 +140,7 @@ public class TeamResource {
         }
 
         // Find UserProfile:
-        long userId = userProfileService.getUserId();
-        Optional<UserProfile> userProfile = userProfileRepository.findById(userId);
+        Optional<UserProfile> userProfile = userProfileService.findUserProfile();
 
         if (userProfile.isPresent()) {
             // Update UserProfile's Team:
@@ -150,6 +148,7 @@ public class TeamResource {
                 .findById(userProfile.get().getId())
                 .map(existingUserProfile -> {
                     existingUserProfile.setTeam(team.get());
+                    // existingUserProfile.setTeamOwned(null); // maybe ??
 
                     return existingUserProfile;
                 })
@@ -158,7 +157,7 @@ public class TeamResource {
             Optional<Team> updatedTeam = teamRepository.findById(id);
             return ResponseEntity.status(HttpStatus.OK).body(updatedTeam.get());
         } else {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+            throw new RuntimeException("You have not created a user profile yet!");
         }
     }
 
@@ -192,7 +191,7 @@ public class TeamResource {
 
         // Authentication:
         if (team.getOwner() == null || team.getOwner().getId() != userProfileService.getUserId()) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+            throw new RuntimeException("Unauthorized: You are not the owner of this team.");
         }
 
         Optional<Team> result = teamRepository
