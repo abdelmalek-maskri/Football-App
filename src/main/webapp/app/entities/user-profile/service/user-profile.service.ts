@@ -8,6 +8,8 @@ import { isPresent } from 'app/core/util/operators';
 import { ApplicationConfigService } from 'app/core/config/application-config.service';
 import { createRequestOption } from 'app/core/request/request-util';
 import { IUserProfile, NewUserProfile } from '../user-profile.model';
+import { RestTeam } from '../../team/service/team.service';
+import { IUser } from '../../../admin/user-management/user-management.model';
 
 export type PartialUpdateUserProfile = Partial<IUserProfile> & Pick<IUserProfile, 'id'>;
 
@@ -61,6 +63,12 @@ export class UserProfileService {
     const options = createRequestOption(req);
     return this.http
       .get<RestUserProfile[]>(this.resourceUrl, { params: options, observe: 'response' })
+      .pipe(map(res => this.convertResponseArrayFromServer(res)));
+  }
+
+  searchMP(name?: string): Observable<EntityArrayResponseType> {
+    return this.http
+      .get<RestTeam[]>(`${this.resourceUrl}/search?name=${name}`, { observe: 'response' })
       .pipe(map(res => this.convertResponseArrayFromServer(res)));
   }
 

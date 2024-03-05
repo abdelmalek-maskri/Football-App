@@ -14,11 +14,18 @@ html * {
   margin-bottom: 2em;
 }
 
+#pageBanner {
+  width: 100%;
+  height: auto;
+}
+
 .page-title {
   font-size: 4em;
   font-weight: 500;
   margin-left: 0.5em;
 }
+
+/* Old Navbar */
 
 .navbar {
   position: fixed;
@@ -125,6 +132,21 @@ html * {
   background-size: 70%;
 }
 
+#noSearchResultsFoundWarning {
+  background-color: #e6e6e6;
+  font-size: 1.5em;
+  padding: 0.5em;
+  border-radius: 0.25em;
+  margin: 1.25em;
+
+  img {
+    aspect-ratio: 1;
+    height: 5em;
+    margin: auto;
+    display: block;
+  }
+}
+
 /* Team Search */
 .searchResultsGrid {
   height: auto;
@@ -140,7 +162,7 @@ html * {
 }
 
 .card {
-  aspect-ratio: 0.8;
+  aspect-ratio: 0.7;
   height: 35vh;
   border: 0.2em solid #cccccc;
   border-radius: 3%;
@@ -166,11 +188,18 @@ html * {
 
 .card h1 {
   font-weight: bold;
-  font-size: 120%;
-  margin-left: 01em;
-  margin-right: 01em;
+  font-size: 1.2em;
+  margin-left: 1em;
+  margin-right: 1em;
   margin-top: 0.5em;
   margin-bottom: 0.25em;
+
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+
+  height: 2.4em;
 }
 .card p {
   font-size: 100%;

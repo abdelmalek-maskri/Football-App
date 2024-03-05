@@ -2,9 +2,7 @@ package team.bham.web.rest;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 import javax.validation.Valid;
@@ -15,9 +13,15 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+import team.bham.domain.Team;
+import team.bham.domain.User;
 import team.bham.domain.UserProfile;
 import team.bham.repository.UserProfileRepository;
+import team.bham.repository.UserRepository;
+import team.bham.security.SecurityUtils;
+import team.bham.service.UserProfileService;
 import team.bham.web.rest.errors.BadRequestAlertException;
+import team.bham.web.rest.errors.EmailAlreadyUsedException;
 import tech.jhipster.web.util.HeaderUtil;
 import tech.jhipster.web.util.ResponseUtil;
 
@@ -31,15 +35,31 @@ public class UserProfileResource {
 
     private final Logger log = LoggerFactory.getLogger(UserProfileResource.class);
 
+    private static class UserProfileResourceException extends RuntimeException {
+
+        private UserProfileResourceException(String message) {
+            super(message);
+        }
+    }
+
     private static final String ENTITY_NAME = "userProfile";
 
     @Value("${jhipster.clientApp.name}")
     private String applicationName;
 
-    private final UserProfileRepository userProfileRepository;
+    private final UserProfileService userProfileService;
 
-    public UserProfileResource(UserProfileRepository userProfileRepository) {
+    private final UserProfileRepository userProfileRepository;
+    private final UserRepository userRepository;
+
+    public UserProfileResource(
+        UserProfileService userProfileService,
+        UserProfileRepository userProfileRepository,
+        UserRepository userRepository
+    ) {
+        this.userProfileService = userProfileService;
         this.userProfileRepository = userProfileRepository;
+        this.userRepository = userRepository;
     }
 
     /**
@@ -55,6 +75,11 @@ public class UserProfileResource {
         if (userProfile.getId() != null) {
             throw new BadRequestAlertException("A new userProfile cannot already have an ID", ENTITY_NAME, "idexists");
         }
+        long userId = userProfileService.getUserId();
+        if (userProfileRepository.existsById(userId)) {
+            throw new UserProfileResource.UserProfileResourceException("Profile Already exists");
+        }
+        userProfile.setId(userId);
         UserProfile result = userProfileRepository.save(userProfile);
         return ResponseEntity
             .created(new URI("/api/user-profiles/" + result.getId()))
@@ -89,6 +114,11 @@ public class UserProfileResource {
             throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
         }
 
+        long userId = userProfileService.getUserId();
+        if (!Objects.equals(userId, userProfile.getId())) {
+            throw new UserProfileResource.UserProfileResourceException("Not Authorised"); //replace with 403 response
+        }
+
         UserProfile result = userProfileRepository.save(userProfile);
         return ResponseEntity
             .ok()
@@ -113,6 +143,7 @@ public class UserProfileResource {
         @NotNull @RequestBody UserProfile userProfile
     ) throws URISyntaxException {
         log.debug("REST request to partial update UserProfile partially : {}, {}", id, userProfile);
+
         if (userProfile.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
@@ -122,6 +153,10 @@ public class UserProfileResource {
 
         if (!userProfileRepository.existsById(id)) {
             throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
+        }
+        long userId = userProfileService.getUserId();
+        if (!Objects.equals(userId, userProfile.getId())) {
+            throw new UserProfileResource.UserProfileResourceException("Not Authorised"); //replace with 403 response
         }
 
         Optional<UserProfile> result = userProfileRepository
@@ -182,6 +217,25 @@ public class UserProfileResource {
     }
 
     /**
+     * GET  /user-profiles/search?name={name} : search for user profiles by name.
+     *
+     * @param name the name of the team to search for.
+     * @return the ResponseEntity with status 200 (OK) and the list of teams in body.
+     */
+    @GetMapping("/user-profiles/search")
+    public List<UserProfile> searchUsers(@RequestParam(required = false) String name) {
+        log.debug("REST request to search user profile by name : {}", name);
+
+        List<UserProfile> searchResults;
+        if (name != null) {
+            searchResults = userProfileRepository.findByNameContainingIgnoreCase(name);
+        } else {
+            searchResults = userProfileRepository.findAll();
+        }
+        return searchResults;
+    }
+
+    /**
      * {@code GET  /user-profiles/:id} : get the "id" userProfile.
      *
      * @param id the id of the userProfile to retrieve.
@@ -202,6 +256,10 @@ public class UserProfileResource {
      */
     @DeleteMapping("/user-profiles/{id}")
     public ResponseEntity<Void> deleteUserProfile(@PathVariable Long id) {
+        long userId = userProfileService.getUserId();
+        if (!Objects.equals(userId, id)) {
+            throw new UserProfileResource.UserProfileResourceException("Not Authorised"); //replace with 403 response
+        }
         log.debug("REST request to delete UserProfile : {}", id);
         userProfileRepository.deleteById(id);
         return ResponseEntity
