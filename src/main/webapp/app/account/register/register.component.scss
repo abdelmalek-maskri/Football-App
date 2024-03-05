@@ -1,0 +1,73 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+.btn {
+  box-shadow: 10px 10px 30px rgb(254, 215, 188);
+  border-radius: 30px;
+}
+.clkbtn {
+  border-radius: 0.6em;
+  //background-image: linear-gradient(to right, rgb(255, 195, 110), rgb(255, 146, 91));
+  background: #02a65c;
+  font-size: 1.4em;
+  color: white;
+  font-weight: bold;
+  aspect-ratio: 12;
+  padding: 0.25em;
+  padding-left: 1em;
+  padding-right: 1em;
+  border: none;
+  cursor: pointer;
+  margin-top: 2em;
+}
+
+.container {
+  height: 80%;
+  width: 75%;
+  aspect-ratio: 0.85;
+  box-shadow: 8px 8px 20px rgb(128, 128, 128);
+  overflow: hidden;
+  margin-top: 380px;
+  margin: auto;
+}
+.register-page-title {
+  font-size: 2em;
+  margin-bottom: 0.25em;
+}
+.register-box,
+.signup-box {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5em;
+  padding-top: 1.8em;
+}
+
+.textField {
+  height: 10%;
+  width: 80%;
+  outline: none;
+  border: none;
+  color: rgb(77, 77, 77);
+  background-color: rgb(240, 240, 240);
+  border-radius: 1.5em;
+  padding-left: 4%;
+  padding-right: 4%;
+  font-size: 1.7em;
+}
+
+.globalLabel {
+  font-size: 1.1em;
+}
+
+input::placeholder {
+  font-size: 0.7em;
+  //background: black;
+}
