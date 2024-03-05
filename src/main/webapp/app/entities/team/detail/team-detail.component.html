@@ -20,12 +20,14 @@
 
       <div class="iconWithTextContainer">
         <img class="inline-with-text-icon" src="../../../../content/images/FootballIconTransparent.png" />
-        <p>{{ team.playType | titlecase }}</p>
+        <span>{{ team.playType | titlecase }}</span>
       </div>
       <div class="iconWithTextContainer">
         <img class="inline-with-text-icon" src="../../../../content/images/CalendarIcon.png" />
-        <p>{{ team.schedule | titlecase }}</p>
+        <span>{{ team.schedule | titlecase }}</span>
       </div>
+
+      <a id="joinTeamButton">JOIN TEAM</a>
     </div>
   </div>
 
