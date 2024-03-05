@@ -32,9 +32,6 @@ export class UserProfileService {
 
   constructor(protected http: HttpClient, protected applicationConfigService: ApplicationConfigService) {}
 
-  findUser(login: string): Observable<IUser> {
-    return this.http.get<IUser>(`${this.resourceUrlUser}/${login}`);
-  }
   create(userProfile: NewUserProfile): Observable<EntityResponseType> {
     const copy = this.convertDateFromClient(userProfile);
     return this.http
