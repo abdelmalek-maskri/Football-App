@@ -23,6 +23,7 @@ import { NavbarComponent } from './layouts/navbar/navbar.component';
 import { FooterComponent } from './layouts/footer/footer.component';
 import { PageRibbonComponent } from './layouts/profiles/page-ribbon.component';
 import { ErrorComponent } from './layouts/error/error.component';
+import { TestComponent } from './test/test.component';
 import { GdprPageComponent } from './gdpr-page/gdpr-page.component';
 import { CookiePolicyComponent } from './cookie-policy/cookie-policy.component';
 
@@ -51,6 +52,7 @@ import { CookiePolicyComponent } from './cookie-policy/cookie-policy.component';
     PageRibbonComponent,
     FooterComponent,
     GdprPageComponent,
+    TestComponent,
     CookiePolicyComponent,
   ],
   bootstrap: [MainComponent],
