@@ -77,6 +77,12 @@ export class TournamentService {
     return o1 && o2 ? this.getTournamentIdentifier(o1) === this.getTournamentIdentifier(o2) : o1 === o2;
   }
 
+  // joinTournament(tournamentId: number): Observable<EntityResponseType> {
+  //   return this.http
+  //     .patch<RestTournament>(`${this.resourceUrl}/${tournamentId}/join`, { observe: 'response' })
+  //     .pipe(map(res => this.convertResponseFromServer(res)));
+  // }
+
   addTournamentToCollectionIfMissing<Type extends Pick<ITournament, 'id'>>(
     tournamentCollection: Type[],
     ...tournamentsToCheck: (Type | null | undefined)[]
