@@ -64,6 +64,11 @@ public class TeamResource {
             throw new BadRequestAlertException("A new team cannot already have an ID", ENTITY_NAME, "idexists");
         }
 
+        Optional<Team> existingTeam = teamRepository.findOneByOwnerId(userProfileService.getUserId());
+        if (existingTeam.isPresent()) {
+            throw new RuntimeException("You have already created a team!");
+        }
+
         // team.setOwner() to the authenticated user's UserProfile:
         Optional<UserProfile> teamOwner = userProfileService.findUserProfile();
         if (teamOwner.isPresent()) {
