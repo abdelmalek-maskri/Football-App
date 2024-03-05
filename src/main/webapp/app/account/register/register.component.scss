@@ -5,6 +5,12 @@
   font-family: 'Poppins', sans-serif;
 }
 
+.alert {
+  margin: auto;
+  font-size: 2em;
+  padding: 0.25em;
+}
+
 .btn {
   box-shadow: 10px 10px 30px rgb(254, 215, 188);
   border-radius: 30px;
@@ -26,13 +32,13 @@
 }
 
 .container {
-  height: 80%;
+  height: auto;
   width: 75%;
-  aspect-ratio: 0.85;
   box-shadow: 8px 8px 20px rgb(128, 128, 128);
   overflow: hidden;
-  margin-top: 380px;
   margin: auto;
+  padding: 2em;
+  margin-top: 2em;
 }
 .register-page-title {
   font-size: 2em;
@@ -40,14 +46,13 @@
 }
 .register-box,
 .signup-box {
-  height: 100%;
+  height: auto;
   width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   gap: 0.5em;
-  padding-top: 1.8em;
 }
 
 .textField {
