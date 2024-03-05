@@ -1,4 +1,4 @@
-<div class="d-flex justify-content-center">
+<div id="generatedStuffModifiedByMuneeb" class="d-flex justify-content-center">
   <div class="col-8">
     <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
       <h2 id="jhi-team-heading" data-cy="TeamCreateUpdateHeading">Create or edit a Team</h2>
@@ -11,7 +11,7 @@
           <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
         </div>
 
-        <div class="row mb-3">
+        <div style="display: none" class="row mb-3">
           <label class="form-label" for="field_created">Created</label>
           <div class="d-flex">
             <input
@@ -118,11 +118,11 @@
           <label class="form-label" for="field_playType">Play Type</label>
           <select class="form-control" name="playType" formControlName="playType" id="field_playType" data-cy="playType">
             <option [ngValue]="null"></option>
-            <option *ngFor="let playType of playTypeValues" [value]="playType">playType</option>
+            <option *ngFor="let playType of playTypeValues" [value]="playType">{{ playType | titlecase }}</option>
           </select>
         </div>
 
-        <div class="row mb-3">
+        <div style="display: none" class="row mb-3">
           <label class="form-label" for="field_owner">Owner</label>
           <select
             class="form-control"
@@ -157,5 +157,168 @@
         <jhi-alert-error></jhi-alert-error>
       </div>
     </form>
+  </div>
+</div>
+
+<div style="display: none" id="StuffGeneratedByJHipster">
+  <div class="d-flex justify-content-center">
+    <div class="col-8">
+      <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+        <h2 id="jhi-team-heading" data-cy="TeamCreateUpdateHeading">Create or edit a Team</h2>
+
+        <div>
+          <jhi-alert-error></jhi-alert-error>
+
+          <div class="row mb-3" *ngIf="editForm.controls.id.value !== null">
+            <label class="form-label" for="field_id">ID</label>
+            <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+          </div>
+
+          <div class="row mb-3">
+            <label class="form-label" for="field_created">Created</label>
+            <div class="d-flex">
+              <input
+                id="field_created"
+                data-cy="created"
+                type="datetime-local"
+                class="form-control"
+                name="created"
+                formControlName="created"
+                placeholder="YYYY-MM-DD HH:mm"
+              />
+            </div>
+            <div *ngIf="editForm.get('created')!.invalid && (editForm.get('created')!.dirty || editForm.get('created')!.touched)">
+              <small class="form-text text-danger" *ngIf="editForm.get('created')?.errors?.required"> This field is required. </small>
+              <small class="form-text text-danger" [hidden]="!editForm.get('created')?.errors?.datetimelocal">
+                This field should be a date and time.
+              </small>
+            </div>
+          </div>
+
+          <div class="row mb-3">
+            <label class="form-label" for="field_name">Name</label>
+            <input type="text" class="form-control" name="name" id="field_name" data-cy="name" formControlName="name" />
+            <div *ngIf="editForm.get('name')!.invalid && (editForm.get('name')!.dirty || editForm.get('name')!.touched)">
+              <small class="form-text text-danger" *ngIf="editForm.get('name')?.errors?.required"> This field is required. </small>
+              <small class="form-text text-danger" *ngIf="editForm.get('name')?.errors?.minlength">
+                This field is required to be at least 2 characters.
+              </small>
+              <small class="form-text text-danger" *ngIf="editForm.get('name')?.errors?.maxlength">
+                This field cannot be longer than 40 characters.
+              </small>
+            </div>
+          </div>
+
+          <div class="row mb-3">
+            <label class="form-label" for="field_description">Description</label>
+            <input
+              type="text"
+              class="form-control"
+              name="description"
+              id="field_description"
+              data-cy="description"
+              formControlName="description"
+            />
+            <div
+              *ngIf="editForm.get('description')!.invalid && (editForm.get('description')!.dirty || editForm.get('description')!.touched)"
+            >
+              <small class="form-text text-danger" *ngIf="editForm.get('description')?.errors?.maxlength">
+                This field cannot be longer than 512 characters.
+              </small>
+            </div>
+          </div>
+
+          <div class="row mb-3">
+            <label class="form-label" for="field_image">Image</label>
+            <div>
+              <img
+                [src]="'data:' + editForm.get('imageContentType')!.value + ';base64,' + editForm.get('image')!.value"
+                style="max-height: 100px"
+                *ngIf="editForm.get('image')!.value"
+                alt="team image"
+              />
+              <div *ngIf="editForm.get('image')!.value" class="form-text text-danger clearfix">
+                <span class="pull-start">{{ editForm.get('imageContentType')!.value }}, {{ byteSize(editForm.get('image')!.value!) }}</span>
+                <button
+                  type="button"
+                  (click)="clearInputImage('image', 'imageContentType', 'file_image')"
+                  class="btn btn-secondary btn-xs pull-end"
+                >
+                  <fa-icon icon="times"></fa-icon>
+                </button>
+              </div>
+              <input type="file" id="file_image" data-cy="image" (change)="setFileData($event, 'image', true)" accept="image/*" />
+            </div>
+            <input type="hidden" class="form-control" name="image" id="field_image" data-cy="image" formControlName="image" />
+            <input
+              type="hidden"
+              class="form-control"
+              name="imageContentType"
+              id="field_imageContentType"
+              formControlName="imageContentType"
+            />
+          </div>
+
+          <div class="row mb-3">
+            <label class="form-label" for="field_colour">Colour</label>
+            <input type="text" class="form-control" name="colour" id="field_colour" data-cy="colour" formControlName="colour" />
+            <div *ngIf="editForm.get('colour')!.invalid && (editForm.get('colour')!.dirty || editForm.get('colour')!.touched)">
+              <small class="form-text text-danger" *ngIf="editForm.get('colour')?.errors?.maxlength">
+                This field cannot be longer than 6 characters.
+              </small>
+            </div>
+          </div>
+
+          <div class="row mb-3">
+            <label class="form-label" for="field_schedule">Schedule</label>
+            <input type="text" class="form-control" name="schedule" id="field_schedule" data-cy="schedule" formControlName="schedule" />
+            <div *ngIf="editForm.get('schedule')!.invalid && (editForm.get('schedule')!.dirty || editForm.get('schedule')!.touched)">
+              <small class="form-text text-danger" *ngIf="editForm.get('schedule')?.errors?.maxlength">
+                This field cannot be longer than 64 characters.
+              </small>
+            </div>
+          </div>
+
+          <div class="row mb-3">
+            <label class="form-label" for="field_playType">Play Type</label>
+            <select class="form-control" name="playType" formControlName="playType" id="field_playType" data-cy="playType">
+              <option [ngValue]="null"></option>
+              <option *ngFor="let playType of playTypeValues" [value]="playType">playType</option>
+            </select>
+          </div>
+
+          <div class="row mb-3">
+            <label class="form-label" for="field_owner">Owner</label>
+            <select
+              class="form-control"
+              id="field_owner"
+              data-cy="owner"
+              name="owner"
+              formControlName="owner"
+              [compareWith]="compareUserProfile"
+            >
+              <option [ngValue]="null"></option>
+              <option [ngValue]="userProfileOption" *ngFor="let userProfileOption of ownersCollection">{{ userProfileOption.id }}</option>
+            </select>
+          </div>
+        </div>
+
+        <div>
+          <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
+            <fa-icon icon="ban"></fa-icon>&nbsp;<span>Cancel</span>
+          </button>
+
+          <button
+            type="submit"
+            id="save-entity"
+            data-cy="entityCreateSaveButton"
+            [disabled]="editForm.invalid || isSaving"
+            class="btn btn-primary"
+          >
+            <fa-icon icon="save"></fa-icon>&nbsp;<span>Save</span>
+          </button>
+        </div>
+      </form>
+    </div>
   </div>
 </div>
