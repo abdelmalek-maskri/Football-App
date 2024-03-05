@@ -9,6 +9,7 @@ import { ApplicationConfigService } from 'app/core/config/application-config.ser
 import { createRequestOption } from 'app/core/request/request-util';
 import { IUserProfile, NewUserProfile } from '../user-profile.model';
 import { RestTeam } from '../../team/service/team.service';
+import { IUser } from '../../../admin/user-management/user-management.model';
 
 export type PartialUpdateUserProfile = Partial<IUserProfile> & Pick<IUserProfile, 'id'>;
 
