@@ -6,18 +6,26 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.Set;
+import javax.swing.text.html.Option;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.method.P;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import team.bham.domain.Team;
 import team.bham.domain.Tournament;
+import team.bham.domain.User;
+import team.bham.domain.UserProfile;
 import team.bham.repository.TeamRepository;
 import team.bham.repository.TournamentRepository;
+import team.bham.repository.UserProfileRepository;
+import team.bham.repository.UserRepository;
 import team.bham.security.SecurityUtils;
 import team.bham.web.rest.errors.BadRequestAlertException;
 import tech.jhipster.web.util.HeaderUtil;
@@ -40,10 +48,19 @@ public class TournamentResource {
 
     private final TournamentRepository tournamentRepository;
     private final TeamRepository teamRepository;
+    private final UserProfileRepository userProfileRepository;
+    private final UserRepository userRepository;
 
-    public TournamentResource(TournamentRepository tournamentRepository, TeamRepository teamRepository) {
+    public TournamentResource(
+        TournamentRepository tournamentRepository,
+        TeamRepository teamRepository,
+        UserProfileRepository userProfileRepository,
+        UserRepository userRepository
+    ) {
         this.tournamentRepository = tournamentRepository;
         this.teamRepository = teamRepository;
+        this.userProfileRepository = userProfileRepository;
+        this.userRepository = userRepository;
     }
 
     /**
@@ -88,9 +105,6 @@ public class TournamentResource {
         if (!Objects.equals(id, tournament.getId())) {
             throw new BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid");
         }
-        //HashSet<Team> teamsInTournament = tournament.getTeams();
-        //Team teamToAddToTournament = teamRepository.findById();
-        //teamsInTournament.add(teamToAddToTournament)
 
         if (!tournamentRepository.existsById(id)) {
             throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
@@ -101,6 +115,94 @@ public class TournamentResource {
             .ok()
             .headers(HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, tournament.getId().toString()))
             .body(result);
+    }
+
+    /**
+     * {@code PATCH  /tournaments/:id/join} : Partial updates given fields of an existing tournament, field will ignore if it is null
+     *
+     * @param id the id of the tournament to save.
+     * @param tournament the tournament to update.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated tournament,
+     * or with status {@code 400 (Bad Request)} if the tournament is not valid,
+     * or with status {@code 404 (Not Found)} if the tournament is not found,
+     * or with status {@code 500 (Internal Server Error)} if the tournament couldn't be updated.
+     * @throws URISyntaxException if the Location URI syntax is incorrect.
+     */
+    @PatchMapping(value = "/tournaments/{id}/join")
+    public ResponseEntity<Optional<Tournament>> joinTournament(@PathVariable(value = "id", required = true) final Long id)
+        throws URISyntaxException {
+        log.debug("REST request to join a tournament with: {}", id);
+
+        Optional<Tournament> findTourney = tournamentRepository.findById(id);
+
+        if (findTourney.isEmpty()) {
+            throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
+        }
+
+        Tournament tournament = findTourney.get();
+
+        if (!tournamentRepository.existsById(id)) {
+            throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
+        }
+
+        // Our part
+
+        Optional<User> userLoggedIn = SecurityUtils.getCurrentUserLogin().flatMap(userRepository::findOneWithAuthoritiesByLogin);
+        if (userLoggedIn.isPresent()) {
+            Optional<UserProfile> user = userProfileRepository.findById(userLoggedIn.get().getId());
+            if (user.isPresent()) {
+                Team teamToAddToTournament = user.get().getTeam();
+                if (teamToAddToTournament != null) {
+                    Set<Team> teamsInTournament = tournament.getTeams();
+
+                    if (teamsInTournament.size() >= tournament.getMaxTeams()) {
+                        // RETURN error message,
+                    }
+
+                    boolean isTeamAlreadyInTournament = false;
+                    for (Team team : teamsInTournament) {
+                        if (team.getId() == teamToAddToTournament.getId()) {
+                            isTeamAlreadyInTournament = true;
+                            break;
+                        }
+                    }
+
+                    if (isTeamAlreadyInTournament) {
+                        // RETURN SOMETHING SAYING THAT ITS ALREADY IN
+                        //return ResponseEntity. .....
+                    }
+
+                    teamsInTournament.add(teamToAddToTournament);
+                    tournament.setTeams(teamsInTournament);
+
+                    // Update the teams of the tournament.
+
+                    Optional<Tournament> result = tournamentRepository
+                        .findById(tournament.getId())
+                        .map(existingTournament -> {
+                            existingTournament.setTeams(teamsInTournament);
+
+                            return existingTournament;
+                        })
+                        .map(tournamentRepository::save);
+
+                    return ResponseEntity.status(HttpStatus.OK).body(result);
+                    /* 
+                    return ResponseUtil.wrapOrNotFound(
+                        result,
+                        HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, tournament.getId().toString())
+                    );
+                    */
+
+                }
+            }
+            //
+
+        }
+        //OurPart ends here
+
+        Optional<Tournament> emptyTournamentOptional = Optional.empty();
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(emptyTournamentOptional);
     }
 
     /**
