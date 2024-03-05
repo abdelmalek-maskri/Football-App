@@ -13,6 +13,7 @@ import { SortService } from 'app/shared/sort/sort.service';
 @Component({
   selector: 'jhi-user-profile',
   templateUrl: './user-profile.component.html',
+  styleUrls: ['./user-profile.component.scss'],
 })
 export class UserProfileComponent implements OnInit {
   userProfiles?: IUserProfile[];
@@ -20,6 +21,8 @@ export class UserProfileComponent implements OnInit {
 
   predicate = 'id';
   ascending = true;
+
+  searchQuery: string = '';
 
   constructor(
     protected userProfileService: UserProfileService,
@@ -63,6 +66,18 @@ export class UserProfileComponent implements OnInit {
   load(): void {
     this.loadFromBackendWithRouteInformations().subscribe({
       next: (res: EntityArrayResponseType) => {
+        this.onResponseSuccess(res);
+      },
+    });
+  }
+
+  loadSearchResultsMP(hey: string): void {
+    this.isLoading = true;
+    console.log('Searching for Players w/ query: ' + this.searchQuery);
+    var a: Observable<EntityArrayResponseType> = this.userProfileService.searchMP(this.searchQuery);
+    a.subscribe({
+      next: (res: EntityArrayResponseType) => {
+        this.isLoading = false;
         this.onResponseSuccess(res);
       },
     });

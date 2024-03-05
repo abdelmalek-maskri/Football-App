@@ -2,9 +2,7 @@ package team.bham.web.rest;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 import javax.validation.Valid;
@@ -15,6 +13,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+import team.bham.domain.Team;
 import team.bham.domain.User;
 import team.bham.domain.UserProfile;
 import team.bham.repository.UserProfileRepository;
@@ -215,6 +214,25 @@ public class UserProfileResource {
         }
         log.debug("REST request to get all UserProfiles");
         return userProfileRepository.findAll();
+    }
+
+    /**
+     * GET  /user-profiles/search?name={name} : search for user profiles by name.
+     *
+     * @param name the name of the team to search for.
+     * @return the ResponseEntity with status 200 (OK) and the list of teams in body.
+     */
+    @GetMapping("/user-profiles/search")
+    public List<UserProfile> searchUsers(@RequestParam(required = false) String name) {
+        log.debug("REST request to search user profile by name : {}", name);
+
+        List<UserProfile> searchResults;
+        if (name != null) {
+            searchResults = userProfileRepository.findByNameContainingIgnoreCase(name);
+        } else {
+            searchResults = userProfileRepository.findAll();
+        }
+        return searchResults;
     }
 
     /**
