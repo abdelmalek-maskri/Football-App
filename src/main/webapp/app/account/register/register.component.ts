@@ -8,6 +8,7 @@ import { RegisterService } from './register.service';
 @Component({
   selector: 'jhi-register',
   templateUrl: './register.component.html',
+  styleUrls: ['./register.component.scss'],
 })
 export class RegisterComponent implements AfterViewInit {
   @ViewChild('login', { static: false })
@@ -48,6 +49,7 @@ export class RegisterComponent implements AfterViewInit {
   ngAfterViewInit(): void {
     if (this.login) {
       this.login.nativeElement.focus();
+      this.markFormControlsAsTouched();
     }
   }
 
@@ -76,5 +78,11 @@ export class RegisterComponent implements AfterViewInit {
     } else {
       this.error = true;
     }
+  }
+
+  private markFormControlsAsTouched() {
+    Object.values(this.registerForm.controls).forEach(control => {
+      control.markAsTouched();
+    });
   }
 }
