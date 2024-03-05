@@ -4,10 +4,11 @@ import { Router } from '@angular/router';
 
 import { LoginService } from 'app/login/login.service';
 import { AccountService } from 'app/core/auth/account.service';
-
+import { Account } from 'app/core/auth/account.model';
 @Component({
   selector: 'jhi-login',
   templateUrl: './login.component.html',
+  styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent implements OnInit, AfterViewInit {
   @ViewChild('username', { static: false })
@@ -47,5 +48,18 @@ export class LoginComponent implements OnInit, AfterViewInit {
       },
       error: () => (this.authenticationError = true),
     });
+  }
+
+  toggleForm(formType: string): void {
+    const slider = document.querySelector('.slider') as HTMLElement;
+    const formSection = document.querySelector('.form-section') as HTMLElement;
+
+    if (formType === 'login') {
+      slider.classList.remove('moveslider');
+      formSection.classList.remove('form-section-move');
+    } else if (formType === 'signup') {
+      slider.classList.add('moveslider');
+      formSection.classList.add('form-section-move');
+    }
   }
 }
