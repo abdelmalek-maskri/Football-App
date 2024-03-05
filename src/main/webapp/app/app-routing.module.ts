@@ -45,7 +45,7 @@ import { CookiePolicyComponent } from './cookie-policy/cookie-policy.component';
           path: 'cookie-policy',
           component: CookiePolicyComponent,
           data: {
-            pageTitle: 'cookie-policy',
+            pageTitle: 'Cookie Policy',
           },
         },
         navbarRoute,
