@@ -232,8 +232,10 @@ public class TeamResource {
 
         if (team.isPresent()) {
             // Get team members.
+            log.debug("OK getting team members!");
             Set<UserProfile> teamMembers = new HashSet<>(userProfileRepository.findByTeamId(team.get().getId()));
             team.get().setMembers(teamMembers);
+            log.debug("Found " + teamMembers.size() + " team members.");
         }
 
         return ResponseUtil.wrapOrNotFound(team);

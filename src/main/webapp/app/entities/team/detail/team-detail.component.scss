@@ -60,6 +60,20 @@ html * {
 #teamDetailsContainer > .right * {
   margin-top: 0;
   margin-bottom: 0;
+  font-size: 1.2em;
+}
+
+.iconWithTextContainer {
+  display: flex;
+  gap: 0.4em;
+  align-items: center;
+
+  fa-icon,
+  img {
+    height: 1em;
+    width: 1em;
+    aspect-ratio: 1;
+  }
 }
 
 #teamDetailsContainer > .right > img {
@@ -72,12 +86,16 @@ html * {
   box-shadow: 0 0.25em 0.5em rgba(0, 0, 0, 0.1);
   margin-bottom: 0.5em;
 }
-#teamDetailsContainer > .right h1 {
-  font-size: 1.5em;
-  font-weight: 600;
-}
 
 /* Team Members */
+
+#noTeamMembersPresent {
+  background-color: #e6e6e6;
+  border-radius: 6px;
+  padding: 0.5em;
+  font-size: 1.5em;
+  margin: 1.3em;
+}
 
 #teamMembers {
   margin: 2em;
