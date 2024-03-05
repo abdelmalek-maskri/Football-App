@@ -1,0 +1,98 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+.container {
+  height: auto;
+  width: 75%;
+  aspect-ratio: 0.85;
+  box-shadow: 8px 8px 20px rgb(128, 128, 128);
+  overflow: hidden;
+  margin-top: 380px;
+  margin: auto;
+}
+
+.btn {
+  box-shadow: 10px 10px 30px rgb(254, 215, 188);
+  border-radius: 50px;
+}
+
+.login-page-title {
+  font-size: 2em;
+  margin-bottom: 0.25em;
+}
+
+.login-box,
+.signup-box {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5em;
+  padding-top: 2em;
+}
+
+.textField {
+  height: 10%;
+  width: 80%;
+  outline: none;
+  border: none;
+  color: rgb(77, 77, 77);
+  background-color: rgb(240, 240, 240);
+  border-radius: 1.5em;
+  padding-left: 4%;
+  padding-right: 4%;
+  font-size: 1.5em;
+}
+
+.nameTextField {
+  margin-bottom: 1em;
+}
+
+.clkbtn {
+  border-radius: 2em;
+  background-image: linear-gradient(to right, rgb(255, 195, 110), rgb(255, 146, 91));
+  font-size: 1.5em;
+  aspect-ratio: 12;
+  padding: 0.25em;
+  border: none;
+  cursor: pointer;
+  margin-bottom: 2em;
+}
+
+.form-check-label {
+  display: flex;
+  gap: 0.5em;
+  align-items: center;
+}
+
+.form-check {
+  margin-bottom: 1em;
+}
+
+.alert {
+  background-image: linear-gradient(to right, rgb(255, 195, 110), rgb(255, 146, 91));
+  max-width: 90%;
+  padding: 0.2em;
+}
+.alert-link {
+  font-family: Arial;
+  font-size: 1em;
+  padding: 1em;
+}
+
+.alert-link-register {
+  font-family: Arial;
+}
+.register-text {
+  font-family: Arial;
+  font-size: 1em;
+  padding: 1em;
+}
