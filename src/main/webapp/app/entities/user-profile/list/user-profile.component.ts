@@ -9,6 +9,10 @@ import { EntityArrayResponseType, UserProfileService } from '../service/user-pro
 import { UserProfileDeleteDialogComponent } from '../delete/user-profile-delete-dialog.component';
 import { DataUtils } from 'app/core/util/data-util.service';
 import { SortService } from 'app/shared/sort/sort.service';
+import { IUser } from '../../user/user.model';
+import { AccountService } from '../../../core/auth/account.service';
+import { UserService } from '../../user/user.service';
+import { Account } from '../../../core/auth/account.model';
 
 @Component({
   selector: 'jhi-user-profile',
@@ -16,8 +20,8 @@ import { SortService } from 'app/shared/sort/sort.service';
 })
 export class UserProfileComponent implements OnInit {
   userProfiles?: IUserProfile[];
+  theAccount?: Account;
   isLoading = false;
-
   predicate = 'id';
   ascending = true;
 
@@ -27,12 +31,18 @@ export class UserProfileComponent implements OnInit {
     public router: Router,
     protected sortService: SortService,
     protected dataUtils: DataUtils,
-    protected modalService: NgbModal
+    protected modalService: NgbModal,
+    private accountService: AccountService
   ) {}
 
   trackId = (_index: number, item: IUserProfile): number => this.userProfileService.getUserProfileIdentifier(item);
 
   ngOnInit(): void {
+    this.accountService.getAuthenticationState().subscribe(account => {
+      if (account) {
+        this.theAccount = account;
+      }
+    });
     this.load();
   }
 

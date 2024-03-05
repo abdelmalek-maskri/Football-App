@@ -8,6 +8,7 @@ import { isPresent } from 'app/core/util/operators';
 import { ApplicationConfigService } from 'app/core/config/application-config.service';
 import { createRequestOption } from 'app/core/request/request-util';
 import { IUserProfile, NewUserProfile } from '../user-profile.model';
+import { IUser } from '../../../admin/user-management/user-management.model';
 
 export type PartialUpdateUserProfile = Partial<IUserProfile> & Pick<IUserProfile, 'id'>;
 
@@ -27,9 +28,13 @@ export type EntityArrayResponseType = HttpResponse<IUserProfile[]>;
 @Injectable({ providedIn: 'root' })
 export class UserProfileService {
   protected resourceUrl = this.applicationConfigService.getEndpointFor('api/user-profiles');
+  private resourceUrlUser = this.applicationConfigService.getEndpointFor('api/admin/users');
 
   constructor(protected http: HttpClient, protected applicationConfigService: ApplicationConfigService) {}
 
+  findUser(login: string): Observable<IUser> {
+    return this.http.get<IUser>(`${this.resourceUrlUser}/${login}`);
+  }
   create(userProfile: NewUserProfile): Observable<EntityResponseType> {
     const copy = this.convertDateFromClient(userProfile);
     return this.http
