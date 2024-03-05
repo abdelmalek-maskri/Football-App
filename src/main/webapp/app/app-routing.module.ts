@@ -38,7 +38,7 @@ import { CookiePolicyComponent } from './cookie-policy/cookie-policy.component';
           path: 'gdpr',
           component: GdprPageComponent,
           data: {
-            pageTitle: 'gdpr page',
+            pageTitle: 'GDPR Policy',
           },
         },
         {
