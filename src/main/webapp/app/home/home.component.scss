@@ -1,3 +1,42 @@
+#homePageImage {
+  width: 100%;
+  height: auto;
+}
+
+.overlay {
+  position: absolute;
+  top: 0%;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+#LoggedInMessage {
+  color: white;
+  font-size: 2em;
+  max-width: 25%;
+  position: absolute;
+  top: 10%;
+  left: 3%;
+}
+
+#SignInButton {
+  color: black;
+  background-color: #5ada86;
+  font-size: 2em;
+  border-radius: 0.5em;
+  padding-left: 0.25em;
+  padding-right: 0.25em;
+  position: absolute;
+  top: 50px;
+  right: 15px;
+}
+
+// OLD HOME PAGE STYLES:
 /* ==========================================================================
 Main page styles
 ========================================================================== */
