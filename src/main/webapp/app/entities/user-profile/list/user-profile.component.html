@@ -127,6 +127,7 @@
                 <span class="d-none d-md-inline">View</span>
               </button>
               <button
+                *ngIf="theAccount?.id == userProfile.id"
                 type="submit"
                 [routerLink]="['/user-profile', userProfile.id, 'edit']"
                 class="btn btn-primary btn-sm"
@@ -136,7 +137,13 @@
                 <span class="d-none d-md-inline">Edit</span>
               </button>
 
-              <button type="submit" (click)="delete(userProfile)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+              <button
+                *ngIf="theAccount?.id == userProfile.id"
+                type="submit"
+                (click)="delete(userProfile)"
+                class="btn btn-danger btn-sm"
+                data-cy="entityDeleteButton"
+              >
                 <fa-icon icon="times"></fa-icon>
                 <span class="d-none d-md-inline">Delete</span>
               </button>
