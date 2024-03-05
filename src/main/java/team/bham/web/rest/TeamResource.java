@@ -190,6 +190,11 @@ public class TeamResource {
             throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
         }
 
+        // Authentication:
+        if (team.getOwner() == null || team.getOwner().getId() != userProfileService.getUserId()) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+        }
+
         Optional<Team> result = teamRepository
             .findById(team.getId())
             .map(existingTeam -> {
@@ -201,11 +206,6 @@ public class TeamResource {
                 }
                 if (team.getDescription() != null) {
                     existingTeam.setDescription(team.getDescription());
-
-                    // Authentication:
-                    if (team.getOwner() == null || team.getOwner().getId() != userProfileService.getUserId()) {
-                        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
-                    }
                 }
                 if (team.getImage() != null) {
                     existingTeam.setImage(team.getImage());
