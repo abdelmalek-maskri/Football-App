@@ -57,14 +57,19 @@
 }
 
 .clkbtn {
-  border-radius: 2em;
-  background-image: linear-gradient(to right, rgb(255, 195, 110), rgb(255, 146, 91));
-  font-size: 1.5em;
+  border-radius: 0.6em;
+  //background-image: linear-gradient(to right, rgb(255, 195, 110), rgb(255, 146, 91));
+  background: #02a65c;
+  font-size: 1.4em;
+  color: white;
+  font-weight: bold;
   aspect-ratio: 12;
   padding: 0.25em;
+  padding-left: 1em;
+  padding-right: 1em;
   border: none;
   cursor: pointer;
-  margin-bottom: 2em;
+  margin-bottom: 7em;
 }
 
 .form-check-label {
@@ -78,21 +83,48 @@
 }
 
 .alert {
-  background-image: linear-gradient(to right, rgb(255, 195, 110), rgb(255, 146, 91));
+  //background-image: linear-gradient(to right, rgb(255, 195, 110), rgb(255, 146, 91));
   max-width: 90%;
   padding: 0.2em;
+  //max-height: 100%;
 }
 .alert-link {
+  color: grey;
   font-family: Arial;
   font-size: 1em;
-  padding: 1em;
 }
 
 .alert-link-register {
   font-family: Arial;
+  color: grey;
+  padding: 0em;
+  margin-left: 0.5em;
+  text-decoration: none;
+  font-weight: bold;
+  :hover {
+    text-decoration: underline;
+  }
 }
 .register-text {
   font-family: Arial;
+  color: grey;
   font-size: 1em;
-  padding: 1em;
+  //padding: 1em;
+  padding-right: 0em;
+  text-decoration: none;
+}
+
+.alert-link-register:hover {
+  text-decoration: underline;
+}
+#forgotPasswordLink {
+  text-decoration: none;
+}
+.alert-link-register:hover,
+#forgotPasswordLink:hover {
+  text-decoration: underline;
+}
+input::placeholder {
+  font-size: 0.7em;
+  //background: black;
 }

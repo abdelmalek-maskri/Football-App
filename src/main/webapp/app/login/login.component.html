@@ -64,11 +64,13 @@
             <button type="submit" class="clkbtn" data-cy="submit">Sign in</button>
 
             <div class="alert">
-              <a class="alert-link" routerLink="/account/reset/request" data-cy="forgetYourPasswordSelector">Forgot your password?</a>
+              <a id="forgotPasswordLink" class="alert-link" routerLink="/account/reset/request" data-cy="forgetYourPasswordSelector"
+                >Forgot your password?</a
+              >
             </div>
             <div class="alert">
-              <div class="register-text">You don't have an account yet?</div>
-              <a class="alert-link-register" routerLink="/account/register">Register a new account</a>
+              <span class="register-text">Don't have an account yet?</span
+              ><a class="alert-link-register" routerLink="/account/register">Sign up</a>
             </div>
           </div>
         </form>
