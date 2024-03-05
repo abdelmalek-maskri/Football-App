@@ -3,6 +3,10 @@
 
   <h1 class="page-title">Team Profile</h1>
 
+  <jhi-alert-error></jhi-alert-error>
+
+  <jhi-alert></jhi-alert>
+
   <div id="teamDetailsContainer" class="section">
     <div class="left">
       <h2>{{ team.name }}</h2>
@@ -27,7 +31,7 @@
         <span>{{ team.schedule | titlecase }}</span>
       </div>
 
-      <a id="joinTeamButton">JOIN TEAM</a>
+      <a id="joinTeamButton" (click)="joinTeam(team.id)">JOIN TEAM</a>
     </div>
   </div>
 
