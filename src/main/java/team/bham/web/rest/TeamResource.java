@@ -320,6 +320,15 @@ public class TeamResource {
     @DeleteMapping("/teams/{id}")
     public ResponseEntity<Void> deleteTeam(@PathVariable Long id) {
         log.debug("REST request to delete Team : {}", id);
+
+        // Authentication:
+        Optional<Team> team = teamRepository.findById(id);
+        if (team.isPresent()) {
+            if (team.get().getOwner() == null || team.get().getOwner().getId() != userProfileService.getUserId()) {
+                throw new RuntimeException("Unauthorized: You are not the owner of this team.");
+            }
+        }
+
         teamRepository.deleteById(id);
         return ResponseEntity
             .noContent()
