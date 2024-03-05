@@ -7,6 +7,7 @@ import { AccountService } from 'app/core/auth/account.service';
 @Component({
   selector: 'jhi-main',
   templateUrl: './main.component.html',
+  styleUrls: ['./main.component.scss'],
 })
 export class MainComponent implements OnInit {
   constructor(private accountService: AccountService, private titleService: Title, private router: Router) {}
@@ -19,6 +20,12 @@ export class MainComponent implements OnInit {
       if (event instanceof NavigationEnd) {
         this.updateTitle();
       }
+    });
+    let cookiePopup = document.getElementById('cookiePopup')!;
+    cookiePopup.style.display = 'block';
+    let acceptButton = document.getElementById('acceptButton')!;
+    acceptButton.addEventListener('click', function handleClick() {
+      cookiePopup.style.display = 'none';
     });
   }
 

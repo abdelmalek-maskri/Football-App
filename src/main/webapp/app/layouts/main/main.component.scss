@@ -1,0 +1,26 @@
+#cookiePopup {
+  position: fixed;
+  display: block;
+  background-color: #ffffff;
+  bottom: 0;
+  left: 0;
+  border: 1px solid #ccc;
+  width: 300px;
+}
+
+#cookiePopup h3 {
+  margin-top: 0;
+}
+
+#cookiePopup p {
+  margin-bottom: 10px;
+}
+
+#cookiePopup button {
+  margin-top: 10px;
+  padding: 5px 10px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+}
