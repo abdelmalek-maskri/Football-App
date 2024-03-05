@@ -8,6 +8,7 @@ import { Authority } from 'app/config/authority.constants';
 
 import { UserRouteAccessService } from 'app/core/auth/user-route-access.service';
 import { GdprPageComponent } from 'app/gdpr-page/gdpr-page.component';
+import { CookiePolicyComponent } from './cookie-policy/cookie-policy.component';
 @NgModule({
   imports: [
     RouterModule.forRoot(
@@ -38,6 +39,13 @@ import { GdprPageComponent } from 'app/gdpr-page/gdpr-page.component';
           component: GdprPageComponent,
           data: {
             pageTitle: 'gdpr page',
+          },
+        },
+        {
+          path: 'cookie-policy',
+          component: CookiePolicyComponent,
+          data: {
+            pageTitle: 'cookie-policy',
           },
         },
         navbarRoute,
