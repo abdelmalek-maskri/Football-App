@@ -14,7 +14,6 @@ import { AccountService } from '../../../core/auth/account.service';
 export class UserProfileDetailComponent implements OnInit {
   theAccount?: Account;
   userProfile: IUserProfile | null = null;
-  theAccount?: Account;
 
   constructor(protected dataUtils: DataUtils, protected activatedRoute: ActivatedRoute, private accountService: AccountService) {}
 
