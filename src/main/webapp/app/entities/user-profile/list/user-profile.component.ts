@@ -9,17 +9,24 @@ import { EntityArrayResponseType, UserProfileService } from '../service/user-pro
 import { UserProfileDeleteDialogComponent } from '../delete/user-profile-delete-dialog.component';
 import { DataUtils } from 'app/core/util/data-util.service';
 import { SortService } from 'app/shared/sort/sort.service';
+import { IUser } from '../../user/user.model';
+import { AccountService } from '../../../core/auth/account.service';
+import { UserService } from '../../user/user.service';
+import { Account } from '../../../core/auth/account.model';
 
 @Component({
   selector: 'jhi-user-profile',
   templateUrl: './user-profile.component.html',
+  styleUrls: ['./user-profile.component.scss'],
 })
 export class UserProfileComponent implements OnInit {
   userProfiles?: IUserProfile[];
+  theAccount?: Account;
   isLoading = false;
-
   predicate = 'id';
   ascending = true;
+
+  searchQuery: string = '';
 
   constructor(
     protected userProfileService: UserProfileService,
@@ -27,12 +34,18 @@ export class UserProfileComponent implements OnInit {
     public router: Router,
     protected sortService: SortService,
     protected dataUtils: DataUtils,
-    protected modalService: NgbModal
+    protected modalService: NgbModal,
+    private accountService: AccountService
   ) {}
 
   trackId = (_index: number, item: IUserProfile): number => this.userProfileService.getUserProfileIdentifier(item);
 
   ngOnInit(): void {
+    this.accountService.getAuthenticationState().subscribe(account => {
+      if (account) {
+        this.theAccount = account;
+      }
+    });
     this.load();
   }
 
@@ -63,6 +76,18 @@ export class UserProfileComponent implements OnInit {
   load(): void {
     this.loadFromBackendWithRouteInformations().subscribe({
       next: (res: EntityArrayResponseType) => {
+        this.onResponseSuccess(res);
+      },
+    });
+  }
+
+  loadSearchResultsMP(hey: string): void {
+    this.isLoading = true;
+    console.log('Searching for Players w/ query: ' + this.searchQuery);
+    var a: Observable<EntityArrayResponseType> = this.userProfileService.searchMP(this.searchQuery);
+    a.subscribe({
+      next: (res: EntityArrayResponseType) => {
+        this.isLoading = false;
         this.onResponseSuccess(res);
       },
     });

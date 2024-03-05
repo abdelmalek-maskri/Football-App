@@ -3,17 +3,25 @@ import { ActivatedRoute } from '@angular/router';
 
 import { IUserProfile } from '../user-profile.model';
 import { DataUtils } from 'app/core/util/data-util.service';
+import { Account } from '../../../core/auth/account.model';
+import { AccountService } from '../../../core/auth/account.service';
 
 @Component({
   selector: 'jhi-user-profile-detail',
   templateUrl: './user-profile-detail.component.html',
 })
 export class UserProfileDetailComponent implements OnInit {
+  theAccount?: Account;
   userProfile: IUserProfile | null = null;
 
-  constructor(protected dataUtils: DataUtils, protected activatedRoute: ActivatedRoute) {}
+  constructor(protected dataUtils: DataUtils, protected activatedRoute: ActivatedRoute, private accountService: AccountService) {}
 
   ngOnInit(): void {
+    this.accountService.getAuthenticationState().subscribe(account => {
+      if (account) {
+        this.theAccount = account;
+      }
+    });
     this.activatedRoute.data.subscribe(({ userProfile }) => {
       this.userProfile = userProfile;
     });
