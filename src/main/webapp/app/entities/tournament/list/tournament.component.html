@@ -16,8 +16,12 @@
       <a class="link link2" href="/matches" target="_self">Matches</a>
     </div>
   </div>
-  <div class="right-nav">
-    <a id="join-button" href="/tournament/new">Join</a>
+  <!-- <div *ngFor="let tournament of tournaments">
+    <p>{{ tournament.name }}</p>
+    <button id="join-button" (click)="joinTournament(tournament.id)">Join</button>
+  </div> -->
+  <div>
+    <button id="join-button" (click)="joinTournament()">Join</button>
   </div>
 </div>
 

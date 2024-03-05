@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
+import javax.management.RuntimeErrorException;
 import javax.swing.text.html.Option;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
@@ -154,9 +155,9 @@ public class TournamentResource {
                 Team teamToAddToTournament = user.get().getTeam();
                 if (teamToAddToTournament != null) {
                     Set<Team> teamsInTournament = tournament.getTeams();
-
                     if (teamsInTournament.size() >= tournament.getMaxTeams()) {
                         // RETURN error message,
+                        throw new RuntimeException("Maximum number of teams in the tournament has been reached.");
                     }
 
                     boolean isTeamAlreadyInTournament = false;
@@ -170,6 +171,7 @@ public class TournamentResource {
                     if (isTeamAlreadyInTournament) {
                         // RETURN SOMETHING SAYING THAT ITS ALREADY IN
                         //return ResponseEntity. .....
+                        throw new RuntimeException("The team is already participating in the tournament.");
                     }
 
                     teamsInTournament.add(teamToAddToTournament);

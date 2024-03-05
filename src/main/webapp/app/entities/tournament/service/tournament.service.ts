@@ -83,6 +83,17 @@ export class TournamentService {
   //     .pipe(map(res => this.convertResponseFromServer(res)));
   // }
 
+  //abdelmalek
+  joinTournament(): Observable<HttpResponse<ITournament>> {
+    return this.http
+      .patch<RestTournament>(
+        `${this.resourceUrl}/${1051}/join`,
+        {}, // Empty body since the endpoint doesn't require any request body
+        { observe: 'response' }
+      )
+      .pipe(map(res => this.convertResponseFromServer(res)));
+  }
+  //abdelmalek
   addTournamentToCollectionIfMissing<Type extends Pick<ITournament, 'id'>>(
     tournamentCollection: Type[],
     ...tournamentsToCheck: (Type | null | undefined)[]
