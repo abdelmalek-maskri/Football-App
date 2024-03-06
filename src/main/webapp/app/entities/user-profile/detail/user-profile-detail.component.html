@@ -8,7 +8,7 @@
       <dl class="row-md jh-entity-details">
         <div class="text-center image-center">
           <dd>
-            <div *ngIf="userProfile.profilePic">
+            <div *ngIf="userProfile.profilePic; else noPic">
               <a (click)="openFile(userProfile.profilePic, userProfile.profilePicContentType)">
                 <img
                   [src]="'data:' + userProfile.profilePicContentType + ';base64,' + userProfile.profilePic"
@@ -26,6 +26,10 @@
             alt="is Referee"
             class="rating"
           />
+
+          <ng-template #noPic>
+            <img src="../../../content/images/DefaultProfilePicture.jpg" alt="default image" class="userProfilePic" />
+          </ng-template>
           <ng-template #playerTemplate>
             <img src="../../../content/images/PlayerIcon.svg" alt="is Player" class="rating" />
           </ng-template>
@@ -87,8 +91,14 @@
           </div>
 
           <dd>
-            <div *ngIf="userProfile.team">
-              <a [routerLink]="['/team', userProfile.team.id, 'view']">{{ userProfile.team.id }}</a>
+            <span>Team</span>
+            <div class="team-container">
+              <div *ngIf="userProfile.team">
+                <a [routerLink]="['/team', userProfile.team.id, 'view']" class="team-items">{{ usersTeam?.name }}</a>
+                <div *ngIf="usersTeam?.image; else playerTemplate" class="team-items">
+                  <img [src]="'data:' + usersTeam?.imageContentType + ';base64,' + usersTeam?.image" alt="team image" class="rating" />
+                </div>
+              </div>
             </div>
           </dd>
         </div>

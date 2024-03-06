@@ -86,3 +86,11 @@ div.pictures {
 .inactive {
   background-color: red;
 }
+
+.team-items {
+  display: inline-flex;
+  float: left;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Soft shadow */
+}
