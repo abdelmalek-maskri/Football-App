@@ -9,6 +9,7 @@ import { AccountService } from '../../../core/auth/account.service';
 @Component({
   selector: 'jhi-user-profile-detail',
   templateUrl: './user-profile-detail.component.html',
+  styleUrls: ['./user-profile-detail.component.scss'],
 })
 export class UserProfileDetailComponent implements OnInit {
   theAccount?: Account;
@@ -24,6 +25,11 @@ export class UserProfileDetailComponent implements OnInit {
     });
     this.activatedRoute.data.subscribe(({ userProfile }) => {
       this.userProfile = userProfile;
+    });
+    this.accountService.getAuthenticationState().subscribe(account => {
+      if (account) {
+        this.theAccount = account;
+      }
     });
   }
 
