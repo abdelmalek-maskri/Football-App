@@ -6,6 +6,8 @@ import { DataUtils } from 'app/core/util/data-util.service';
 
 import { Positions } from 'app/entities/enumerations/positions.model';
 
+import { TeamService } from '../service/team.service';
+
 @Component({
   selector: 'jhi-team-detail',
   templateUrl: './team-detail.component.html',
@@ -14,12 +16,29 @@ import { Positions } from 'app/entities/enumerations/positions.model';
 export class TeamDetailComponent implements OnInit {
   team: ITeam | null = null;
 
-  constructor(protected dataUtils: DataUtils, protected activatedRoute: ActivatedRoute) {}
+  constructor(protected dataUtils: DataUtils, protected activatedRoute: ActivatedRoute, protected teamService: TeamService) {}
 
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ team }) => {
       this.team = team;
     });
+  }
+
+  joinTeam(teamId: number): void {
+    console.log('Clicked join team on team id: ' + teamId);
+    console.log(111111111);
+    var response = this.teamService.joinTeam(teamId);
+
+    response.subscribe(res => {
+      console.log('RES:', res);
+      if (res != null) {
+        this.team = this.teamService.convertDateFromServer(res);
+      }
+    });
+    console.log(222222222);
+    //response.subscribe(resp => {
+    //console.log("RESULT:", resp.body);
+    //});
   }
 
   getNameOfPositionEnum(EnumName: Positions): string {
