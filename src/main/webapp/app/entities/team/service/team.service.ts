@@ -74,6 +74,10 @@ export class TeamService {
     return this.http.patch<RestTeam>(`${this.resourceUrl}/${teamId}/join`, { observe: 'response' });
   }
 
+  findTeam(teamId: number) {
+    return this.http.get<RestTeam>(`${this.resourceUrl}/${teamId}`, { observe: 'response' });
+  }
+
   delete(id: number): Observable<HttpResponse<{}>> {
     return this.http.delete(`${this.resourceUrl}/${id}`, { observe: 'response' });
   }
