@@ -7,6 +7,9 @@ import { DEBUG_INFO_ENABLED } from 'app/app.constants';
 import { Authority } from 'app/config/authority.constants';
 
 import { UserRouteAccessService } from 'app/core/auth/user-route-access.service';
+
+import { TestComponent } from 'app/test/test.component';
+
 import { GdprPageComponent } from 'app/gdpr-page/gdpr-page.component';
 import { CookiePolicyComponent } from './cookie-policy/cookie-policy.component';
 @NgModule({
@@ -33,7 +36,13 @@ import { CookiePolicyComponent } from './cookie-policy/cookie-policy.component';
           path: '',
           loadChildren: () => import(`./entities/entity-routing.module`).then(m => m.EntityRoutingModule),
         },
-
+        {
+          path: 'test',
+          component: TestComponent,
+          data: {
+            pageTitle: 'Testing!!!',
+          },
+        },
         {
           path: 'gdpr',
           component: GdprPageComponent,

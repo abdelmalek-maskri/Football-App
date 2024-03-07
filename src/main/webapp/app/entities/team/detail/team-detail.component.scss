@@ -5,6 +5,11 @@ html {
   margin-top: 3em;
 }
 
+#pageHolder {
+  margin-left: 15%;
+  margin-right: 15%;
+}
+
 html * {
   font-family: Arial;
   font-weight: 400;
@@ -18,7 +23,7 @@ html * {
   font-size: 3em;
   font-weight: 500;
   margin-left: 0.5em;
-  margin-top: 0.5em;
+  margin-top: 1em;
 }
 
 /* Team Profile */
@@ -57,9 +62,20 @@ html * {
   border-radius: 2%;
 }
 
-#teamDetailsContainer > .right * {
-  margin-top: 0;
-  margin-bottom: 0;
+.iconWithTextContainer {
+  display: flex;
+  gap: 0.4em;
+  align-items: center;
+
+  img {
+    height: 1.5em;
+    width: 1.5em;
+    aspect-ratio: 1;
+  }
+  span {
+    margin-left: 0;
+    font-size: 1.5em;
+  }
 }
 
 #teamDetailsContainer > .right > img {
@@ -72,12 +88,31 @@ html * {
   box-shadow: 0 0.25em 0.5em rgba(0, 0, 0, 0.1);
   margin-bottom: 0.5em;
 }
-#teamDetailsContainer > .right h1 {
-  font-size: 1.5em;
-  font-weight: 600;
+
+#joinTeamButton {
+  text-decoration: none;
+  height: auto;
+  font-size: 1.25em;
+  padding: 0.25em;
+  padding-right: 0.25em;
+  padding-top: 0.1em;
+  padding-bottom: 0.1em;
+  margin-top: 1em;
+
+  color: #ffffff;
+  background-color: #029352;
+  border-radius: 0.3em;
 }
 
 /* Team Members */
+
+#noTeamMembersPresent {
+  background-color: #e6e6e6;
+  border-radius: 6px;
+  padding: 0.5em;
+  font-size: 1.5em;
+  margin: 1.3em;
+}
 
 #teamMembers {
   margin: 2em;

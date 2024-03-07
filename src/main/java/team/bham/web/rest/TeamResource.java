@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -17,6 +18,8 @@ import team.bham.domain.UserProfile;
 import team.bham.repository.TeamRepository;
 import team.bham.repository.UserProfileRepository;
 import team.bham.repository.UserRepository;
+import team.bham.security.SecurityUtils;
+import team.bham.service.UserProfileService;
 import team.bham.web.rest.errors.BadRequestAlertException;
 import tech.jhipster.web.util.HeaderUtil;
 import tech.jhipster.web.util.ResponseUtil;
@@ -38,10 +41,13 @@ public class TeamResource {
 
     private final TeamRepository teamRepository;
     private final UserProfileRepository userProfileRepository;
+    private final UserProfileService userProfileService;
 
-    public TeamResource(TeamRepository teamRepository, UserProfileRepository userProfileRepository) {
+    public TeamResource(TeamRepository teamRepository, UserProfileRepository userProfileRepository, UserProfileService userProfileService) {
         this.teamRepository = teamRepository;
         this.userProfileRepository = userProfileRepository;
+
+        this.userProfileService = userProfileService;
     }
 
     /**
@@ -57,6 +63,21 @@ public class TeamResource {
         if (team.getId() != null) {
             throw new BadRequestAlertException("A new team cannot already have an ID", ENTITY_NAME, "idexists");
         }
+
+        Optional<Team> existingTeam = teamRepository.findOneByOwnerId(userProfileService.getUserId());
+        if (existingTeam.isPresent()) {
+            throw new RuntimeException("You have already created a team!");
+        }
+
+        // team.setOwner() to the authenticated user's UserProfile:
+        Optional<UserProfile> teamOwner = userProfileService.findUserProfile();
+        if (teamOwner.isPresent()) {
+            team.setOwner(teamOwner.get());
+            // TODO: Set teamOwner's team to this new team.
+        } else {
+            throw new RuntimeException("You have not created a User Profile yet!");
+        }
+
         Team result = teamRepository.save(team);
         return ResponseEntity
             .created(new URI("/api/teams/" + result.getId()))
@@ -89,11 +110,73 @@ public class TeamResource {
             throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
         }
 
+        if (userProfileService.findUserProfile().isEmpty()) {
+            throw new RuntimeException("You have not created a user profile yet!");
+        }
+        if (team.getOwner() == null || team.getOwner().getId() != userProfileService.getUserId()) {
+            throw new RuntimeException("Unauthorized: You are not the owner of this team.");
+        }
+
         Team result = teamRepository.save(team);
         return ResponseEntity
             .ok()
             .headers(HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, team.getId().toString()))
             .body(result);
+    }
+
+    /**
+     * {@code PATCH  /teams/:id/join} : Partial updates given fields of an existing team, field will ignore if it is null
+     *
+     * @param id the id of the team to join.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated team,
+     * or with status {@code 400 (Bad Request)} if the team is not valid,
+     * or with status {@code 404 (Not Found)} if the team is not found,
+     * or with status {@code 500 (Internal Server Error)} if the team couldn't be updated.
+     * @throws URISyntaxException if the Location URI syntax is incorrect.
+     */
+    @PatchMapping(value = "/teams/{id}/join")
+    public ResponseEntity<Team> partialUpdateTeam(@PathVariable(value = "id", required = false) final Long id) throws URISyntaxException {
+        log.debug("REST request to join a team : {}", id);
+
+        // Find Team:
+        Optional<Team> team = teamRepository.findById(id);
+        if (team.isEmpty()) {
+            throw new BadRequestAlertException("Invalid team id", ENTITY_NAME, "idnull");
+        }
+
+        //if (id == 1451) {
+        //    throw new RuntimeException("CANNOT JOIN THIS BLACKLISTED TEAM");
+        //}
+
+        // Find UserProfile:
+        Optional<UserProfile> userProfile = userProfileService.findUserProfile();
+
+        if (userProfile.isPresent()) {
+            // Update UserProfile's Team:
+            Optional<UserProfile> result = userProfileRepository
+                .findById(userProfile.get().getId())
+                .map(existingUserProfile -> {
+                    existingUserProfile.setTeam(team.get());
+                    // existingUserProfile.setTeamOwned(null); // maybe ??
+
+                    return existingUserProfile;
+                })
+                .map(userProfileRepository::save);
+
+            Optional<Team> updatedTeam = teamRepository.findById(id);
+            if (updatedTeam.isPresent()) {
+                // Get team members.
+                Set<UserProfile> teamMembers = new HashSet<>(userProfileRepository.findByTeamId(updatedTeam.get().getId()));
+                updatedTeam.get().setMembers(teamMembers);
+            }
+
+            return ResponseEntity
+                .status(HttpStatus.OK)
+                .header("app-alert", "You are now a member of the team " + updatedTeam.get().getName())
+                .body(updatedTeam.get());
+        } else {
+            throw new RuntimeException("You have not created a user profile yet!");
+        }
     }
 
     /**
@@ -122,6 +205,11 @@ public class TeamResource {
 
         if (!teamRepository.existsById(id)) {
             throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
+        }
+
+        // Authentication:
+        if (team.getOwner() == null || team.getOwner().getId() != userProfileService.getUserId()) {
+            throw new RuntimeException("Unauthorized: You are not the owner of this team.");
         }
 
         Optional<Team> result = teamRepository
@@ -232,8 +320,10 @@ public class TeamResource {
 
         if (team.isPresent()) {
             // Get team members.
+            log.debug("OK getting team members!");
             Set<UserProfile> teamMembers = new HashSet<>(userProfileRepository.findByTeamId(team.get().getId()));
             team.get().setMembers(teamMembers);
+            log.debug("Found " + teamMembers.size() + " team members.");
         }
 
         return ResponseUtil.wrapOrNotFound(team);
@@ -248,6 +338,15 @@ public class TeamResource {
     @DeleteMapping("/teams/{id}")
     public ResponseEntity<Void> deleteTeam(@PathVariable Long id) {
         log.debug("REST request to delete Team : {}", id);
+
+        // Authentication:
+        Optional<Team> team = teamRepository.findById(id);
+        if (team.isPresent()) {
+            if (team.get().getOwner() == null || team.get().getOwner().getId() != userProfileService.getUserId()) {
+                throw new RuntimeException("Unauthorized: You are not the owner of this team.");
+            }
+        }
+
         teamRepository.deleteById(id);
         return ResponseEntity
             .noContent()
