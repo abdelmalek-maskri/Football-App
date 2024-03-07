@@ -193,8 +193,11 @@ public class TournamentResource {
                         HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, tournament.getId().toString())
                     );
                     */
-
+                } else {
+                    throw new RuntimeException("You must be a member of a team before you can join this tournament.");
                 }
+            } else {
+                throw new RuntimeException("You must create a user profile and join a team before you can enroll into a tournament!");
             }
             //
 
