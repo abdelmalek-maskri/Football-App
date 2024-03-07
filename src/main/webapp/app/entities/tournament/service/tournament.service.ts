@@ -87,7 +87,7 @@ export class TournamentService {
   joinTournament(): Observable<HttpResponse<ITournament>> {
     return this.http
       .patch<RestTournament>(
-        `${this.resourceUrl}/${1051}/join`,
+        `${this.resourceUrl}/join`,
         {}, // Empty body since the endpoint doesn't require any request body
         { observe: 'response' }
       )
