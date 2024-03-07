@@ -144,6 +144,10 @@ public class TeamResource {
             throw new BadRequestAlertException("Invalid team id", ENTITY_NAME, "idnull");
         }
 
+        //if (id == 1451) {
+        //    throw new RuntimeException("CANNOT JOIN THIS BLACKLISTED TEAM");
+        //}
+
         // Find UserProfile:
         Optional<UserProfile> userProfile = userProfileService.findUserProfile();
 
@@ -160,7 +164,16 @@ public class TeamResource {
                 .map(userProfileRepository::save);
 
             Optional<Team> updatedTeam = teamRepository.findById(id);
-            return ResponseEntity.status(HttpStatus.OK).body(updatedTeam.get());
+            if (updatedTeam.isPresent()) {
+                // Get team members.
+                Set<UserProfile> teamMembers = new HashSet<>(userProfileRepository.findByTeamId(updatedTeam.get().getId()));
+                updatedTeam.get().setMembers(teamMembers);
+            }
+
+            return ResponseEntity
+                .status(HttpStatus.OK)
+                .header("app-alert", "You are now a member of the team " + updatedTeam.get().getName())
+                .body(updatedTeam.get());
         } else {
             throw new RuntimeException("You have not created a user profile yet!");
         }

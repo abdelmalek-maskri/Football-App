@@ -1,7 +1,10 @@
-<div *ngIf="team" id="muneebsWork">
+<div id="pageHolder" *ngIf="team">
   <!-- MUNEEB -->
 
   <h1 class="page-title">Team Profile</h1>
+
+  <jhi-alert-error></jhi-alert-error>
+  <jhi-alert></jhi-alert>
 
   <div id="teamDetailsContainer" class="section">
     <div class="left">
@@ -27,9 +30,12 @@
         <span>{{ team.schedule | titlecase }}</span>
       </div>
 
-      <a id="joinTeamButton">JOIN TEAM</a>
+      <a id="joinTeamButton" (click)="joinTeam(team.id)">JOIN TEAM</a>
     </div>
   </div>
+
+  <jhi-alert-error></jhi-alert-error>
+  <jhi-alert></jhi-alert>
 
   <div *ngIf="team.members; else noTeamMembers" id="teamMembers" class="section">
     <h2>Members ({{ team.members.length }})</h2>

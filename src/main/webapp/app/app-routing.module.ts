@@ -41,7 +41,7 @@ import { CookiePolicyComponent } from './cookie-policy/cookie-policy.component';
           component: TestComponent,
           data: {
             pageTitle: 'Testing!!!',
-          }
+          },
         },
         {
           path: 'gdpr',
