@@ -275,7 +275,9 @@ public class TournamentResource {
     public List<Tournament> getAllTournaments(@RequestParam(required = false, defaultValue = "false") boolean eagerload) {
         log.debug("REST request to get all Tournaments");
         if (eagerload) {
-            return tournamentRepository.findAllWithEagerRelationships();
+            List<Tournament> results = tournamentRepository.findAllWithEagerRelationships();
+
+            return results;
         } else {
             return tournamentRepository.findAll();
         }

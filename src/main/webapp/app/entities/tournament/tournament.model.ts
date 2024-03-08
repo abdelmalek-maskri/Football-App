@@ -8,7 +8,8 @@ export interface ITournament {
   endDate?: dayjs.Dayjs | null;
   location?: string | null;
   maxTeams?: number | null;
-  teams?: Pick<ITeam, 'id'>[] | null;
+  // teams?: Pick<ITeam, 'id'>[] | null;
+  teams?: ITeam[] | null;
 }
 
 export type NewTournament = Omit<ITournament, 'id'> & { id: null };
