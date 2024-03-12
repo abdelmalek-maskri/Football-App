@@ -14,7 +14,7 @@
   overflow: hidden;
   margin: auto;
   padding: 2em;
-  margin-top: 2em;
+  margin-top: 3em;
 }
 
 .alert {
@@ -85,6 +85,16 @@
 
 .form-check {
   margin-bottom: 1em;
+}
+
+.authentication-error {
+  background: #f52c2c;
+  border-radius: 2em;
+  padding: 1em;
+}
+.authText {
+  font-size: 1em;
+  color: white;
 }
 
 .alert {

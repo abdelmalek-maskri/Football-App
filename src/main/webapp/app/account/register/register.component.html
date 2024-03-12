@@ -2,15 +2,6 @@
   <div class="d-flex justify-content-center">
     <div class="col-md-8">
       <div class="container">
-        <div class="alert alert-success" *ngIf="success">
-          <strong>Registration saved!</strong> Please check your email for confirmation.
-        </div>
-        <div class="alert alert-danger" *ngIf="error"><strong>Registration failed!</strong> Please try again later.</div>
-        <div class="alert alert-danger" *ngIf="errorUserExists">
-          <strong>Login name already registered!</strong> Please choose another one.
-        </div>
-        <div class="alert alert-danger" *ngIf="errorEmailExists"><strong>Email is already in use!</strong> Please choose another one.</div>
-        <div class="alert alert-danger" *ngIf="doNotMatch">The password and its confirmation do not match!</div>
         <div class="d-flex justify-content-center">
           <div class="col-md-8">
             <form name="form" role="form" (ngSubmit)="register()" [formGroup]="registerForm" *ngIf="!success">
@@ -127,6 +118,17 @@
                   </small>
                 </div>
                 <button type="submit" [disabled]="registerForm.invalid" class="clkbtn" data-cy="submit">REGISTER</button>
+                <div class="alert alert-success" *ngIf="success">
+                  <strong>Registration saved!</strong>
+                </div>
+                <div class="authentication-error authText" *ngIf="error"><strong>Registration failed!</strong> Please try again later.</div>
+                <div class="authentication-error authText" *ngIf="errorUserExists">
+                  <strong>Login name already registered!</strong> Please choose another one.
+                </div>
+                <div class="authentication-error authText" *ngIf="errorEmailExists">
+                  <strong>Email is already in use!</strong> Please choose another one.
+                </div>
+                <div class="authentication-error authText" *ngIf="doNotMatch">The password and its confirmation do not match!</div>
               </div>
             </form>
           </div>

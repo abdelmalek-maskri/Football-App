@@ -23,12 +23,15 @@
 <div>
   <div class="d-flex justify-content-center">
     <div class="col-lg-6 col-md-8 col-sm-10">
-      <div class="alert alert-danger" *ngIf="authenticationError" data-cy="loginError">
-        <strong>Failed to sign in!</strong> Please check your credentials and try again.
-      </div>
-
       <div class="container">
-        <form class="form" role="form" (ngSubmit)="login()" [formGroup]="loginForm">
+        <form
+          (focus)="resetAuthenticationError()"
+          (input)="resetAuthenticationError()"
+          class="form"
+          role="form"
+          (ngSubmit)="login()"
+          [formGroup]="loginForm"
+        >
           <div class="login-box">
             <h2 class="login-page-title">Login</h2>
 
@@ -62,6 +65,10 @@
             </div>
 
             <button type="submit" class="clkbtn" data-cy="submit">Sign in</button>
+
+            <div class="authentication-error authText" *ngIf="authenticationError" data-cy="loginError">
+              <strong>Failed to sign in!</strong> Please check your credentials and try again.
+            </div>
 
             <a id="forgotPasswordLink" class="alert-link" routerLink="/account/reset/request" data-cy="forgetYourPasswordSelector"
               >Forgot your password?</a
