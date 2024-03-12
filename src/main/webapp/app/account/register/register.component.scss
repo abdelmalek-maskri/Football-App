@@ -36,9 +36,8 @@
   width: 75%;
   box-shadow: 8px 8px 20px rgb(128, 128, 128);
   overflow: hidden;
-  margin: auto;
   padding: 2em;
-  margin-top: 2em;
+  margin: 3em auto auto;
 }
 .register-page-title {
   font-size: 2em;
@@ -65,7 +64,7 @@
   border-radius: 1.5em;
   padding-left: 4%;
   padding-right: 4%;
-  font-size: 1.7em;
+  font-size: 1.6em;
 }
 
 .globalLabel {
@@ -75,4 +74,13 @@
 input::placeholder {
   font-size: 0.7em;
   //background: black;
+}
+.authentication-error {
+  background: #f52c2c;
+  border-radius: 2em;
+  padding: 1em;
+}
+.authText {
+  font-size: 1em;
+  color: white;
 }

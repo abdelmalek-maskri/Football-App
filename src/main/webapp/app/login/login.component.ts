@@ -50,16 +50,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
     });
   }
 
-  toggleForm(formType: string): void {
-    const slider = document.querySelector('.slider') as HTMLElement;
-    const formSection = document.querySelector('.form-section') as HTMLElement;
-
-    if (formType === 'login') {
-      slider.classList.remove('moveslider');
-      formSection.classList.remove('form-section-move');
-    } else if (formType === 'signup') {
-      slider.classList.add('moveslider');
-      formSection.classList.add('form-section-move');
-    }
+  resetAuthenticationError(): void {
+    this.authenticationError = false;
   }
 }
