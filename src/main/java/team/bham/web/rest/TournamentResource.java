@@ -119,35 +119,30 @@ public class TournamentResource {
     }
 
     /**
-     * {@code PATCH  /tournaments/:id/join} : Partial updates given fields of an existing tournament, field will ignore if it is null
+     * {@code PATCH  /tournaments/join} : Partial updates given fields of an existing tournament, field will ignore if it is null
      *
-     * @param id the id of the tournament to save.
-     * @param tournament the tournament to update.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated tournament,
      * or with status {@code 400 (Bad Request)} if the tournament is not valid,
      * or with status {@code 404 (Not Found)} if the tournament is not found,
      * or with status {@code 500 (Internal Server Error)} if the tournament couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
-    @PatchMapping(value = "/tournaments/{id}/join")
-    public ResponseEntity<Optional<Tournament>> joinTournament(@PathVariable(value = "id", required = true) final Long id)
-        throws URISyntaxException {
-        log.debug("REST request to join a tournament with: {}", id);
-
-        Optional<Tournament> findTourney = tournamentRepository.findById(id);
-
-        if (findTourney.isEmpty()) {
-            throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
+    @PatchMapping(value = "/tournaments/join")
+    public ResponseEntity<Optional<Tournament>> joinTournament() throws URISyntaxException {
+        List<Tournament> allTournaments = tournamentRepository.findAll();
+        if (allTournaments.size() == 0) {
+            throw new RuntimeException("Sorry, there are no active tournaments right now.");
         }
 
-        Tournament tournament = findTourney.get();
+        Tournament tournament = allTournaments.get(0);
+        Long id = tournament.getId();
+        log.debug("REST request to join a tournament with: {}", id);
 
         if (!tournamentRepository.existsById(id)) {
             throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
         }
 
         // Our part
-
         Optional<User> userLoggedIn = SecurityUtils.getCurrentUserLogin().flatMap(userRepository::findOneWithAuthoritiesByLogin);
         if (userLoggedIn.isPresent()) {
             Optional<UserProfile> user = userProfileRepository.findById(userLoggedIn.get().getId());
@@ -171,7 +166,7 @@ public class TournamentResource {
                     if (isTeamAlreadyInTournament) {
                         // RETURN SOMETHING SAYING THAT ITS ALREADY IN
                         //return ResponseEntity. .....
-                        throw new RuntimeException("The team is already participating in the tournament.");
+                        throw new RuntimeException("Your team is already participating in the tournament.");
                     }
 
                     teamsInTournament.add(teamToAddToTournament);
@@ -188,15 +183,21 @@ public class TournamentResource {
                         })
                         .map(tournamentRepository::save);
 
-                    return ResponseEntity.status(HttpStatus.OK).body(result);
-                    /* 
+                    return ResponseEntity
+                        .status(HttpStatus.OK)
+                        .header("app-alert", "Your team has been added to the tournament: " + tournament.getName())
+                        .body(result);
+                    /*
                     return ResponseUtil.wrapOrNotFound(
                         result,
                         HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, tournament.getId().toString())
                     );
                     */
-
+                } else {
+                    throw new RuntimeException("You must be a member of a team before you can join this tournament.");
                 }
+            } else {
+                throw new RuntimeException("You must create a user profile and join a team before you can enroll into a tournament!");
             }
             //
 
@@ -274,7 +275,9 @@ public class TournamentResource {
     public List<Tournament> getAllTournaments(@RequestParam(required = false, defaultValue = "false") boolean eagerload) {
         log.debug("REST request to get all Tournaments");
         if (eagerload) {
-            return tournamentRepository.findAllWithEagerRelationships();
+            List<Tournament> results = tournamentRepository.findAllWithEagerRelationships();
+
+            return results;
         } else {
             return tournamentRepository.findAll();
         }

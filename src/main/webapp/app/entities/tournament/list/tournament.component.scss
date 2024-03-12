@@ -4,6 +4,7 @@
 Navbar
 ========================================================================== */
 @import url('https://fonts.googleapis.com/css2?family=Anton&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap');
 
 html {
   background-color: #eeeeee;
@@ -25,10 +26,17 @@ html * {
   flex-wrap: wrap;
   width: 100%;
   position: fixed;
-  top: 45px;
+  top: 60px;
   left: 0;
   z-index: 1000;
   height: 50px;
+}
+
+.topAlert {
+  position: fixed;
+  top: 120px;
+  left: 10%;
+  width: 80%;
 }
 
 .left-nav {
@@ -105,6 +113,7 @@ html * {
   transition: all 1ms ease;
   border: none;
   margin-right: 1.5em;
+  // margin-top: 200px;
 }
 
 #join-button:hover {
@@ -116,7 +125,8 @@ html * {
   width: 100%;
   margin: 0;
   height: 95vh;
-  padding-top: 50px;
+  padding-top: 45px;
+  margin-bottom: 200px;
 }
 .image-container h2 {
   position: absolute;
@@ -125,16 +135,155 @@ html * {
   font-size: 5.5vw;
   text-transform: uppercase;
   right: 10%;
-  top: 10%;
+  top: 8%;
   width: 30vw;
   line-height: 6vw;
   text-shadow: 5px 3px 0px var(--rt-dark-blue);
   font-weight: 500;
   margin-bottom: 0.5rem;
   margin-top: 0;
-  transition: color 1ms ease;
+  transition: color 1ms ease-in-out;
   font-family: 'Anton', sans-serif;
 }
 .image-container h2:hover {
   color: #5ada86;
 }
+
+.container-page {
+  background-color: #e6e6e6;
+}
+
+.title {
+  //position: absolute;
+  //left:39%;
+  //top:55%;
+  font-family: 'Anton', sans-serif;
+  padding-bottom: 50px;
+  font-size: 5.5vw;
+  text-transform: uppercase;
+  line-height: 6vw;
+  text-shadow: 1px 1px 0px rgba(0, 0, 0, 0.5);
+
+  // background gradient
+  background: linear-gradient(to right, white, white 50%, black 50%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+
+  // background size and position
+  background-size: 202% 102%;
+  background-position: 100%;
+
+  // transition effect
+  transition: background-position 235ms ease-in-out;
+}
+
+.title:hover {
+  background-position: 0%;
+}
+
+.tournament-container {
+  display: flex;
+  flex-wrap: no-wrap;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 20px;
+  margin-top: 6em;
+}
+
+.tournament-card {
+  background-color: #5ada86;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  margin: 10px;
+  padding: 20px;
+  width: 85vw;
+}
+
+.tournament-details {
+  margin: 0;
+}
+
+.detail {
+  margin-bottom: 10px;
+}
+
+.team-list {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5vw;
+}
+
+.team-list img {
+  max-height: 7vh;
+  max-width: 7wh;
+  aspect-ratio: 1;
+  border-radius: 10%;
+}
+
+.team-item {
+  margin-bottom: 5px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.team-item {
+  text-decoration: none;
+  color: black;
+}
+
+.team-link {
+  color: #007bff;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.team-link:hover {
+  color: #0056b3;
+}
+
+// .tournament-container {
+//   display: flex;
+//   flex-wrap: wrap;
+//   justify-content: center; /* Center horizontally */
+//   align-items: center; /* Center vertically */
+// }
+
+// .tournament-card {
+//   background-color: #f0f0f0;
+//   padding: 20px;
+//   border-radius: 8px;
+//   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+//   width: calc(50% - 20px);
+//   margin: 10px; /* Adjust margin as needed */
+// }
+
+// .tournament-details h3 {
+//   margin-top: 0;
+// }
+
+// .tournament-details .detail {
+//   margin-bottom: 5px;
+// }
+
+// .tournament-details .team-list {
+//   margin-top: 10px;
+//   padding-left: 20px; /* Adjust indentation as needed */
+// }
+
+// .tournament-details .team-item {
+//   margin-bottom: 5px;
+// }
+
+// .tournament-details .team-link {
+//   color: #007bff; /* Change link color as needed */
+//   text-decoration: none;
+// }
+
+// .tournament-details .team-link:hover {
+//   text-decoration: underline;
+// }
