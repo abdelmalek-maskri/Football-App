@@ -2,32 +2,19 @@ package team.bham.web.rest;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.Set;
-import javax.management.RuntimeErrorException;
-import javax.swing.text.html.Option;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.method.P;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
-import team.bham.domain.Team;
 import team.bham.domain.Tournament;
-import team.bham.domain.User;
-import team.bham.domain.UserProfile;
-import team.bham.repository.TeamRepository;
 import team.bham.repository.TournamentRepository;
-import team.bham.repository.UserProfileRepository;
-import team.bham.repository.UserRepository;
-import team.bham.security.SecurityUtils;
 import team.bham.web.rest.errors.BadRequestAlertException;
 import tech.jhipster.web.util.HeaderUtil;
 import tech.jhipster.web.util.ResponseUtil;
@@ -48,20 +35,9 @@ public class TournamentResource {
     private String applicationName;
 
     private final TournamentRepository tournamentRepository;
-    private final TeamRepository teamRepository;
-    private final UserProfileRepository userProfileRepository;
-    private final UserRepository userRepository;
 
-    public TournamentResource(
-        TournamentRepository tournamentRepository,
-        TeamRepository teamRepository,
-        UserProfileRepository userProfileRepository,
-        UserRepository userRepository
-    ) {
+    public TournamentResource(TournamentRepository tournamentRepository) {
         this.tournamentRepository = tournamentRepository;
-        this.teamRepository = teamRepository;
-        this.userProfileRepository = userProfileRepository;
-        this.userRepository = userRepository;
     }
 
     /**
@@ -116,96 +92,6 @@ public class TournamentResource {
             .ok()
             .headers(HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, tournament.getId().toString()))
             .body(result);
-    }
-
-    /**
-     * {@code PATCH  /tournaments/join} : Partial updates given fields of an existing tournament, field will ignore if it is null
-     *
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated tournament,
-     * or with status {@code 400 (Bad Request)} if the tournament is not valid,
-     * or with status {@code 404 (Not Found)} if the tournament is not found,
-     * or with status {@code 500 (Internal Server Error)} if the tournament couldn't be updated.
-     * @throws URISyntaxException if the Location URI syntax is incorrect.
-     */
-    @PatchMapping(value = "/tournaments/join")
-    public ResponseEntity<Optional<Tournament>> joinTournament() throws URISyntaxException {
-        List<Tournament> allTournaments = tournamentRepository.findAll();
-        if (allTournaments.size() == 0) {
-            throw new RuntimeException("Sorry, there are no active tournaments right now.");
-        }
-
-        Tournament tournament = allTournaments.get(0);
-        Long id = tournament.getId();
-        log.debug("REST request to join a tournament with: {}", id);
-
-        if (!tournamentRepository.existsById(id)) {
-            throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
-        }
-
-        // Our part
-        Optional<User> userLoggedIn = SecurityUtils.getCurrentUserLogin().flatMap(userRepository::findOneWithAuthoritiesByLogin);
-        if (userLoggedIn.isPresent()) {
-            Optional<UserProfile> user = userProfileRepository.findById(userLoggedIn.get().getId());
-            if (user.isPresent()) {
-                Team teamToAddToTournament = user.get().getTeam();
-                if (teamToAddToTournament != null) {
-                    Set<Team> teamsInTournament = tournament.getTeams();
-                    if (teamsInTournament.size() >= tournament.getMaxTeams()) {
-                        // RETURN error message,
-                        throw new RuntimeException("Maximum number of teams in the tournament has been reached.");
-                    }
-
-                    boolean isTeamAlreadyInTournament = false;
-                    for (Team team : teamsInTournament) {
-                        if (team.getId() == teamToAddToTournament.getId()) {
-                            isTeamAlreadyInTournament = true;
-                            break;
-                        }
-                    }
-
-                    if (isTeamAlreadyInTournament) {
-                        // RETURN SOMETHING SAYING THAT ITS ALREADY IN
-                        //return ResponseEntity. .....
-                        throw new RuntimeException("Your team is already participating in the tournament.");
-                    }
-
-                    teamsInTournament.add(teamToAddToTournament);
-                    tournament.setTeams(teamsInTournament);
-
-                    // Update the teams of the tournament.
-
-                    Optional<Tournament> result = tournamentRepository
-                        .findById(tournament.getId())
-                        .map(existingTournament -> {
-                            existingTournament.setTeams(teamsInTournament);
-
-                            return existingTournament;
-                        })
-                        .map(tournamentRepository::save);
-
-                    return ResponseEntity
-                        .status(HttpStatus.OK)
-                        .header("app-alert", "Your team has been added to the tournament: " + tournament.getName())
-                        .body(result);
-                    /*
-                    return ResponseUtil.wrapOrNotFound(
-                        result,
-                        HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, tournament.getId().toString())
-                    );
-                    */
-                } else {
-                    throw new RuntimeException("You must be a member of a team before you can join this tournament.");
-                }
-            } else {
-                throw new RuntimeException("You must create a user profile and join a team before you can enroll into a tournament!");
-            }
-            //
-
-        }
-        //OurPart ends here
-
-        Optional<Tournament> emptyTournamentOptional = Optional.empty();
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(emptyTournamentOptional);
     }
 
     /**
@@ -275,9 +161,7 @@ public class TournamentResource {
     public List<Tournament> getAllTournaments(@RequestParam(required = false, defaultValue = "false") boolean eagerload) {
         log.debug("REST request to get all Tournaments");
         if (eagerload) {
-            List<Tournament> results = tournamentRepository.findAllWithEagerRelationships();
-
-            return results;
+            return tournamentRepository.findAllWithEagerRelationships();
         } else {
             return tournamentRepository.findAll();
         }

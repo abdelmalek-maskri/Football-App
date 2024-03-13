@@ -2,6 +2,8 @@ package team.bham.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 import javax.persistence.*;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
@@ -29,9 +31,10 @@ public class Pitch implements Serializable {
     @Column(name = "location")
     private String location;
 
-    @JsonIgnoreProperties(value = { "pitch", "team" }, allowSetters = true)
-    @OneToOne(mappedBy = "pitch")
-    private PitchBooking pitchBooking;
+    @OneToMany(mappedBy = "pitch")
+    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+    @JsonIgnoreProperties(value = { "team", "pitch" }, allowSetters = true)
+    private Set<PitchBooking> pitchBookings = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -74,22 +77,34 @@ public class Pitch implements Serializable {
         this.location = location;
     }
 
-    public PitchBooking getPitchBooking() {
-        return this.pitchBooking;
+    public Set<PitchBooking> getPitchBookings() {
+        return this.pitchBookings;
     }
 
-    public void setPitchBooking(PitchBooking pitchBooking) {
-        if (this.pitchBooking != null) {
-            this.pitchBooking.setPitch(null);
+    public void setPitchBookings(Set<PitchBooking> pitchBookings) {
+        if (this.pitchBookings != null) {
+            this.pitchBookings.forEach(i -> i.setPitch(null));
         }
-        if (pitchBooking != null) {
-            pitchBooking.setPitch(this);
+        if (pitchBookings != null) {
+            pitchBookings.forEach(i -> i.setPitch(this));
         }
-        this.pitchBooking = pitchBooking;
+        this.pitchBookings = pitchBookings;
     }
 
-    public Pitch pitchBooking(PitchBooking pitchBooking) {
-        this.setPitchBooking(pitchBooking);
+    public Pitch pitchBookings(Set<PitchBooking> pitchBookings) {
+        this.setPitchBookings(pitchBookings);
+        return this;
+    }
+
+    public Pitch addPitchBooking(PitchBooking pitchBooking) {
+        this.pitchBookings.add(pitchBooking);
+        pitchBooking.setPitch(this);
+        return this;
+    }
+
+    public Pitch removePitchBooking(PitchBooking pitchBooking) {
+        this.pitchBookings.remove(pitchBooking);
+        pitchBooking.setPitch(null);
         return this;
     }
 

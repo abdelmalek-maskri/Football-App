@@ -23,9 +23,8 @@
     {
       "otherEntityName": "pitchBooking",
       "otherEntityRelationshipName": "pitch",
-      "ownerSide": false,
       "relationshipName": "pitchBooking",
-      "relationshipType": "one-to-one"
+      "relationshipType": "one-to-many"
     }
   ],
   "service": "no"

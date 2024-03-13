@@ -36,8 +36,8 @@ type PitchBookingFormGroupContent = {
   bookingDate: FormControl<PitchBookingFormRawValue['bookingDate']>;
   startTime: FormControl<PitchBookingFormRawValue['startTime']>;
   endTime: FormControl<PitchBookingFormRawValue['endTime']>;
-  pitch: FormControl<PitchBookingFormRawValue['pitch']>;
   team: FormControl<PitchBookingFormRawValue['team']>;
+  pitch: FormControl<PitchBookingFormRawValue['pitch']>;
 };
 
 export type PitchBookingFormGroup = FormGroup<PitchBookingFormGroupContent>;
@@ -66,8 +66,8 @@ export class PitchBookingFormService {
       endTime: new FormControl(pitchBookingRawValue.endTime, {
         validators: [Validators.required],
       }),
-      pitch: new FormControl(pitchBookingRawValue.pitch),
       team: new FormControl(pitchBookingRawValue.team),
+      pitch: new FormControl(pitchBookingRawValue.pitch),
     });
   }
 

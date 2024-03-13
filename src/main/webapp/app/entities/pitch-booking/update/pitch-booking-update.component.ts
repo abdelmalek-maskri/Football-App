@@ -7,10 +7,10 @@ import { finalize, map } from 'rxjs/operators';
 import { PitchBookingFormService, PitchBookingFormGroup } from './pitch-booking-form.service';
 import { IPitchBooking } from '../pitch-booking.model';
 import { PitchBookingService } from '../service/pitch-booking.service';
-import { IPitch } from 'app/entities/pitch/pitch.model';
-import { PitchService } from 'app/entities/pitch/service/pitch.service';
 import { ITeam } from 'app/entities/team/team.model';
 import { TeamService } from 'app/entities/team/service/team.service';
+import { IPitch } from 'app/entities/pitch/pitch.model';
+import { PitchService } from 'app/entities/pitch/service/pitch.service';
 
 @Component({
   selector: 'jhi-pitch-booking-update',
@@ -20,22 +20,22 @@ export class PitchBookingUpdateComponent implements OnInit {
   isSaving = false;
   pitchBooking: IPitchBooking | null = null;
 
-  pitchesCollection: IPitch[] = [];
   teamsSharedCollection: ITeam[] = [];
+  pitchesSharedCollection: IPitch[] = [];
 
   editForm: PitchBookingFormGroup = this.pitchBookingFormService.createPitchBookingFormGroup();
 
   constructor(
     protected pitchBookingService: PitchBookingService,
     protected pitchBookingFormService: PitchBookingFormService,
-    protected pitchService: PitchService,
     protected teamService: TeamService,
+    protected pitchService: PitchService,
     protected activatedRoute: ActivatedRoute
   ) {}
 
-  comparePitch = (o1: IPitch | null, o2: IPitch | null): boolean => this.pitchService.comparePitch(o1, o2);
-
   compareTeam = (o1: ITeam | null, o2: ITeam | null): boolean => this.teamService.compareTeam(o1, o2);
+
+  comparePitch = (o1: IPitch | null, o2: IPitch | null): boolean => this.pitchService.comparePitch(o1, o2);
 
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ pitchBooking }) => {
@@ -85,21 +85,24 @@ export class PitchBookingUpdateComponent implements OnInit {
     this.pitchBooking = pitchBooking;
     this.pitchBookingFormService.resetForm(this.editForm, pitchBooking);
 
-    this.pitchesCollection = this.pitchService.addPitchToCollectionIfMissing<IPitch>(this.pitchesCollection, pitchBooking.pitch);
     this.teamsSharedCollection = this.teamService.addTeamToCollectionIfMissing<ITeam>(this.teamsSharedCollection, pitchBooking.team);
+    this.pitchesSharedCollection = this.pitchService.addPitchToCollectionIfMissing<IPitch>(
+      this.pitchesSharedCollection,
+      pitchBooking.pitch
+    );
   }
 
   protected loadRelationshipsOptions(): void {
-    this.pitchService
-      .query({ filter: 'pitchbooking-is-null' })
-      .pipe(map((res: HttpResponse<IPitch[]>) => res.body ?? []))
-      .pipe(map((pitches: IPitch[]) => this.pitchService.addPitchToCollectionIfMissing<IPitch>(pitches, this.pitchBooking?.pitch)))
-      .subscribe((pitches: IPitch[]) => (this.pitchesCollection = pitches));
-
     this.teamService
       .query()
       .pipe(map((res: HttpResponse<ITeam[]>) => res.body ?? []))
       .pipe(map((teams: ITeam[]) => this.teamService.addTeamToCollectionIfMissing<ITeam>(teams, this.pitchBooking?.team)))
       .subscribe((teams: ITeam[]) => (this.teamsSharedCollection = teams));
+
+    this.pitchService
+      .query()
+      .pipe(map((res: HttpResponse<IPitch[]>) => res.body ?? []))
+      .pipe(map((pitches: IPitch[]) => this.pitchService.addPitchToCollectionIfMissing<IPitch>(pitches, this.pitchBooking?.pitch)))
+      .subscribe((pitches: IPitch[]) => (this.pitchesSharedCollection = pitches));
   }
 }

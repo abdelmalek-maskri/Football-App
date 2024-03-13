@@ -23,8 +23,8 @@ describe('PitchBooking Form Service', () => {
             bookingDate: expect.any(Object),
             startTime: expect.any(Object),
             endTime: expect.any(Object),
-            pitch: expect.any(Object),
             team: expect.any(Object),
+            pitch: expect.any(Object),
           })
         );
       });
@@ -38,8 +38,8 @@ describe('PitchBooking Form Service', () => {
             bookingDate: expect.any(Object),
             startTime: expect.any(Object),
             endTime: expect.any(Object),
-            pitch: expect.any(Object),
             team: expect.any(Object),
+            pitch: expect.any(Object),
           })
         );
       });

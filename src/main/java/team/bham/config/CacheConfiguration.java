@@ -66,6 +66,7 @@ public class CacheConfiguration {
             createCache(cm, team.bham.domain.Team.class.getName() + ".contacts");
             createCache(cm, team.bham.domain.Contact.class.getName());
             createCache(cm, team.bham.domain.Team.class.getName() + ".tournaments");
+            createCache(cm, team.bham.domain.Pitch.class.getName() + ".pitchBookings");
             // jhipster-needle-ehcache-add-entry
         };
     }

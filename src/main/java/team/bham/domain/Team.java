@@ -67,7 +67,7 @@ public class Team implements Serializable {
 
     @OneToMany(mappedBy = "team")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-    @JsonIgnoreProperties(value = { "pitch", "team" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "team", "pitch" }, allowSetters = true)
     private Set<PitchBooking> bookings = new HashSet<>();
 
     @OneToMany(mappedBy = "team")

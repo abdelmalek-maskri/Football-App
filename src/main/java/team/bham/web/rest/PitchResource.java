@@ -5,8 +5,6 @@ import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -141,18 +139,10 @@ public class PitchResource {
     /**
      * {@code GET  /pitches} : get all the pitches.
      *
-     * @param filter the filter of the request.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of pitches in body.
      */
     @GetMapping("/pitches")
-    public List<Pitch> getAllPitches(@RequestParam(required = false) String filter) {
-        if ("pitchbooking-is-null".equals(filter)) {
-            log.debug("REST request to get all Pitchs where pitchBooking is null");
-            return StreamSupport
-                .stream(pitchRepository.findAll().spliterator(), false)
-                .filter(pitch -> pitch.getPitchBooking() == null)
-                .collect(Collectors.toList());
-        }
+    public List<Pitch> getAllPitches() {
         log.debug("REST request to get all Pitches");
         return pitchRepository.findAll();
     }

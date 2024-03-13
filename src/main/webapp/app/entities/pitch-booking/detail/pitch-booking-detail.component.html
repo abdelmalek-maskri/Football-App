@@ -26,16 +26,16 @@
         <dd>
           <span>{{ pitchBooking.endTime | formatMediumDatetime }}</span>
         </dd>
-        <dt><span>Pitch</span></dt>
-        <dd>
-          <div *ngIf="pitchBooking.pitch">
-            <a [routerLink]="['/pitch', pitchBooking.pitch.id, 'view']">{{ pitchBooking.pitch.id }}</a>
-          </div>
-        </dd>
         <dt><span>Team</span></dt>
         <dd>
           <div *ngIf="pitchBooking.team">
             <a [routerLink]="['/team', pitchBooking.team.id, 'view']">{{ pitchBooking.team.id }}</a>
+          </div>
+        </dd>
+        <dt><span>Pitch</span></dt>
+        <dd>
+          <div *ngIf="pitchBooking.pitch">
+            <a [routerLink]="['/pitch', pitchBooking.pitch.id, 'view']">{{ pitchBooking.pitch.id }}</a>
           </div>
         </dd>
       </dl>

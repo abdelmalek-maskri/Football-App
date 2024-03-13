@@ -108,9 +108,10 @@ relationship OneToMany{
     Team{bookings} to PitchBooking{team}
 }
 
-relationship OneToOne{
-    PitchBooking to Pitch // One pitch should have many bookings(?)
+relationship OneToMany {
+    Pitch to PitchBooking // One pitch can have many bookings
 }
+
 entity Pitch {
     name String,
     location String,

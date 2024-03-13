@@ -28,16 +28,15 @@
   "readOnly": false,
   "relationships": [
     {
-      "otherEntityName": "pitch",
-      "otherEntityRelationshipName": "pitchBooking",
-      "ownerSide": true,
-      "relationshipName": "pitch",
-      "relationshipType": "one-to-one"
-    },
-    {
       "otherEntityName": "team",
       "otherEntityRelationshipName": "bookings",
       "relationshipName": "team",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityName": "pitch",
+      "otherEntityRelationshipName": "pitchBooking",
+      "relationshipName": "pitch",
       "relationshipType": "many-to-one"
     }
   ],

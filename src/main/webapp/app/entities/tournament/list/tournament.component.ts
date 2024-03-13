@@ -12,7 +12,6 @@ import { SortService } from 'app/shared/sort/sort.service';
 @Component({
   selector: 'jhi-tournament',
   templateUrl: './tournament.component.html',
-  styleUrls: ['./tournament.component.scss'],
 })
 export class TournamentComponent implements OnInit {
   tournaments?: ITournament[];
@@ -20,7 +19,6 @@ export class TournamentComponent implements OnInit {
 
   predicate = 'id';
   ascending = true;
-  // tournamentId = undefined;
 
   constructor(
     protected tournamentService: TournamentService,
@@ -63,22 +61,6 @@ export class TournamentComponent implements OnInit {
   navigateToWithComponentValues(): void {
     this.handleNavigation(this.predicate, this.ascending);
   }
-
-  //abdelmalek
-  joinTournament(): void {
-    this.isLoading = true;
-    this.tournamentService.joinTournament().subscribe({
-      next: response => {
-        console.log('Joined tournament successfully:', response);
-        this.load();
-      },
-      error: error => {
-        console.error('Failed to join tournament:', error);
-        this.isLoading = false;
-      },
-    });
-  }
-  //abdelmalek
 
   protected loadFromBackendWithRouteInformations(): Observable<EntityArrayResponseType> {
     return combineLatest([this.activatedRoute.queryParamMap, this.activatedRoute.data]).pipe(

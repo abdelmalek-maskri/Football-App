@@ -42,7 +42,7 @@ public class Match implements Serializable {
     @JoinColumn(unique = true)
     private UserProfile referee;
 
-    @JsonIgnoreProperties(value = { "pitchBooking" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "pitchBookings" }, allowSetters = true)
     @OneToOne
     @JoinColumn(unique = true)
     private Pitch pitch;

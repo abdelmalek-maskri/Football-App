@@ -75,18 +75,18 @@
         </div>
 
         <div class="row mb-3">
-          <label class="form-label" for="field_pitch">Pitch</label>
-          <select class="form-control" id="field_pitch" data-cy="pitch" name="pitch" formControlName="pitch" [compareWith]="comparePitch">
-            <option [ngValue]="null"></option>
-            <option [ngValue]="pitchOption" *ngFor="let pitchOption of pitchesCollection">{{ pitchOption.id }}</option>
-          </select>
-        </div>
-
-        <div class="row mb-3">
           <label class="form-label" for="field_team">Team</label>
           <select class="form-control" id="field_team" data-cy="team" name="team" formControlName="team" [compareWith]="compareTeam">
             <option [ngValue]="null"></option>
             <option [ngValue]="teamOption" *ngFor="let teamOption of teamsSharedCollection">{{ teamOption.id }}</option>
+          </select>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_pitch">Pitch</label>
+          <select class="form-control" id="field_pitch" data-cy="pitch" name="pitch" formControlName="pitch" [compareWith]="comparePitch">
+            <option [ngValue]="null"></option>
+            <option [ngValue]="pitchOption" *ngFor="let pitchOption of pitchesSharedCollection">{{ pitchOption.id }}</option>
           </select>
         </div>
       </div>

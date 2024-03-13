@@ -1,91 +1,85 @@
-<body>
-  <div class="image-section">
-    <img src="content/images/pitchBookingMain.png" alt="Description of the image" />
+<div>
+  <h2 id="page-heading" data-cy="PitchHeading">
+    <span>Pitches</span>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading">
+        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+        <span>Refresh list</span>
+      </button>
+
+      <button
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-primary jh-create-entity create-pitch"
+        [routerLink]="['/pitch/new']"
+      >
+        <fa-icon icon="plus"></fa-icon>
+        <span> Create a new Pitch </span>
+      </button>
+    </div>
+  </h2>
+
+  <jhi-alert-error></jhi-alert-error>
+
+  <jhi-alert></jhi-alert>
+
+  <div class="alert alert-warning" id="no-result" *ngIf="pitches?.length === 0">
+    <span>No Pitches found</span>
   </div>
 
-  <div>
-    <h2 id="page-heading" data-cy="PitchHeading">
-      <span>Pitches</span>
+  <div class="table-responsive table-entities" id="entities" *ngIf="pitches && pitches.length > 0">
+    <table class="table table-striped" aria-describedby="page-heading">
+      <thead>
+        <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="navigateToWithComponentValues()">
+          <th scope="col" jhiSortBy="id">
+            <div class="d-flex">
+              <span>ID</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="name">
+            <div class="d-flex">
+              <span>Name</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="location">
+            <div class="d-flex">
+              <span>Location</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let pitch of pitches; trackBy: trackId" data-cy="entityTable">
+          <td>
+            <a [routerLink]="['/pitch', pitch.id, 'view']">{{ pitch.id }}</a>
+          </td>
+          <td>{{ pitch.name }}</td>
+          <td>{{ pitch.location }}</td>
+          <td class="text-end">
+            <div class="btn-group">
+              <button type="submit" [routerLink]="['/pitch', pitch.id, 'view']" class="btn btn-info btn-sm" data-cy="entityDetailsButton">
+                <fa-icon icon="eye"></fa-icon>
+                <span class="d-none d-md-inline">View</span>
+              </button>
 
-      <div class="d-flex justify-content-end">
-        <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading">
-          <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
-          <span>Refresh list</span>
-        </button>
+              <button type="submit" [routerLink]="['/pitch', pitch.id, 'edit']" class="btn btn-primary btn-sm" data-cy="entityEditButton">
+                <fa-icon icon="pencil-alt"></fa-icon>
+                <span class="d-none d-md-inline">Edit</span>
+              </button>
 
-        <button
-          id="jh-create-entity"
-          data-cy="entityCreateButton"
-          class="btn btn-primary jh-create-entity create-pitch"
-          [routerLink]="['/pitch/new']"
-        >
-          <fa-icon icon="plus"></fa-icon>
-          <span> Create a new Pitch </span>
-        </button>
-      </div>
-    </h2>
-
-    <jhi-alert-error></jhi-alert-error>
-
-    <jhi-alert></jhi-alert>
-
-    <div class="alert alert-warning" id="no-result" *ngIf="pitches?.length === 0">
-      <span>No Pitches found</span>
-    </div>
-
-    <div class="table-responsive table-entities" id="entities" *ngIf="pitches && pitches.length > 0">
-      <table class="table table-striped" aria-describedby="page-heading">
-        <thead>
-          <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="navigateToWithComponentValues()">
-            <th scope="col" jhiSortBy="id">
-              <div class="d-flex">
-                <span>ID</span>
-                <fa-icon class="p-1" icon="sort"></fa-icon>
-              </div>
-            </th>
-            <th scope="col" jhiSortBy="name">
-              <div class="d-flex">
-                <span>Name</span>
-                <fa-icon class="p-1" icon="sort"></fa-icon>
-              </div>
-            </th>
-            <th scope="col" jhiSortBy="location">
-              <div class="d-flex">
-                <span>Location</span>
-                <fa-icon class="p-1" icon="sort"></fa-icon>
-              </div>
-            </th>
-            <th scope="col"></th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let pitch of pitches; trackBy: trackId" data-cy="entityTable">
-            <td>
-              <a [routerLink]="['/pitch', pitch.id, 'view']">{{ pitch.id }}</a>
-            </td>
-            <td>{{ pitch.name }}</td>
-            <td>{{ pitch.location }}</td>
-            <td class="text-end">
-              <div class="btn-group">
-                <button type="submit" [routerLink]="['/pitch', pitch.id, 'view']" class="btn btn-info btn-sm" data-cy="entityDetailsButton">
-                  <fa-icon icon="eye"></fa-icon>
-                  <span class="d-none d-md-inline">View</span>
-                </button>
-
-                <button type="submit" [routerLink]="['/pitch', pitch.id, 'edit']" class="btn btn-primary btn-sm" data-cy="entityEditButton">
-                  <fa-icon icon="pencil-alt"></fa-icon>
-                  <span class="d-none d-md-inline">Edit</span>
-                </button>
-
-                <button type="submit" (click)="delete(pitch)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
-                  <fa-icon icon="times"></fa-icon>
-                  <span class="d-none d-md-inline">Delete</span>
-                </button>
-              </div>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+              <button type="submit" (click)="delete(pitch)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                <fa-icon icon="times"></fa-icon>
+                <span class="d-none d-md-inline">Delete</span>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
   </div>
-</body>
+</div>

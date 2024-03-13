@@ -37,14 +37,13 @@ public class PitchBooking implements Serializable {
     @Column(name = "end_time", nullable = false)
     private Instant endTime;
 
-    @JsonIgnoreProperties(value = { "pitchBooking" }, allowSetters = true)
-    @OneToOne
-    @JoinColumn(unique = true)
-    private Pitch pitch;
-
     @ManyToOne
     @JsonIgnoreProperties(value = { "owner", "bookings", "availableDates", "members", "contacts", "tournaments" }, allowSetters = true)
     private Team team;
+
+    @ManyToOne
+    @JsonIgnoreProperties(value = { "pitchBookings" }, allowSetters = true)
+    private Pitch pitch;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -100,19 +99,6 @@ public class PitchBooking implements Serializable {
         this.endTime = endTime;
     }
 
-    public Pitch getPitch() {
-        return this.pitch;
-    }
-
-    public void setPitch(Pitch pitch) {
-        this.pitch = pitch;
-    }
-
-    public PitchBooking pitch(Pitch pitch) {
-        this.setPitch(pitch);
-        return this;
-    }
-
     public Team getTeam() {
         return this.team;
     }
@@ -123,6 +109,19 @@ public class PitchBooking implements Serializable {
 
     public PitchBooking team(Team team) {
         this.setTeam(team);
+        return this;
+    }
+
+    public Pitch getPitch() {
+        return this.pitch;
+    }
+
+    public void setPitch(Pitch pitch) {
+        this.pitch = pitch;
+    }
+
+    public PitchBooking pitch(Pitch pitch) {
+        this.setPitch(pitch);
         return this;
     }
 

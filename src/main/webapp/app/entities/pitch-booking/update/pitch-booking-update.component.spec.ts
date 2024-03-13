@@ -9,10 +9,10 @@ import { of, Subject, from } from 'rxjs';
 import { PitchBookingFormService } from './pitch-booking-form.service';
 import { PitchBookingService } from '../service/pitch-booking.service';
 import { IPitchBooking } from '../pitch-booking.model';
-import { IPitch } from 'app/entities/pitch/pitch.model';
-import { PitchService } from 'app/entities/pitch/service/pitch.service';
 import { ITeam } from 'app/entities/team/team.model';
 import { TeamService } from 'app/entities/team/service/team.service';
+import { IPitch } from 'app/entities/pitch/pitch.model';
+import { PitchService } from 'app/entities/pitch/service/pitch.service';
 
 import { PitchBookingUpdateComponent } from './pitch-booking-update.component';
 
@@ -22,8 +22,8 @@ describe('PitchBooking Management Update Component', () => {
   let activatedRoute: ActivatedRoute;
   let pitchBookingFormService: PitchBookingFormService;
   let pitchBookingService: PitchBookingService;
-  let pitchService: PitchService;
   let teamService: TeamService;
+  let pitchService: PitchService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -46,31 +46,13 @@ describe('PitchBooking Management Update Component', () => {
     activatedRoute = TestBed.inject(ActivatedRoute);
     pitchBookingFormService = TestBed.inject(PitchBookingFormService);
     pitchBookingService = TestBed.inject(PitchBookingService);
-    pitchService = TestBed.inject(PitchService);
     teamService = TestBed.inject(TeamService);
+    pitchService = TestBed.inject(PitchService);
 
     comp = fixture.componentInstance;
   });
 
   describe('ngOnInit', () => {
-    it('Should call pitch query and add missing value', () => {
-      const pitchBooking: IPitchBooking = { id: 456 };
-      const pitch: IPitch = { id: 7294 };
-      pitchBooking.pitch = pitch;
-
-      const pitchCollection: IPitch[] = [{ id: 77932 }];
-      jest.spyOn(pitchService, 'query').mockReturnValue(of(new HttpResponse({ body: pitchCollection })));
-      const expectedCollection: IPitch[] = [pitch, ...pitchCollection];
-      jest.spyOn(pitchService, 'addPitchToCollectionIfMissing').mockReturnValue(expectedCollection);
-
-      activatedRoute.data = of({ pitchBooking });
-      comp.ngOnInit();
-
-      expect(pitchService.query).toHaveBeenCalled();
-      expect(pitchService.addPitchToCollectionIfMissing).toHaveBeenCalledWith(pitchCollection, pitch);
-      expect(comp.pitchesCollection).toEqual(expectedCollection);
-    });
-
     it('Should call Team query and add missing value', () => {
       const pitchBooking: IPitchBooking = { id: 456 };
       const team: ITeam = { id: 16465 };
@@ -93,18 +75,40 @@ describe('PitchBooking Management Update Component', () => {
       expect(comp.teamsSharedCollection).toEqual(expectedCollection);
     });
 
-    it('Should update editForm', () => {
+    it('Should call Pitch query and add missing value', () => {
       const pitchBooking: IPitchBooking = { id: 456 };
-      const pitch: IPitch = { id: 2599 };
+      const pitch: IPitch = { id: 7294 };
       pitchBooking.pitch = pitch;
-      const team: ITeam = { id: 70003 };
-      pitchBooking.team = team;
+
+      const pitchCollection: IPitch[] = [{ id: 77932 }];
+      jest.spyOn(pitchService, 'query').mockReturnValue(of(new HttpResponse({ body: pitchCollection })));
+      const additionalPitches = [pitch];
+      const expectedCollection: IPitch[] = [...additionalPitches, ...pitchCollection];
+      jest.spyOn(pitchService, 'addPitchToCollectionIfMissing').mockReturnValue(expectedCollection);
 
       activatedRoute.data = of({ pitchBooking });
       comp.ngOnInit();
 
-      expect(comp.pitchesCollection).toContain(pitch);
+      expect(pitchService.query).toHaveBeenCalled();
+      expect(pitchService.addPitchToCollectionIfMissing).toHaveBeenCalledWith(
+        pitchCollection,
+        ...additionalPitches.map(expect.objectContaining)
+      );
+      expect(comp.pitchesSharedCollection).toEqual(expectedCollection);
+    });
+
+    it('Should update editForm', () => {
+      const pitchBooking: IPitchBooking = { id: 456 };
+      const team: ITeam = { id: 70003 };
+      pitchBooking.team = team;
+      const pitch: IPitch = { id: 2599 };
+      pitchBooking.pitch = pitch;
+
+      activatedRoute.data = of({ pitchBooking });
+      comp.ngOnInit();
+
       expect(comp.teamsSharedCollection).toContain(team);
+      expect(comp.pitchesSharedCollection).toContain(pitch);
       expect(comp.pitchBooking).toEqual(pitchBooking);
     });
   });
@@ -178,16 +182,6 @@ describe('PitchBooking Management Update Component', () => {
   });
 
   describe('Compare relationships', () => {
-    describe('comparePitch', () => {
-      it('Should forward to pitchService', () => {
-        const entity = { id: 123 };
-        const entity2 = { id: 456 };
-        jest.spyOn(pitchService, 'comparePitch');
-        comp.comparePitch(entity, entity2);
-        expect(pitchService.comparePitch).toHaveBeenCalledWith(entity, entity2);
-      });
-    });
-
     describe('compareTeam', () => {
       it('Should forward to teamService', () => {
         const entity = { id: 123 };
@@ -195,6 +189,16 @@ describe('PitchBooking Management Update Component', () => {
         jest.spyOn(teamService, 'compareTeam');
         comp.compareTeam(entity, entity2);
         expect(teamService.compareTeam).toHaveBeenCalledWith(entity, entity2);
+      });
+    });
+
+    describe('comparePitch', () => {
+      it('Should forward to pitchService', () => {
+        const entity = { id: 123 };
+        const entity2 = { id: 456 };
+        jest.spyOn(pitchService, 'comparePitch');
+        comp.comparePitch(entity, entity2);
+        expect(pitchService.comparePitch).toHaveBeenCalledWith(entity, entity2);
       });
     });
   });

@@ -23,10 +23,10 @@
             <column name="end_time" type="${datetimeType}">
                 <constraints nullable="false" />
             </column>
-            <column name="pitch_id" type="bigint">
-                <constraints nullable="true" unique="true" uniqueConstraintName="ux_pitch_booking__pitch_id" />
-            </column>
             <column name="team_id" type="bigint">
+                <constraints nullable="true" />
+            </column>
+            <column name="pitch_id" type="bigint">
                 <constraints nullable="true" />
             </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->

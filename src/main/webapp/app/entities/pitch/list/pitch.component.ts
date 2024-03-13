@@ -12,7 +12,6 @@ import { SortService } from 'app/shared/sort/sort.service';
 @Component({
   selector: 'jhi-pitch',
   templateUrl: './pitch.component.html',
-  styleUrls: ['./pitch.component.scss'],
 })
 export class PitchComponent implements OnInit {
   pitches?: IPitch[];
