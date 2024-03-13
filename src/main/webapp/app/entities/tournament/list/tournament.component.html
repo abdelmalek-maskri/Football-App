@@ -1,128 +1,211 @@
-<div>
-  <h2 id="page-heading" data-cy="TournamentHeading">
-    <span>Tournaments</span>
-
-    <div class="d-flex justify-content-end">
-      <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading">
-        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
-        <span>Refresh list</span>
-      </button>
-
-      <button
-        id="jh-create-entity"
-        data-cy="entityCreateButton"
-        class="btn btn-primary jh-create-entity create-tournament"
-        [routerLink]="['/tournament/new']"
-      >
-        <fa-icon icon="plus"></fa-icon>
-        <span> Create a new Tournament </span>
-      </button>
-    </div>
-  </h2>
-
-  <jhi-alert-error></jhi-alert-error>
-
-  <jhi-alert></jhi-alert>
-
-  <div class="alert alert-warning" id="no-result" *ngIf="tournaments?.length === 0">
-    <span>No Tournaments found</span>
+<!-- /Abdelmalek -->
+<div class="container-page">
+  <div class="image-container">
+    <img id="pageImage" style="margin-bottom: -1.5%" src="./../../../content/images/tournamentBackground-4.jpg" alt="tournament image" />
+    <h2>Football Tournament</h2>
   </div>
 
-  <div class="table-responsive table-entities" id="entities" *ngIf="tournaments && tournaments.length > 0">
-    <table class="table table-striped" aria-describedby="page-heading">
-      <thead>
-        <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="navigateToWithComponentValues()">
-          <th scope="col" jhiSortBy="id">
-            <div class="d-flex">
-              <span>ID</span>
-              <fa-icon class="p-1" icon="sort"></fa-icon>
-            </div>
-          </th>
-          <th scope="col" jhiSortBy="name">
-            <div class="d-flex">
-              <span>Name</span>
-              <fa-icon class="p-1" icon="sort"></fa-icon>
-            </div>
-          </th>
-          <th scope="col" jhiSortBy="startDate">
-            <div class="d-flex">
-              <span>Start Date</span>
-              <fa-icon class="p-1" icon="sort"></fa-icon>
-            </div>
-          </th>
-          <th scope="col" jhiSortBy="endDate">
-            <div class="d-flex">
-              <span>End Date</span>
-              <fa-icon class="p-1" icon="sort"></fa-icon>
-            </div>
-          </th>
-          <th scope="col" jhiSortBy="location">
-            <div class="d-flex">
-              <span>Location</span>
-              <fa-icon class="p-1" icon="sort"></fa-icon>
-            </div>
-          </th>
-          <th scope="col" jhiSortBy="maxTeams">
-            <div class="d-flex">
-              <span>Max Teams</span>
-              <fa-icon class="p-1" icon="sort"></fa-icon>
-            </div>
-          </th>
-          <th scope="col" jhiSortBy="teams.id">
-            <div class="d-flex">
-              <span>Teams</span>
-              <fa-icon class="p-1" icon="sort"></fa-icon>
-            </div>
-          </th>
-          <th scope="col"></th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let tournament of tournaments; trackBy: trackId" data-cy="entityTable">
-          <td>
-            <a [routerLink]="['/tournament', tournament.id, 'view']">{{ tournament.id }}</a>
-          </td>
-          <td>{{ tournament.name }}</td>
-          <td>{{ tournament.startDate | formatMediumDatetime }}</td>
-          <td>{{ tournament.endDate | formatMediumDatetime }}</td>
-          <td>{{ tournament.location }}</td>
-          <td>{{ tournament.maxTeams }}</td>
-          <td>
-            <span *ngFor="let teams of tournament.teams; let last = last">
-              <a class="form-control-static" [routerLink]="['/team', teams.id, 'view']">{{ teams.id }}</a
-              >{{ last ? '' : ', ' }}
-            </span>
-          </td>
-          <td class="text-end">
-            <div class="btn-group">
-              <button
-                type="submit"
-                [routerLink]="['/tournament', tournament.id, 'view']"
-                class="btn btn-info btn-sm"
-                data-cy="entityDetailsButton"
-              >
-                <fa-icon icon="eye"></fa-icon>
-                <span class="d-none d-md-inline">View</span>
-              </button>
+  <div class="sub-navbar">
+    <div class="left-nav">
+      <!-- <div>
+        <a class="link" href="/groups" target="_self">Groups</a>
+      </div> -->
+      <div class="relative-container">
+        <span class="link details-button">Details <i class="arrow down"></i></span>
+      </div>
+      <div>
+        <a class="link link2" href="/matches" target="_self">Matches</a>
+      </div>
+    </div>
+    <!-- <div *ngFor="let tournament of tournaments">
+      <p>{{ tournament.name }}</p>
+      <button id="join-button" (click)="joinTournament(tournament.id)">Join</button>
+    </div> -->
+    <div>
+      <button id="join-button" (click)="joinTournament()">Join</button>
+    </div>
+  </div>
 
-              <button
-                type="submit"
-                [routerLink]="['/tournament', tournament.id, 'edit']"
-                class="btn btn-primary btn-sm"
-                data-cy="entityEditButton"
-              >
-                <fa-icon icon="pencil-alt"></fa-icon>
-                <span class="d-none d-md-inline">Edit</span>
-              </button>
+  <jhi-alert-error class="topAlert"></jhi-alert-error>
+  <jhi-alert class="topAlert"></jhi-alert>
 
-              <button type="submit" (click)="delete(tournament)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
-                <fa-icon icon="times"></fa-icon>
-                <span class="d-none d-md-inline">Delete</span>
-              </button>
-            </div>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+  <div class="tournament-container">
+    <div class="title"><h2>Tournament Details</h2></div>
+
+    <ng-container *ngFor="let tournament of tournaments">
+      <div *ngIf="tournament.teams && tournament.teams.length > 0" class="tournament-card">
+        <div class="tournament-details">
+          <h2>{{ tournament.name }}</h2>
+          <p class="detail"><strong>Location:</strong> {{ tournament.location }}</p>
+          <p class="detail"><strong>Max Teams:</strong> {{ tournament.maxTeams }}</p>
+          <p class="detail"><strong>Teams:</strong></p>
+
+          <div class="team-list">
+            <a class="team-item" *ngFor="let team of tournament.teams" [routerLink]="['/team', team.id, 'view']">
+              <ng-container *ngIf="team.image; else defaultImage">
+                <img [src]="'data:' + team.imageContentType + ';base64,' + team.image" alt="team image" />
+              </ng-container>
+              <ng-template #defaultImage>
+                <img src="../../../../content/images/FootballIcon.png" alt="default team image" />
+              </ng-template>
+              <p>{{ team.name }}</p>
+            </a>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+
+  <!-- /Abdelmalek -->
+
+  <div style="display: none">
+    <h2 id="page-heading" data-cy="TournamentHeading" style="padding-top: 100px">
+      <span>Tournament</span>
+
+      <div class="d-flex justify-content-end">
+        <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading">
+          <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+          <span>Refresh list</span>
+        </button>
+
+        <button
+          id="jh-create-entity"
+          data-cy="entityCreateButton"
+          class="btn btn-primary jh-create-entity create-tournament"
+          [routerLink]="['/tournament/new']"
+        >
+          <fa-icon icon="plus"></fa-icon>
+          <span> Create a new Tournament </span>
+        </button>
+      </div>
+    </h2>
+
+    <jhi-alert-error></jhi-alert-error>
+
+    <jhi-alert></jhi-alert>
+
+    <div class="alert alert-warning" id="no-result" *ngIf="tournaments?.length === 0">
+      <span>No Tournaments found</span>
+    </div>
+
+    <div class="table-responsive table-entities" id="entities" *ngIf="tournaments && tournaments.length > 0">
+      <table class="table table-striped" aria-describedby="page-heading">
+        <thead>
+          <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="navigateToWithComponentValues()">
+            <th scope="col" jhiSortBy="id">
+              <div class="d-flex">
+                <span>ID</span>
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="name">
+              <div class="d-flex">
+                <span>Name</span>
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="startDate">
+              <div class="d-flex">
+                <span>Start Date</span>
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="endDate">
+              <div class="d-flex">
+                <span>End Date</span>
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="location">
+              <div class="d-flex">
+                <span>Location</span>
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="maxTeams">
+              <div class="d-flex">
+                <span>Max Teams</span>
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="teams.id">
+              <div class="d-flex">
+                <span>Teams</span>
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let tournament of tournaments; trackBy: trackId" data-cy="entityTable">
+            <td>
+              <a [routerLink]="['/tournament', tournament.id, 'view']">{{ tournament.id }}</a>
+            </td>
+            <td>{{ tournament.name }}</td>
+            <td>{{ tournament.startDate | formatMediumDatetime }}</td>
+            <td>{{ tournament.endDate | formatMediumDatetime }}</td>
+            <td>{{ tournament.location }}</td>
+            <td>{{ tournament.maxTeams }}</td>
+            <td>
+              <span *ngFor="let teams of tournament.teams; let last = last">
+                <a class="form-control-static" [routerLink]="['/team', teams.id, 'view']">{{ teams.id }}</a
+                >{{ last ? '' : ', ' }}
+              </span>
+            </td>
+            <td class="text-end">
+              <div class="btn-group">
+                <button
+                  type="submit"
+                  [routerLink]="['/tournament', tournament.id, 'view']"
+                  class="btn btn-info btn-sm"
+                  data-cy="entityDetailsButton"
+                >
+                  <fa-icon icon="eye"></fa-icon>
+                  <span class="d-none d-md-inline">View</span>
+                </button>
+
+                <button
+                  type="submit"
+                  [routerLink]="['/tournament', tournament.id, 'edit']"
+                  class="btn btn-primary btn-sm"
+                  data-cy="entityEditButton"
+                >
+                  <fa-icon icon="pencil-alt"></fa-icon>
+                  <span class="d-none d-md-inline">Edit</span>
+                </button>
+
+                <button type="submit" (click)="delete(tournament)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                  <fa-icon icon="times"></fa-icon>
+                  <span class="d-none d-md-inline">Delete</span>
+                </button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 </div>
+
+<!--
+
+  <div class="tournament-boxes">
+    <div *ngFor="let tournament of tournaments">
+      <div class="tournament-box">
+        <h3>{{ tournament.name }}</h3>
+        <p>Start Date: {{ tournament.startDate | date }}</p>
+        <p>End Date: {{ tournament.endDate | date }}</p>
+        <p>Location: {{ tournament.location }}</p>
+        <p>Max Teams: {{ tournament.maxTeams }}</p>
+        <p>Teams:</p>
+        <ul>
+          <li *ngFor="let team of tournament.teams">
+            <a [routerLink]="['/team', team.id, 'view']">{{ team.name }}</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div> -->
+
+<!-- /Abdelmalek -->
