@@ -6,6 +6,16 @@ Navbar
 @import url('https://fonts.googleapis.com/css2?family=Anton&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap');
 
+html {
+  background-color: #eeeeee;
+  margin-top: 3em;
+}
+
+html * {
+  font-family: Arial;
+  font-weight: 400;
+}
+
 // second nav bar
 .sub-navbar {
   background-color: #5ada86;
@@ -66,7 +76,7 @@ Navbar
   cursor: pointer;
 }
 .link2 {
-  margin-left: 2em;
+  padding-left: 45px;
 }
 
 .arrow {
@@ -183,7 +193,7 @@ Navbar
 }
 
 .tournament-card {
-  background-color: #029352;
+  background-color: #5ada86;
   border-radius: 10px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   margin: 10px;
@@ -191,76 +201,12 @@ Navbar
   width: 85vw;
 }
 
-.tournament-details > h2 {
-  text-align: center;
-  text-transform: uppercase;
-  font-family: 'Anton', sans-serif;
-  text-shadow: 2px 1px rgba(0, 0, 0, 0.5);
-}
-.marker {
-  width: 1.3rem;
-  height: 1.3rem;
-  border-radius: 2rem;
-
-  background: #aa3300;
-
-  display: inline-block;
-  border-bottom-right-radius: 0;
-  position: relative;
-  transform: rotate(45deg);
-
-  /* optional fanciness */
-  border: 1px solid #881100;
-  margin-left: 2px;
-}
-/* inner circle (optional if you don't need the central dot) */
-.marker::before {
-  content: '';
-  background: white;
-  width: 50%;
-  height: 50%;
-  border-radius: 100%;
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-
-  /* optional fanciness */
-  box-shadow: 0.1rem 0.1rem 0.2rem 0.1rem rgba(0, 0, 0, 0.1);
-}
-/* shadow (optional if you don't need a shadow) */
-.marker::after {
-  content: '';
-  background: rgba(128, 128, 128, 0.2);
-  width: 75%;
-  height: 75%;
-  border-radius: 100%;
-  position: absolute;
-  top: 100%;
-  left: 100%;
-  transform: translate(-50%, -50%) rotate(45deg) scaleX(0.5);
+.tournament-details {
+  margin: 0;
 }
 
 .detail {
   margin-bottom: 10px;
-  font-family: Arial, Helvetica, sans-serif;
-  font-weight: 700;
-  // border: dashed 2px blue;
-  text-align: center;
-}
-
-.tournament-info {
-  display: block;
-  font-family: Arial, Helvetica, sans-serif;
-  font-weight: 500;
-  font-size: medium;
-}
-#tournament-info {
-  text-transform: uppercase;
-  font-family: Arial, Helvetica, sans-serif;
-  font-weight: bold;
-  font-size: large;
-  line-height: 45px;
 }
 
 .team-list {
@@ -276,7 +222,6 @@ Navbar
   max-width: 7wh;
   aspect-ratio: 1;
   border-radius: 10%;
-  margin-bottom: 20px;
 }
 
 .team-item {
@@ -284,9 +229,6 @@ Navbar
   display: flex;
   flex-direction: column;
   align-items: center;
-  flex-wrap: wrap;
-
-  // border: dotted 2px red;
 }
 
 .team-item {
@@ -304,59 +246,44 @@ Navbar
   color: #0056b3;
 }
 
-.tournament-popUp {
-  border: solid 2px #5ada86;
-  width: 15em;
-  display: flex;
-  justify-content: center;
-  position: absolute;
-  top: 100%;
-  z-index: 1000;
-  background-color: #029352;
-  color: white;
-}
+// .tournament-container {
+//   display: flex;
+//   flex-wrap: wrap;
+//   justify-content: center; /* Center horizontally */
+//   align-items: center; /* Center vertically */
+// }
 
-.popUp-info {
-  font-family: Arial, Helvetica, sans-serif;
-  font-weight: 500;
-}
+// .tournament-card {
+//   background-color: #f0f0f0;
+//   padding: 20px;
+//   border-radius: 8px;
+//   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+//   width: calc(50% - 20px);
+//   margin: 10px; /* Adjust margin as needed */
+// }
 
-.popUp-info2 {
-  margin-left: 1em;
-}
+// .tournament-details h3 {
+//   margin-top: 0;
+// }
 
-#join-button2 {
-  position: absolute;
-  left: 47%;
-  bottom: 3.5%;
-  text-decoration: none;
-  font-size: 1.25em;
-  color: white;
-  background-color: #444444;
-  border-radius: 20px;
-  height: 35px;
-  padding: 0 25px;
-  font-weight: bold;
-  transition: all 1ms ease;
-  border: none;
-  margin-right: 1.5em;
-}
+// .tournament-details .detail {
+//   margin-bottom: 5px;
+// }
 
-#join-button2:hover {
-  background-color: white;
-  color: #444444;
-}
-.triangle {
-  color: #2e0038;
-}
+// .tournament-details .team-list {
+//   margin-top: 10px;
+//   padding-left: 20px; /* Adjust indentation as needed */
+// }
 
-.arrow-up {
-  width: 0;
-  height: 0;
-  border-left: 12px solid transparent;
-  border-right: 12px solid transparent;
-  border-bottom: 21px solid #029352;
-  position: absolute;
-  top: -10%;
-  left: 40%;
-}
+// .tournament-details .team-item {
+//   margin-bottom: 5px;
+// }
+
+// .tournament-details .team-link {
+//   color: #007bff; /* Change link color as needed */
+//   text-decoration: none;
+// }
+
+// .tournament-details .team-link:hover {
+//   text-decoration: underline;
+// }

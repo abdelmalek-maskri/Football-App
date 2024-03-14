@@ -1,49 +1,17 @@
 <!-- /Abdelmalek -->
 <div class="container-page">
   <div class="image-container">
-    <img
-      loading="eager"
-      id="pageImage"
-      style="margin-bottom: -1.5%"
-      src="./../../../content/images/tournamentBackground-4.jpg"
-      alt="tournament image"
-    />
+    <img id="pageImage" style="margin-bottom: -1.5%" src="./../../../content/images/tournamentBackground-4.jpg" alt="tournament image" />
     <h2>Football Tournament</h2>
   </div>
+
   <div class="sub-navbar">
     <div class="left-nav">
       <!-- <div>
         <a class="link" href="/groups" target="_self">Groups</a>
       </div> -->
-      <div class="relative-container" (mouseenter)="showDetails = true" (mouseleave)="hideDetails()">
-        <span class="link details-button" (click)="toggleDetails()"
-          >Details <i (mouseenter)="showDetails = true" (mouseleave)="hideDetails()" (click)="toggleDetails()" class="arrow down"></i
-        ></span>
-        <div class="tournament-popUp" *ngIf="showDetails">
-          <div class="arrow-up" *ngIf="showDetails"></div>
-          <ng-container *ngFor="let tournament of tournaments">
-            <div *ngIf="tournament.teams && tournament.teams.length > 0" class="popUp-card">
-              <div class="popUp-details">
-                <h3>{{ tournament.name }}</h3>
-                <p class="popUp-detail">
-                  <span id="popUp-info">Location:</span
-                  ><span class="popUp-info2">{{ tournament.location }} <span class="marker"></span></span>
-                </p>
-                <p class="popUp-detail">
-                  <span id="popUp-info">Max Teams:</span><span class="popUp-info2">{{ tournament.maxTeams }}</span>
-                </p>
-                <p class="popUp-detail">
-                  <span id="popUp-info">Start Date:</span
-                  ><span class="popUp-info2">{{ tournament.startDate ? (tournament.startDate.toDate() | date) : 'N/A' }}</span>
-                </p>
-                <p class="popUp-detail">
-                  <span id="popUp-info">End Date:</span
-                  ><span class="popUp-info2">{{ tournament.endDate ? (tournament.endDate.toDate() | date) : 'N/A' }}</span>
-                </p>
-              </div>
-            </div>
-          </ng-container>
-        </div>
+      <div class="relative-container">
+        <span class="link details-button">Details <i class="arrow down"></i></span>
       </div>
       <div>
         <a class="link link2" href="/matches" target="_self">Matches</a>
@@ -54,7 +22,7 @@
       <button id="join-button" (click)="joinTournament(tournament.id)">Join</button>
     </div> -->
     <div>
-      <button id="join-button" (click)="joinTournament()" title="JOIN PLEAASSE!">Join</button>
+      <button id="join-button" (click)="joinTournament()">Join</button>
     </div>
   </div>
 
@@ -68,169 +36,154 @@
       <div *ngIf="tournament.teams && tournament.teams.length > 0" class="tournament-card">
         <div class="tournament-details">
           <h2>{{ tournament.name }}</h2>
-          <p class="detail">
-            <span id="tournament-info">Location:</span
-            ><span class="tournament-info">{{ tournament.location }} <span class="marker"></span></span>
-          </p>
-          <p class="detail">
-            <span id="tournament-info">Max Teams:</span><span class="tournament-info">{{ tournament.maxTeams }}</span>
-          </p>
-          <p class="detail">
-            <span id="tournament-info">Start Date:</span
-            ><span class="tournament-info">{{ tournament.startDate ? (tournament.startDate.toDate() | date) : 'N/A' }}</span>
-          </p>
-          <p class="detail">
-            <span id="tournament-info">End Date:</span
-            ><span class="tournament-info">{{ tournament.endDate ? (tournament.endDate.toDate() | date) : 'N/A' }}</span>
-          </p>
-          <p class="detail"><span id="tournament-info">Teams participating:</span></p>
+          <p class="detail"><strong>Location:</strong> {{ tournament.location }}</p>
+          <p class="detail"><strong>Max Teams:</strong> {{ tournament.maxTeams }}</p>
+          <p class="detail"><strong>Teams:</strong></p>
 
           <div class="team-list">
             <a class="team-item" *ngFor="let team of tournament.teams" [routerLink]="['/team', team.id, 'view']">
               <ng-container *ngIf="team.image; else defaultImage">
-                <img [src]="'data:' + team.imageContentType + ';base64,' + team.image" alt="team image" title="click!!" />
+                <img [src]="'data:' + team.imageContentType + ';base64,' + team.image" alt="team image" />
               </ng-container>
               <ng-template #defaultImage>
                 <img src="../../../../content/images/FootballIcon.png" alt="default team image" />
               </ng-template>
               <p>{{ team.name }}</p>
             </a>
-            <div>
-              <button id="join-button2" (click)="joinTournament()" title="JOIN PLEAASSE!!">Join</button>
-            </div>
           </div>
         </div>
       </div>
     </ng-container>
+  </div>
 
-    <!-- /Abdelmalek -->
-    <div style="display: none">
-      <h2 id="page-heading" data-cy="TournamentHeading" style="padding-top: 100px">
-        <span>Tournament</span>
+  <!-- /Abdelmalek -->
 
-        <div class="d-flex justify-content-end">
-          <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading">
-            <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
-            <span>Refresh list</span>
-          </button>
+  <div style="display: none">
+    <h2 id="page-heading" data-cy="TournamentHeading" style="padding-top: 100px">
+      <span>Tournament</span>
 
-          <button
-            id="jh-create-entity"
-            data-cy="entityCreateButton"
-            class="btn btn-primary jh-create-entity create-tournament"
-            [routerLink]="['/tournament/new']"
-          >
-            <fa-icon icon="plus"></fa-icon>
-            <span> Create a new Tournament </span>
-          </button>
-        </div>
-      </h2>
+      <div class="d-flex justify-content-end">
+        <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading">
+          <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+          <span>Refresh list</span>
+        </button>
 
-      <jhi-alert-error></jhi-alert-error>
-
-      <jhi-alert></jhi-alert>
-
-      <div class="alert alert-warning" id="no-result" *ngIf="tournaments?.length === 0">
-        <span>No Tournaments found</span>
+        <button
+          id="jh-create-entity"
+          data-cy="entityCreateButton"
+          class="btn btn-primary jh-create-entity create-tournament"
+          [routerLink]="['/tournament/new']"
+        >
+          <fa-icon icon="plus"></fa-icon>
+          <span> Create a new Tournament </span>
+        </button>
       </div>
+    </h2>
 
-      <div class="table-responsive table-entities" id="entities" *ngIf="tournaments && tournaments.length > 0">
-        <table class="table table-striped" aria-describedby="page-heading">
-          <thead>
-            <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="navigateToWithComponentValues()">
-              <th scope="col" jhiSortBy="id">
-                <div class="d-flex">
-                  <span>ID</span>
-                  <fa-icon class="p-1" icon="sort"></fa-icon>
-                </div>
-              </th>
-              <th scope="col" jhiSortBy="name">
-                <div class="d-flex">
-                  <span>Name</span>
-                  <fa-icon class="p-1" icon="sort"></fa-icon>
-                </div>
-              </th>
-              <th scope="col" jhiSortBy="startDate">
-                <div class="d-flex">
-                  <span>Start Date</span>
-                  <fa-icon class="p-1" icon="sort"></fa-icon>
-                </div>
-              </th>
-              <th scope="col" jhiSortBy="endDate">
-                <div class="d-flex">
-                  <span>End Date</span>
-                  <fa-icon class="p-1" icon="sort"></fa-icon>
-                </div>
-              </th>
-              <th scope="col" jhiSortBy="location">
-                <div class="d-flex">
-                  <span>Location</span>
-                  <fa-icon class="p-1" icon="sort"></fa-icon>
-                </div>
-              </th>
-              <th scope="col" jhiSortBy="maxTeams">
-                <div class="d-flex">
-                  <span>Max Teams</span>
-                  <fa-icon class="p-1" icon="sort"></fa-icon>
-                </div>
-              </th>
-              <th scope="col" jhiSortBy="teams.id">
-                <div class="d-flex">
-                  <span>Teams</span>
-                  <fa-icon class="p-1" icon="sort"></fa-icon>
-                </div>
-              </th>
-              <th scope="col"></th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let tournament of tournaments; trackBy: trackId" data-cy="entityTable">
-              <td>
-                <a [routerLink]="['/tournament', tournament.id, 'view']">{{ tournament.id }}</a>
-              </td>
-              <td>{{ tournament.name }}</td>
-              <td>{{ tournament.startDate | formatMediumDatetime }}</td>
-              <td>{{ tournament.endDate | formatMediumDatetime }}</td>
-              <td>{{ tournament.location }}</td>
-              <td>{{ tournament.maxTeams }}</td>
-              <td>
-                <span *ngFor="let teams of tournament.teams; let last = last">
-                  <a class="form-control-static" [routerLink]="['/team', teams.id, 'view']">{{ teams.id }}</a
-                  >{{ last ? '' : ', ' }}
-                </span>
-              </td>
-              <td class="text-end">
-                <div class="btn-group">
-                  <button
-                    type="submit"
-                    [routerLink]="['/tournament', tournament.id, 'view']"
-                    class="btn btn-info btn-sm"
-                    data-cy="entityDetailsButton"
-                  >
-                    <fa-icon icon="eye"></fa-icon>
-                    <span class="d-none d-md-inline">View</span>
-                  </button>
+    <jhi-alert-error></jhi-alert-error>
 
-                  <button
-                    type="submit"
-                    [routerLink]="['/tournament', tournament.id, 'edit']"
-                    class="btn btn-primary btn-sm"
-                    data-cy="entityEditButton"
-                  >
-                    <fa-icon icon="pencil-alt"></fa-icon>
-                    <span class="d-none d-md-inline">Edit</span>
-                  </button>
+    <jhi-alert></jhi-alert>
 
-                  <button type="submit" (click)="delete(tournament)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
-                    <fa-icon icon="times"></fa-icon>
-                    <span class="d-none d-md-inline">Delete</span>
-                  </button>
-                </div>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+    <div class="alert alert-warning" id="no-result" *ngIf="tournaments?.length === 0">
+      <span>No Tournaments found</span>
+    </div>
+
+    <div class="table-responsive table-entities" id="entities" *ngIf="tournaments && tournaments.length > 0">
+      <table class="table table-striped" aria-describedby="page-heading">
+        <thead>
+          <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="navigateToWithComponentValues()">
+            <th scope="col" jhiSortBy="id">
+              <div class="d-flex">
+                <span>ID</span>
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="name">
+              <div class="d-flex">
+                <span>Name</span>
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="startDate">
+              <div class="d-flex">
+                <span>Start Date</span>
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="endDate">
+              <div class="d-flex">
+                <span>End Date</span>
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="location">
+              <div class="d-flex">
+                <span>Location</span>
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="maxTeams">
+              <div class="d-flex">
+                <span>Max Teams</span>
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="teams.id">
+              <div class="d-flex">
+                <span>Teams</span>
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let tournament of tournaments; trackBy: trackId" data-cy="entityTable">
+            <td>
+              <a [routerLink]="['/tournament', tournament.id, 'view']">{{ tournament.id }}</a>
+            </td>
+            <td>{{ tournament.name }}</td>
+            <td>{{ tournament.startDate | formatMediumDatetime }}</td>
+            <td>{{ tournament.endDate | formatMediumDatetime }}</td>
+            <td>{{ tournament.location }}</td>
+            <td>{{ tournament.maxTeams }}</td>
+            <td>
+              <span *ngFor="let teams of tournament.teams; let last = last">
+                <a class="form-control-static" [routerLink]="['/team', teams.id, 'view']">{{ teams.id }}</a
+                >{{ last ? '' : ', ' }}
+              </span>
+            </td>
+            <td class="text-end">
+              <div class="btn-group">
+                <button
+                  type="submit"
+                  [routerLink]="['/tournament', tournament.id, 'view']"
+                  class="btn btn-info btn-sm"
+                  data-cy="entityDetailsButton"
+                >
+                  <fa-icon icon="eye"></fa-icon>
+                  <span class="d-none d-md-inline">View</span>
+                </button>
+
+                <button
+                  type="submit"
+                  [routerLink]="['/tournament', tournament.id, 'edit']"
+                  class="btn btn-primary btn-sm"
+                  data-cy="entityEditButton"
+                >
+                  <fa-icon icon="pencil-alt"></fa-icon>
+                  <span class="d-none d-md-inline">Edit</span>
+                </button>
+
+                <button type="submit" (click)="delete(tournament)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                  <fa-icon icon="times"></fa-icon>
+                  <span class="d-none d-md-inline">Delete</span>
+                </button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </div>
 </div>
