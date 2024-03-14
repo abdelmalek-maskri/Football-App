@@ -134,14 +134,4 @@ export class TournamentComponent implements OnInit {
       return [predicate + ',' + ascendingQueryParam];
     }
   }
-
-  showDetails: boolean = false;
-
-  toggleDetails() {
-    this.showDetails = !this.showDetails;
-  }
-
-  hideDetails() {
-    this.showDetails = false;
-  }
 }
