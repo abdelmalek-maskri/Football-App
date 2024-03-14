@@ -21,7 +21,8 @@
   </div>
 
   <div class="searchResultsGrid section" *ngIf="pitches !== null && pitches !== undefined && pitches.length > 0">
-    <a *ngFor="let pitch of pitches" class="card" [routerLink]="['/pitch-booking/new']">
+    <!-- <a *ngFor="let pitch of pitches" class="card" [routerLink]="['/pitch-booking/new']"> -->
+    <a *ngFor="let pitch of pitches" class="card" (click)="openModal(pitch)">
       <div class="card-content">
         <img src="content/images/bournbrook.jpg" />
         <div id="inner-card-content">
