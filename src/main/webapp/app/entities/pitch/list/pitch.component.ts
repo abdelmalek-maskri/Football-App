@@ -123,10 +123,16 @@ export class PitchComponent implements OnInit {
 
   openModal(pitch: IPitch) {
     const modalOptions: NgbModalOptions = {
-      centered: true, // Centers the modal vertically and horizontally
-      // You can add more options here as needed
+      centered: true,
+      animation: true,
+      size: 'lg',
     };
+
     const modalRef = this.modalService.open(PitchModalComponent, modalOptions);
     modalRef.componentInstance.pitch = pitch; // Pass data to the modal component if needed
+
+    // Call setModalRef on the instance of PitchModalComponent created by modalService.open
+    const pitchModalComponentInstance = modalRef.componentInstance as PitchModalComponent;
+    pitchModalComponentInstance.setModalRef(modalRef);
   }
 }

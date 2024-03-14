@@ -2,6 +2,7 @@ package team.bham.web.rest;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -10,6 +11,7 @@ import javax.validation.constraints.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -167,6 +169,23 @@ public class PitchBookingResource {
         log.debug("REST request to get PitchBooking : {}", id);
         Optional<PitchBooking> pitchBooking = pitchBookingRepository.findById(id);
         return ResponseUtil.wrapOrNotFound(pitchBooking);
+    }
+
+    /**
+     * GET  /available-bookings : Get available bookings for a specific date.
+     *
+     * @param date the date for which to check availability
+     * @return the ResponseEntity with status 200 (OK) and the list of available bookings in body
+     */
+    @GetMapping("/available-bookings")
+    public ResponseEntity<List<PitchBooking>> getAvailableBookingsForDate(
+        @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date
+    ) {
+        log.debug("REST request to get available bookings for date : {}", date);
+
+        // Assuming you have a method in your repository to find available bookings for a given date
+        List<PitchBooking> availableBookings = pitchBookingRepository.findByBookingDate(date);
+        return ResponseEntity.ok().body(availableBookings);
     }
 
     /**

@@ -37,6 +37,7 @@
           <div *ngIf="pitchBooking.pitch">
             <a [routerLink]="['/pitch', pitchBooking.pitch.id, 'view']">{{ pitchBooking.pitch.id }}</a>
           </div>
+          <div *ngIf="!pitchBooking.pitch">No pitch available</div>
         </dd>
       </dl>
 

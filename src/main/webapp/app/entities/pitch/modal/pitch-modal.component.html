@@ -1,6 +1,6 @@
 <div class="container">
   <div *ngIf="pitch">
-    <h2 data-cy="pitchDetailsHeading"><span>Pitch</span></h2>
+    <h2 id="modal-title"><span>PITCH DETAILS</span></h2>
 
     <hr />
 
@@ -8,19 +8,29 @@
 
     <jhi-alert></jhi-alert>
 
-    <dl class="entity-details">
-      <dt><span>ID</span></dt>
-      <dd>
-        <span>{{ pitch.id }}</span>
-      </dd>
-      <dt><span>Name</span></dt>
-      <dd>
-        <span>{{ pitch.name }}</span>
-      </dd>
-      <dt><span>Location</span></dt>
-      <dd>
-        <span>{{ pitch.location }}</span>
-      </dd>
-    </dl>
+    <div class="entity-details-container">
+      <div class="entity-image">
+        <img src="content/images/logo-pitch.png" alt="Image description" />
+      </div>
+      <div class="entity-details">
+        <dl>
+          <dt><span>ID</span></dt>
+          <dd>
+            <span>{{ pitch.id }}</span>
+          </dd>
+          <dt><span>Name</span></dt>
+          <dd>
+            <span>{{ pitch.name }}</span>
+          </dd>
+          <dt><span>Location</span></dt>
+          <dd>
+            <span>{{ pitch.location }}</span>
+          </dd>
+        </dl>
+      </div>
+      <div class="entity-button">
+        <button (click)="navigateToBooking(pitch)">BOOK THIS PITCH</button>
+      </div>
+    </div>
   </div>
 </div>

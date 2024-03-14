@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpResponse } from '@angular/common/http';
+import { HttpClient, HttpResponse } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { finalize, map } from 'rxjs/operators';
-
+import { NgbDateStruct, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { PitchBookingFormService, PitchBookingFormGroup } from './pitch-booking-form.service';
 import { IPitchBooking } from '../pitch-booking.model';
 import { PitchBookingService } from '../service/pitch-booking.service';
@@ -11,6 +11,7 @@ import { ITeam } from 'app/entities/team/team.model';
 import { TeamService } from 'app/entities/team/service/team.service';
 import { IPitch } from 'app/entities/pitch/pitch.model';
 import { PitchService } from 'app/entities/pitch/service/pitch.service';
+import { FormBuilder } from '@angular/forms';
 
 @Component({
   selector: 'jhi-pitch-booking-update',
@@ -19,18 +20,22 @@ import { PitchService } from 'app/entities/pitch/service/pitch.service';
 export class PitchBookingUpdateComponent implements OnInit {
   isSaving = false;
   pitchBooking: IPitchBooking | null = null;
+  selectedPitchId: number | null = null; // To store the selected pitch ID
 
   teamsSharedCollection: ITeam[] = [];
   pitchesSharedCollection: IPitch[] = [];
 
   editForm: PitchBookingFormGroup = this.pitchBookingFormService.createPitchBookingFormGroup();
+  bookingDate: NgbDateStruct | null = null;
 
   constructor(
     protected pitchBookingService: PitchBookingService,
     protected pitchBookingFormService: PitchBookingFormService,
     protected teamService: TeamService,
     protected pitchService: PitchService,
-    protected activatedRoute: ActivatedRoute
+    protected activatedRoute: ActivatedRoute,
+    private fb: FormBuilder,
+    private http: HttpClient // Inject HttpClient
   ) {}
 
   compareTeam = (o1: ITeam | null, o2: ITeam | null): boolean => this.teamService.compareTeam(o1, o2);
@@ -38,6 +43,19 @@ export class PitchBookingUpdateComponent implements OnInit {
   comparePitch = (o1: IPitch | null, o2: IPitch | null): boolean => this.pitchService.comparePitch(o1, o2);
 
   ngOnInit(): void {
+    this.activatedRoute.queryParams.subscribe(params => {
+      if (params.pitch) {
+        const pitchData = JSON.parse(params.pitch);
+        console.log(JSON.parse(params.pitch));
+        if (pitchData.id) {
+          console.log('selectedPitchId:', pitchData.id);
+          this.selectedPitchId = pitchData.id;
+        }
+      }
+    });
+    console.log('pitchesSharedCollection:', this.pitchesSharedCollection);
+    console.log('selectedPitchId:', this.selectedPitchId);
+
     this.activatedRoute.data.subscribe(({ pitchBooking }) => {
       this.pitchBooking = pitchBooking;
       if (pitchBooking) {
@@ -104,5 +122,23 @@ export class PitchBookingUpdateComponent implements OnInit {
       .pipe(map((res: HttpResponse<IPitch[]>) => res.body ?? []))
       .pipe(map((pitches: IPitch[]) => this.pitchService.addPitchToCollectionIfMissing<IPitch>(pitches, this.pitchBooking?.pitch)))
       .subscribe((pitches: IPitch[]) => (this.pitchesSharedCollection = pitches));
+  }
+
+  checkAvailability() {
+    if (this.bookingDate) {
+      const selectedDate = `${this.bookingDate.year}-${this.bookingDate.month}-${this.bookingDate.day}`;
+      this.http.get<any[]>(`/api/available-bookings?date=${selectedDate}`).subscribe(
+        response => {
+          console.log('Available bookings:', response);
+          // Handle the response from the backend
+          // You can display the available bookings or perform other actions here
+        },
+        error => {
+          console.error('Error occurred while checking availability:', error);
+        }
+      );
+    } else {
+      console.warn('Please select a date before checking availability.');
+    }
   }
 }

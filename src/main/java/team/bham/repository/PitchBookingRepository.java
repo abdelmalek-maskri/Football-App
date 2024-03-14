@@ -1,5 +1,7 @@
 package team.bham.repository;
 
+import java.time.LocalDate;
+import java.util.List;
 import org.springframework.data.jpa.repository.*;
 import org.springframework.stereotype.Repository;
 import team.bham.domain.PitchBooking;
@@ -9,4 +11,6 @@ import team.bham.domain.PitchBooking;
  */
 @SuppressWarnings("unused")
 @Repository
-public interface PitchBookingRepository extends JpaRepository<PitchBooking, Long> {}
+public interface PitchBookingRepository extends JpaRepository<PitchBooking, Long> {
+    List<PitchBooking> findByBookingDate(LocalDate bookingDate);
+}

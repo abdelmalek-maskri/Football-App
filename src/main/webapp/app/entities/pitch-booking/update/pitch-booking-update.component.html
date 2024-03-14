@@ -33,6 +33,20 @@
         </div>
 
         <div class="row mb-3">
+          <label class="form-label" for="field_bookingDate">Booking Date</label>
+          <div class="d-flex">
+            <ngb-datepicker #dp [(ngModel)]="bookingDate" name="bookingDate"></ngb-datepicker>
+            <button class="btn btn-primary" (click)="checkAvailability()">Check Availability</button>
+          </div>
+          <div *ngIf="editForm.get('bookingDate')!.invalid && (editForm.get('bookingDate')!.dirty || editForm.get('bookingDate')!.touched)">
+            <small class="form-text text-danger" *ngIf="editForm.get('bookingDate')?.errors?.required"> This field is required. </small>
+            <small class="form-text text-danger" [hidden]="!editForm.get('bookingDate')?.errors?.datetimelocal">
+              This field should be a date and time.
+            </small>
+          </div>
+        </div>
+
+        <div class="row mb-3">
           <label class="form-label" for="field_startTime">Start Time</label>
           <div class="d-flex">
             <input
@@ -86,7 +100,10 @@
           <label class="form-label" for="field_pitch">Pitch</label>
           <select class="form-control" id="field_pitch" data-cy="pitch" name="pitch" formControlName="pitch" [compareWith]="comparePitch">
             <option [ngValue]="null"></option>
-            <option [ngValue]="pitchOption" *ngFor="let pitchOption of pitchesSharedCollection">{{ pitchOption.id }}</option>
+            <!-- <option [ngValue]="pitchOption" *ngFor="let pitchOption of pitchesSharedCollection">{{ pitchOption.id }}</option> -->
+            <option *ngFor="let pitch of pitchesSharedCollection" [value]="pitch.id" [selected]="pitch.id === selectedPitchId">
+              {{ pitch.name }}
+            </option>
           </select>
         </div>
       </div>
