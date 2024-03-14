@@ -1,17 +1,21 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { ActivatedRoute, Data, ParamMap, Router } from '@angular/router';
 import { combineLatest, filter, Observable, switchMap, tap } from 'rxjs';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
+import { DOCUMENT } from '@angular/common';
 
 import { IPitch } from '../pitch.model';
 import { ASC, DESC, SORT, ITEM_DELETED_EVENT, DEFAULT_SORT_DATA } from 'app/config/navigation.constants';
 import { EntityArrayResponseType, PitchService } from '../service/pitch.service';
 import { PitchDeleteDialogComponent } from '../delete/pitch-delete-dialog.component';
 import { SortService } from 'app/shared/sort/sort.service';
+import { PitchDetailComponent } from '../detail/pitch-detail.component';
+import { PitchModalComponent } from '../modal/pitch-modal.component';
 
 @Component({
   selector: 'jhi-pitch',
   templateUrl: './pitch.component.html',
+  styleUrls: ['pitch.component.scss'],
 })
 export class PitchComponent implements OnInit {
   pitches?: IPitch[];
@@ -25,7 +29,8 @@ export class PitchComponent implements OnInit {
     protected activatedRoute: ActivatedRoute,
     public router: Router,
     protected sortService: SortService,
-    protected modalService: NgbModal
+    protected modalService: NgbModal,
+    @Inject(DOCUMENT) private document: Document
   ) {}
 
   trackId = (_index: number, item: IPitch): number => this.pitchService.getPitchIdentifier(item);
@@ -114,5 +119,14 @@ export class PitchComponent implements OnInit {
     } else {
       return [predicate + ',' + ascendingQueryParam];
     }
+  }
+
+  openModal(pitch: IPitch) {
+    const modalOptions: NgbModalOptions = {
+      centered: true, // Centers the modal vertically and horizontally
+      // You can add more options here as needed
+    };
+    const modalRef = this.modalService.open(PitchModalComponent, modalOptions);
+    modalRef.componentInstance.pitch = pitch; // Pass data to the modal component if needed
   }
 }

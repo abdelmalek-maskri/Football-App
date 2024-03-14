@@ -1,3 +1,39 @@
+<div id="pitch-page">
+  <div class="banner-container">
+    <img id="banner-container-image" src="content/images/banner-pitch.jpg" alt="image for banner" />
+    <h1 class="banner-container-page-title">PITCHES</h1>
+  </div>
+  <jhi-alert-error></jhi-alert-error>
+  <jhi-alert></jhi-alert>
+
+  <div id="top-row">
+    <div id="top-row-left-aligned">
+      <input type="text" id="search-box" placeholder="Search Pitches" />
+    </div>
+    <div id="top-row-right-aligned">
+      <a id="create-pitch-button" href="/pitch-booking">CREATE PITCH</a>
+    </div>
+  </div>
+
+  <div id="noSearchResultsFoundWarning" *ngIf="pitches?.length === 0">
+    <div>Sorry, no pitches are available.</div>
+    <img src="../../../../content/images/NoSearchResultsFound.png" alt="No search results found" />
+  </div>
+
+  <div class="searchResultsGrid section" *ngIf="pitches !== null && pitches !== undefined && pitches.length > 0">
+    <!-- <a *ngFor="let pitch of pitches" class="card" [routerLink]="['/pitch-booking/new']"> -->
+    <a *ngFor="let pitch of pitches" class="card" (click)="openModal(pitch)">
+      <div class="card-content">
+        <img src="content/images/bournbrook.jpg" />
+        <div id="inner-card-content">
+          <h1>{{ pitch.name }}</h1>
+          <img src="content/images/logo-pitch.png" />
+        </div>
+      </div>
+    </a>
+  </div>
+</div>
+
 <div>
   <h2 id="page-heading" data-cy="PitchHeading">
     <span>Pitches</span>
