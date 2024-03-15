@@ -183,7 +183,6 @@ public class PitchBookingResource {
     ) {
         log.debug("REST request to get available bookings for date : {}", date);
 
-        // Assuming you have a method in your repository to find available bookings for a given date
         List<PitchBooking> availableBookings = pitchBookingRepository.findByBookingDate(date);
         return ResponseEntity.ok().body(availableBookings);
     }

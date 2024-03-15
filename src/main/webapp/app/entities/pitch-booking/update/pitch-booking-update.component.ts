@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
-import { Observable } from 'rxjs';
-import { finalize, map } from 'rxjs/operators';
-import { NgbDateStruct, NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { Observable, throwError } from 'rxjs';
+import { catchError, finalize, map } from 'rxjs/operators';
+import { NgbDateStruct, NgbModule, NgbTimeStruct } from '@ng-bootstrap/ng-bootstrap';
 import { PitchBookingFormService, PitchBookingFormGroup } from './pitch-booking-form.service';
 import { IPitchBooking } from '../pitch-booking.model';
 import { PitchBookingService } from '../service/pitch-booking.service';
@@ -12,10 +12,12 @@ import { TeamService } from 'app/entities/team/service/team.service';
 import { IPitch } from 'app/entities/pitch/pitch.model';
 import { PitchService } from 'app/entities/pitch/service/pitch.service';
 import { FormBuilder } from '@angular/forms';
+import dayjs from 'dayjs';
 
 @Component({
   selector: 'jhi-pitch-booking-update',
   templateUrl: './pitch-booking-update.component.html',
+  styleUrls: ['./pitch-booking-update.component.scss'],
 })
 export class PitchBookingUpdateComponent implements OnInit {
   isSaving = false;
@@ -27,6 +29,8 @@ export class PitchBookingUpdateComponent implements OnInit {
 
   editForm: PitchBookingFormGroup = this.pitchBookingFormService.createPitchBookingFormGroup();
   bookingDate: NgbDateStruct | null = null;
+  isDateSelected: boolean = false;
+  startTime: NgbTimeStruct | null = null;
 
   constructor(
     protected pitchBookingService: PitchBookingService,
@@ -72,7 +76,16 @@ export class PitchBookingUpdateComponent implements OnInit {
 
   save(): void {
     this.isSaving = true;
+    // Get the form values
     const pitchBooking = this.pitchBookingFormService.getPitchBooking(this.editForm);
+    // Convert NgbDateStruct to dayjs.Dayjs
+    const bookingDateDayjs = dayjs(`${this.bookingDate?.year}-${this.bookingDate?.month}-${this.bookingDate?.day}`);
+    //const bookingStartTimejs: dayjs
+    // Assign the converted date to the pitchBooking object
+    // @ts-ignore
+    pitchBooking.bookingDate = bookingDateDayjs;
+    //pitchBooking.startTime = bookingStartTimejs;
+    console.log(' here is :' + pitchBooking);
     if (pitchBooking.id !== null) {
       this.subscribeToSaveResponse(this.pitchBookingService.update(pitchBooking));
     } else {
@@ -126,19 +139,31 @@ export class PitchBookingUpdateComponent implements OnInit {
 
   checkAvailability() {
     if (this.bookingDate) {
-      const selectedDate = `${this.bookingDate.year}-${this.bookingDate.month}-${this.bookingDate.day}`;
-      this.http.get<any[]>(`/api/available-bookings?date=${selectedDate}`).subscribe(
-        response => {
+      const selectedDate = `${this.bookingDate.year}-${this.bookingDate.month < 10 ? '0' : ''}${this.bookingDate.month}-${
+        this.bookingDate.day < 10 ? '0' : ''
+      }${this.bookingDate.day}`;
+      this.http
+        .get<any[]>(`/api/available-bookings?date=${selectedDate}`)
+        .pipe(
+          catchError(error => {
+            console.error('Error occurred while checking availability:', error);
+            return throwError(error);
+          })
+        )
+        .subscribe(response => {
           console.log('Available bookings:', response);
           // Handle the response from the backend
           // You can display the available bookings or perform other actions here
-        },
-        error => {
-          console.error('Error occurred while checking availability:', error);
-        }
-      );
+        });
     } else {
       console.warn('Please select a date before checking availability.');
     }
+  }
+
+  onDateSelected(date: NgbDateStruct): void {
+    this.bookingDate = date;
+    console.log(this.bookingDate);
+    console.log(this.pitchBooking);
+    this.isDateSelected = true;
   }
 }

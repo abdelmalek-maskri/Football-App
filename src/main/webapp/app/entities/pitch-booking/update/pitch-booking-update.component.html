@@ -10,7 +10,7 @@
           <label class="form-label" for="field_id">ID</label>
           <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
         </div>
-
+        <!--
         <div class="row mb-3">
           <label class="form-label" for="field_bookingDate">Booking Date</label>
           <div class="d-flex">
@@ -31,11 +31,11 @@
             </small>
           </div>
         </div>
-
+        -->
         <div class="row mb-3">
-          <label class="form-label" for="field_bookingDate">Booking Date</label>
+          <label class="form-label">Booking Date</label>
           <div class="d-flex">
-            <ngb-datepicker #dp [(ngModel)]="bookingDate" name="bookingDate"></ngb-datepicker>
+            <ngb-datepicker #dp (dateSelect)="onDateSelected($event)" name="bookingDate"></ngb-datepicker>
             <button class="btn btn-primary" (click)="checkAvailability()">Check Availability</button>
           </div>
           <div *ngIf="editForm.get('bookingDate')!.invalid && (editForm.get('bookingDate')!.dirty || editForm.get('bookingDate')!.touched)">
@@ -45,8 +45,8 @@
             </small>
           </div>
         </div>
-
-        <div class="row mb-3">
+        <!--
+        <div class="row mb-3" *ngIf="isDateSelected">
           <label class="form-label" for="field_startTime">Start Time</label>
           <div class="d-flex">
             <input
@@ -66,8 +66,21 @@
             </small>
           </div>
         </div>
+        -->
+        <div class="row mb-3" *ngIf="isDateSelected">
+          <label class="form-label">Start Time</label>
+          <div class="d-flex">
+            <ngb-timepicker [(ngModel)]="startTime" [seconds]="false"></ngb-timepicker>
+          </div>
+          <div *ngIf="editForm.get('startTime')!.invalid && (editForm.get('startTime')!.dirty || editForm.get('startTime')!.touched)">
+            <small class="form-text text-danger" *ngIf="editForm.get('startTime')?.errors?.required"> This field is required. </small>
+            <small class="form-text text-danger" [hidden]="!editForm.get('startTime')?.errors?.datetimelocal">
+              This field should be a date and time.
+            </small>
+          </div>
+        </div>
 
-        <div class="row mb-3">
+        <div class="row mb-3" *ngIf="isDateSelected">
           <label class="form-label" for="field_endTime">End Time</label>
           <div class="d-flex">
             <input
@@ -87,7 +100,6 @@
             </small>
           </div>
         </div>
-
         <div class="row mb-3">
           <label class="form-label" for="field_team">Team</label>
           <select class="form-control" id="field_team" data-cy="team" name="team" formControlName="team" [compareWith]="compareTeam">
