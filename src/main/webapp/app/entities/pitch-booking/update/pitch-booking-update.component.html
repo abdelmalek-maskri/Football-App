@@ -34,10 +34,13 @@
         -->
         <div class="row mb-3">
           <label class="form-label">Booking Date</label>
-          <div class="d-flex">
-            <ngb-datepicker #dp (dateSelect)="onDateSelected($event)" name="bookingDate"></ngb-datepicker>
-            <button class="btn btn-primary" (click)="checkAvailability()">Check Availability</button>
-          </div>
+
+          <mat-card class="demo-inline-calendar-card">
+            <mat-calendar [(selected)]="selected" (selectedChange)="onDateSelected($event)"></mat-calendar>
+          </mat-card>
+          <p>Selected date: {{ selected }}</p>
+
+          <button class="btn btn-primary ml-2" (click)="checkAvailability()">Check Availability</button>
           <div *ngIf="editForm.get('bookingDate')!.invalid && (editForm.get('bookingDate')!.dirty || editForm.get('bookingDate')!.touched)">
             <small class="form-text text-danger" *ngIf="editForm.get('bookingDate')?.errors?.required"> This field is required. </small>
             <small class="form-text text-danger" [hidden]="!editForm.get('bookingDate')?.errors?.datetimelocal">
@@ -45,7 +48,7 @@
             </small>
           </div>
         </div>
-        <!--
+
         <div class="row mb-3" *ngIf="isDateSelected">
           <label class="form-label" for="field_startTime">Start Time</label>
           <div class="d-flex">
@@ -58,19 +61,6 @@
               formControlName="startTime"
               placeholder="YYYY-MM-DD HH:mm"
             />
-          </div>
-          <div *ngIf="editForm.get('startTime')!.invalid && (editForm.get('startTime')!.dirty || editForm.get('startTime')!.touched)">
-            <small class="form-text text-danger" *ngIf="editForm.get('startTime')?.errors?.required"> This field is required. </small>
-            <small class="form-text text-danger" [hidden]="!editForm.get('startTime')?.errors?.datetimelocal">
-              This field should be a date and time.
-            </small>
-          </div>
-        </div>
-        -->
-        <div class="row mb-3" *ngIf="isDateSelected">
-          <label class="form-label">Start Time</label>
-          <div class="d-flex">
-            <ngb-timepicker [(ngModel)]="startTime" [seconds]="false"></ngb-timepicker>
           </div>
           <div *ngIf="editForm.get('startTime')!.invalid && (editForm.get('startTime')!.dirty || editForm.get('startTime')!.touched)">
             <small class="form-text text-danger" *ngIf="editForm.get('startTime')?.errors?.required"> This field is required. </small>

@@ -1,0 +1,15 @@
+.datepickerOne {
+  background: lightgreen;
+}
+
+.datepickerOne .mat-calendar-body-today:not(.mat-calendar-body-selected) {
+  border-color: darkgreen;
+}
+
+.mat-datepicker-content .datepickerOne.mat-calendar {
+  width: 500px;
+  height: auto;
+}
+.demo-inline-calendar-card {
+  width: 300px;
+}

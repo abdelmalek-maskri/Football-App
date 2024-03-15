@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
 import { Observable, throwError } from 'rxjs';
@@ -13,6 +13,7 @@ import { IPitch } from 'app/entities/pitch/pitch.model';
 import { PitchService } from 'app/entities/pitch/service/pitch.service';
 import { FormBuilder } from '@angular/forms';
 import dayjs from 'dayjs';
+import { MatDatepickerInputEvent, MatDatepickerModule } from '@angular/material/datepicker';
 
 @Component({
   selector: 'jhi-pitch-booking-update',
@@ -31,6 +32,7 @@ export class PitchBookingUpdateComponent implements OnInit {
   bookingDate: NgbDateStruct | null = null;
   isDateSelected: boolean = false;
   startTime: NgbTimeStruct | null = null;
+  selected: Date | null = null;
 
   constructor(
     protected pitchBookingService: PitchBookingService,
