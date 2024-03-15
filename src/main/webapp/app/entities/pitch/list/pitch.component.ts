@@ -9,7 +9,7 @@ import { ASC, DESC, SORT, ITEM_DELETED_EVENT, DEFAULT_SORT_DATA } from 'app/conf
 import { EntityArrayResponseType, PitchService } from '../service/pitch.service';
 import { PitchDeleteDialogComponent } from '../delete/pitch-delete-dialog.component';
 import { SortService } from 'app/shared/sort/sort.service';
-import { PitchDetailComponent } from '../detail/pitch-detail.component';
+// import { PitchDetailComponent } from '../detail/pitch-detail.component';
 import { PitchModalComponent } from '../modal/pitch-modal.component';
 
 @Component({
