@@ -4,14 +4,40 @@
     <img id="pageImage" style="margin-bottom: -1.5%" src="./../../../content/images/tournamentBackground-4.jpg" alt="tournament image" />
     <h2>Football Tournament</h2>
   </div>
-
   <div class="sub-navbar">
     <div class="left-nav">
       <!-- <div>
         <a class="link" href="/groups" target="_self">Groups</a>
       </div> -->
-      <div class="relative-container">
-        <span class="link details-button">Details <i class="arrow down"></i></span>
+      <div class="relative-container" (mouseenter)="showDetails = true" (mouseleave)="hideDetails()">
+        <span class="link details-button" (click)="toggleDetails()"
+          >Details <i (mouseenter)="showDetails = true" (mouseleave)="hideDetails()" (click)="toggleDetails()" class="arrow down"></i
+        ></span>
+        <div class="tournament-popUp" *ngIf="showDetails">
+          <div class="arrow-up" *ngIf="showDetails"></div>
+          <ng-container *ngFor="let tournament of tournaments">
+            <div *ngIf="tournament.teams && tournament.teams.length > 0" class="popUp-card">
+              <div class="popUp-details">
+                <h3>{{ tournament.name }}</h3>
+                <p class="popUp-detail">
+                  <span id="popUp-info">Location:</span
+                  ><span class="popUp-info2">{{ tournament.location }} <span class="marker"></span></span>
+                </p>
+                <p class="popUp-detail">
+                  <span id="popUp-info">Max Teams:</span><span class="popUp-info2">{{ tournament.maxTeams }}</span>
+                </p>
+                <p class="popUp-detail">
+                  <span id="popUp-info">Start Date:</span
+                  ><span class="popUp-info2">{{ tournament.startDate ? (tournament.startDate.toDate() | date) : 'N/A' }}</span>
+                </p>
+                <p class="popUp-detail">
+                  <span id="popUp-info">End Date:</span
+                  ><span class="popUp-info2">{{ tournament.endDate ? (tournament.endDate.toDate() | date) : 'N/A' }}</span>
+                </p>
+              </div>
+            </div>
+          </ng-container>
+        </div>
       </div>
       <div>
         <a class="link link2" href="/matches" target="_self">Matches</a>
@@ -22,7 +48,7 @@
       <button id="join-button" (click)="joinTournament(tournament.id)">Join</button>
     </div> -->
     <div>
-      <button id="join-button" (click)="joinTournament()">Join</button>
+      <button id="join-button" (click)="joinTournament()" title="JOIN PLEAASSE!">Join</button>
     </div>
   </div>
 
@@ -36,20 +62,36 @@
       <div *ngIf="tournament.teams && tournament.teams.length > 0" class="tournament-card">
         <div class="tournament-details">
           <h2>{{ tournament.name }}</h2>
-          <p class="detail"><strong>Location:</strong> {{ tournament.location }}</p>
-          <p class="detail"><strong>Max Teams:</strong> {{ tournament.maxTeams }}</p>
-          <p class="detail"><strong>Teams:</strong></p>
+          <p class="detail">
+            <span id="tournament-info">Location:</span
+            ><span class="tournament-info">{{ tournament.location }} <span class="marker"></span></span>
+          </p>
+          <p class="detail">
+            <span id="tournament-info">Max Teams:</span><span class="tournament-info">{{ tournament.maxTeams }}</span>
+          </p>
+          <p class="detail">
+            <span id="tournament-info">Start Date:</span
+            ><span class="tournament-info">{{ tournament.startDate ? (tournament.startDate.toDate() | date) : 'N/A' }}</span>
+          </p>
+          <p class="detail">
+            <span id="tournament-info">End Date:</span
+            ><span class="tournament-info">{{ tournament.endDate ? (tournament.endDate.toDate() | date) : 'N/A' }}</span>
+          </p>
+          <p class="detail"><span id="tournament-info">Teams participating:</span></p>
 
           <div class="team-list">
             <a class="team-item" *ngFor="let team of tournament.teams" [routerLink]="['/team', team.id, 'view']">
               <ng-container *ngIf="team.image; else defaultImage">
-                <img [src]="'data:' + team.imageContentType + ';base64,' + team.image" alt="team image" />
+                <img [src]="'data:' + team.imageContentType + ';base64,' + team.image" alt="team image" title="click!!" />
               </ng-container>
               <ng-template #defaultImage>
                 <img src="../../../../content/images/FootballIcon.png" alt="default team image" />
               </ng-template>
               <p>{{ team.name }}</p>
             </a>
+            <div>
+              <button id="join-button2" (click)="joinTournament()" title="JOIN PLEAASSE!!">Join</button>
+            </div>
           </div>
         </div>
       </div>
@@ -188,7 +230,7 @@
   </div>
 </div>
 
-<!--
+<!-- 
 
   <div class="tournament-boxes">
     <div *ngFor="let tournament of tournaments">
@@ -207,5 +249,3 @@
       </div>
     </div>
   </div> -->
-
-<!-- /Abdelmalek -->
