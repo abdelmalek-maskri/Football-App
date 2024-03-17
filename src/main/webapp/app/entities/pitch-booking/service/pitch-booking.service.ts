@@ -8,6 +8,8 @@ import { isPresent } from 'app/core/util/operators';
 import { ApplicationConfigService } from 'app/core/config/application-config.service';
 import { createRequestOption } from 'app/core/request/request-util';
 import { IPitchBooking, NewPitchBooking } from '../pitch-booking.model';
+import { Dayjs } from 'dayjs';
+import { DatePipe } from '@angular/common';
 
 export type PartialUpdatePitchBooking = Partial<IPitchBooking> & Pick<IPitchBooking, 'id'>;
 
@@ -63,6 +65,14 @@ export class PitchBookingService {
     const options = createRequestOption(req);
     return this.http
       .get<RestPitchBooking[]>(this.resourceUrl, { params: options, observe: 'response' })
+      .pipe(map(res => this.convertResponseArrayFromServer(res)));
+  }
+
+  // Method to get available time slots for a specified date
+  getAvailableTimeSlots(date: Dayjs): Observable<EntityArrayResponseType> {
+    const isoDateString = date.toISOString(); // Convert Dayjs to ISO string bcs its weird
+    return this.http
+      .get<RestPitchBooking[]>(`api/time-slots`, { params: { date: isoDateString }, observe: 'response' })
       .pipe(map(res => this.convertResponseArrayFromServer(res)));
   }
 

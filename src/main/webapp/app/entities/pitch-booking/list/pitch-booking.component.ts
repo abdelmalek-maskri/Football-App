@@ -16,6 +16,7 @@ import { SortService } from 'app/shared/sort/sort.service';
 export class PitchBookingComponent implements OnInit {
   pitchBookings?: IPitchBooking[];
   isLoading = false;
+  pitch: any;
 
   predicate = 'id';
   ascending = true;
@@ -25,13 +26,20 @@ export class PitchBookingComponent implements OnInit {
     protected activatedRoute: ActivatedRoute,
     public router: Router,
     protected sortService: SortService,
-    protected modalService: NgbModal
+    protected modalService: NgbModal,
+    private route: ActivatedRoute
   ) {}
 
   trackId = (_index: number, item: IPitchBooking): number => this.pitchBookingService.getPitchBookingIdentifier(item);
 
   ngOnInit(): void {
     this.load();
+    // Retrieve pitch details from query parameters
+    this.route.queryParams.subscribe(params => {
+      if (params.pitch) {
+        this.pitch = JSON.parse(params.pitch);
+      }
+    });
   }
 
   delete(pitchBooking: IPitchBooking): void {

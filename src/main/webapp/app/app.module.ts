@@ -26,6 +26,11 @@ import { ErrorComponent } from './layouts/error/error.component';
 import { TestComponent } from './test/test.component';
 import { GdprPageComponent } from './gdpr-page/gdpr-page.component';
 import { CookiePolicyComponent } from './cookie-policy/cookie-policy.component';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 
 @NgModule({
   imports: [
@@ -38,6 +43,11 @@ import { CookiePolicyComponent } from './cookie-policy/cookie-policy.component';
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: false }),
     HttpClientModule,
     NgxWebstorageModule.forRoot({ prefix: 'jhi', separator: '-', caseSensitive: true }),
+    MatDatepickerModule,
+    MatNativeDateModule,
+    BrowserAnimationsModule,
+    MatFormFieldModule,
+    MatInputModule,
   ],
   providers: [
     Title,

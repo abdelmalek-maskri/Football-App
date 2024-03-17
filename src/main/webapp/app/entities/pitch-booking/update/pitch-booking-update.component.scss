@@ -1,0 +1,24 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+}
+
+.time-slot {
+  order: 1;
+}
+
+.demo-inline-calendar-card {
+  order: 1;
+  width: 18.75em;
+}
+.time-slot,
+.demo-inline-calendar-card {
+}
+.team-drop {
+  order: 2;
+}
+.pitch-drop {
+  order: 2;
+}

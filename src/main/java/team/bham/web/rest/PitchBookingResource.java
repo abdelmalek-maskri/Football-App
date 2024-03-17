@@ -2,9 +2,8 @@ package team.bham.web.rest;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.time.*;
+import java.util.*;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import org.slf4j.Logger;
@@ -47,6 +46,7 @@ public class PitchBookingResource {
      * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new pitchBooking, or with status {@code 400 (Bad Request)} if the pitchBooking has already an ID.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
+    /* old one
     @PostMapping("/pitch-bookings")
     public ResponseEntity<PitchBooking> createPitchBooking(@Valid @RequestBody PitchBooking pitchBooking) throws URISyntaxException {
         log.debug("REST request to save PitchBooking : {}", pitchBooking);
@@ -58,6 +58,46 @@ public class PitchBookingResource {
             .created(new URI("/api/pitch-bookings/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, result.getId().toString()))
             .body(result);
+    }
+    */
+    @PostMapping("/pitch-bookings")
+    public ResponseEntity<PitchBooking> createPitchBooking(@Valid @RequestBody PitchBooking pitchBooking) throws URISyntaxException {
+        log.debug("REST request to save PitchBooking : {}", pitchBooking);
+
+        // Check if the pitch is already booked for the specified time slot
+        boolean isPitchAvailable = checkPitchAvailability(
+            pitchBooking.getPitch().getId(),
+            pitchBooking.getStartTime(),
+            pitchBooking.getEndTime()
+        );
+        log.debug("is available? " + isPitchAvailable);
+
+        if (!isPitchAvailable) {
+            throw new BadRequestAlertException("The pitch is already booked for the specified time slot", ENTITY_NAME, "pitchBooked");
+        }
+
+        // Proceed with saving the new pitchBooking
+        if (pitchBooking.getId() != null) {
+            throw new BadRequestAlertException("A new pitchBooking cannot already have an ID", ENTITY_NAME, "idexists");
+        }
+        PitchBooking result = pitchBookingRepository.save(pitchBooking);
+        return ResponseEntity
+            .created(new URI("/api/pitch-bookings/" + result.getId()))
+            .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, result.getId().toString()))
+            .body(result);
+    }
+
+    private boolean checkPitchAvailability(Long pitchId, Instant startTime, Instant endTime) {
+        // Retrieve existing bookings for the specified pitch and time range
+        List<PitchBooking> existingBookings = pitchBookingRepository.findByPitchIdAndStartTimeLessThanEqualAndEndTimeGreaterThanEqual(
+            pitchId,
+            startTime,
+            endTime
+        );
+        //should always return empty array
+        log.debug("existing bookings: " + existingBookings);
+        // If there are no existing bookings, the pitch is available
+        return existingBookings.isEmpty();
     }
 
     /**
@@ -167,6 +207,22 @@ public class PitchBookingResource {
         log.debug("REST request to get PitchBooking : {}", id);
         Optional<PitchBooking> pitchBooking = pitchBookingRepository.findById(id);
         return ResponseUtil.wrapOrNotFound(pitchBooking);
+    }
+
+    /**
+     * GET /pitch-bookings/available-time-slots : Get available time slots for a specified date.
+     *
+     * @param date the date for which to get available time slots
+     * @return the ResponseEntity with status 200 (OK) and the list of available time slots, or with status 404 (Not Found)
+     */
+    @GetMapping("/time-slots")
+    public ResponseEntity<List<PitchBooking>> getAvailableTimeSlots(@RequestParam(required = true) Instant date) {
+        log.debug("REST request to get available time slots for date: {}", date);
+
+        // Retrieve the list of booked pitches based on the provided date
+        List<PitchBooking> bookedPitchesBasedOnDate = pitchBookingRepository.findBookedPitchesBasedOnDate(date);
+        System.out.print(bookedPitchesBasedOnDate);
+        return ResponseEntity.ok().body(bookedPitchesBasedOnDate);
     }
 
     /**
