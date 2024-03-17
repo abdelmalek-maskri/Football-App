@@ -1,8 +1,9 @@
 package team.bham.repository;
 
-import java.time.LocalDate;
+import java.time.Instant;
 import java.util.List;
 import org.springframework.data.jpa.repository.*;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import team.bham.domain.PitchBooking;
 
@@ -12,5 +13,9 @@ import team.bham.domain.PitchBooking;
 @SuppressWarnings("unused")
 @Repository
 public interface PitchBookingRepository extends JpaRepository<PitchBooking, Long> {
-    List<PitchBooking> findByBookingDate(LocalDate bookingDate);
+    List<PitchBooking> findByPitchIdAndStartTimeLessThanEqualAndEndTimeGreaterThanEqual(Long pitchId, Instant startTime, Instant endTime);
+
+    // Retrieve the list of booked pitches based on the provided date
+    @Query("SELECT pb FROM PitchBooking pb WHERE pb.bookingDate = :date")
+    List<PitchBooking> findBookedPitchesBasedOnDate(@Param("date") Instant date);
 }

@@ -3,44 +3,21 @@
     <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
       <h2 id="jhi-pitch-booking-heading" data-cy="PitchBookingCreateUpdateHeading">Create or edit a Pitch Booking</h2>
 
-      <div>
+      <div class="container">
         <jhi-alert-error></jhi-alert-error>
 
         <div class="row mb-3" *ngIf="editForm.controls.id.value !== null">
           <label class="form-label" for="field_id">ID</label>
           <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
         </div>
-        <!--
-        <div class="row mb-3">
-          <label class="form-label" for="field_bookingDate">Booking Date</label>
-          <div class="d-flex">
-            <input
-              id="field_bookingDate"
-              data-cy="bookingDate"
-              type="datetime-local"
-              class="form-control"
-              name="bookingDate"
-              formControlName="bookingDate"
-              placeholder="YYYY-MM-DD HH:mm"
-            />
-          </div>
-          <div *ngIf="editForm.get('bookingDate')!.invalid && (editForm.get('bookingDate')!.dirty || editForm.get('bookingDate')!.touched)">
-            <small class="form-text text-danger" *ngIf="editForm.get('bookingDate')?.errors?.required"> This field is required. </small>
-            <small class="form-text text-danger" [hidden]="!editForm.get('bookingDate')?.errors?.datetimelocal">
-              This field should be a date and time.
-            </small>
-          </div>
-        </div>
-        -->
-        <div class="row mb-3">
+        <div class="row mb-3 book-date bbb">
           <label class="form-label">Booking Date</label>
 
-          <mat-card class="demo-inline-calendar-card">
+          <mat-card class="demo-inline-calendar-card inner-container">
             <mat-calendar [(selected)]="selected" (selectedChange)="onDateSelected($event)"></mat-calendar>
           </mat-card>
-          <p>Selected date: {{ selected }}</p>
-
-          <button class="btn btn-primary ml-2" (click)="checkAvailability()">Check Availability</button>
+          <!-- <p>Selected date: {{ selected }}</p>-->
+          <!-- <button (click)="checkAvailability(selected)">Check Availability</button> -->
           <div *ngIf="editForm.get('bookingDate')!.invalid && (editForm.get('bookingDate')!.dirty || editForm.get('bookingDate')!.touched)">
             <small class="form-text text-danger" *ngIf="editForm.get('bookingDate')?.errors?.required"> This field is required. </small>
             <small class="form-text text-danger" [hidden]="!editForm.get('bookingDate')?.errors?.datetimelocal">
@@ -50,47 +27,18 @@
         </div>
 
         <div class="row mb-3" *ngIf="isDateSelected">
-          <label class="form-label" for="field_startTime">Start Time</label>
-          <div class="d-flex">
-            <input
-              id="field_startTime"
-              data-cy="startTime"
-              type="datetime-local"
-              class="form-control"
-              name="startTime"
-              formControlName="startTime"
-              placeholder="YYYY-MM-DD HH:mm"
-            />
-          </div>
-          <div *ngIf="editForm.get('startTime')!.invalid && (editForm.get('startTime')!.dirty || editForm.get('startTime')!.touched)">
-            <small class="form-text text-danger" *ngIf="editForm.get('startTime')?.errors?.required"> This field is required. </small>
-            <small class="form-text text-danger" [hidden]="!editForm.get('startTime')?.errors?.datetimelocal">
-              This field should be a date and time.
-            </small>
-          </div>
-        </div>
-
-        <div class="row mb-3" *ngIf="isDateSelected">
-          <label class="form-label" for="field_endTime">End Time</label>
-          <div class="d-flex">
-            <input
-              id="field_endTime"
-              data-cy="endTime"
-              type="datetime-local"
-              class="form-control"
-              name="endTime"
-              formControlName="endTime"
-              placeholder="YYYY-MM-DD HH:mm"
-            />
+          <label class="form-label">Time Slot</label>
+          <div class="time-slot inner-container">
+            <mat-select placeholder="Select Time Slot" (selectionChange)="onTimeSlotSelected($event.value)">
+              <mat-option *ngFor="let slot of filteredTimeSlots" [value]="slot.value">{{ slot.viewValue }}</mat-option>
+            </mat-select>
           </div>
           <div *ngIf="editForm.get('endTime')!.invalid && (editForm.get('endTime')!.dirty || editForm.get('endTime')!.touched)">
             <small class="form-text text-danger" *ngIf="editForm.get('endTime')?.errors?.required"> This field is required. </small>
-            <small class="form-text text-danger" [hidden]="!editForm.get('endTime')?.errors?.datetimelocal">
-              This field should be a date and time.
-            </small>
           </div>
         </div>
-        <div class="row mb-3">
+
+        <div class="row mb-3 team-drop">
           <label class="form-label" for="field_team">Team</label>
           <select class="form-control" id="field_team" data-cy="team" name="team" formControlName="team" [compareWith]="compareTeam">
             <option [ngValue]="null"></option>
@@ -98,14 +46,14 @@
           </select>
         </div>
 
-        <div class="row mb-3">
+        <div class="row mb-3 pitch-drop">
           <label class="form-label" for="field_pitch">Pitch</label>
           <select class="form-control" id="field_pitch" data-cy="pitch" name="pitch" formControlName="pitch" [compareWith]="comparePitch">
             <option [ngValue]="null"></option>
-            <!-- <option [ngValue]="pitchOption" *ngFor="let pitchOption of pitchesSharedCollection">{{ pitchOption.id }}</option> -->
-            <option *ngFor="let pitch of pitchesSharedCollection" [value]="pitch.id" [selected]="pitch.id === selectedPitchId">
+            <option [ngValue]="pitchOption" *ngFor="let pitchOption of pitchesSharedCollection">{{ pitchOption.id }}</option>
+            <!-- <option *ngFor="let pitch of pitchesSharedCollection" [value]="pitch.id" [selected]="pitch.id === selectedPitchId">
               {{ pitch.name }}
-            </option>
+            </option>-->
           </select>
         </div>
       </div>

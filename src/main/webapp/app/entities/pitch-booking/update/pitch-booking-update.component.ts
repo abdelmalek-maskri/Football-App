@@ -6,13 +6,13 @@ import { catchError, finalize, map } from 'rxjs/operators';
 import { NgbDateStruct, NgbModule, NgbTimeStruct } from '@ng-bootstrap/ng-bootstrap';
 import { PitchBookingFormService, PitchBookingFormGroup } from './pitch-booking-form.service';
 import { IPitchBooking } from '../pitch-booking.model';
-import { PitchBookingService } from '../service/pitch-booking.service';
+import { PitchBookingService, RestPitchBooking } from '../service/pitch-booking.service';
 import { ITeam } from 'app/entities/team/team.model';
-import { TeamService } from 'app/entities/team/service/team.service';
+import { EntityArrayResponseType, TeamService } from 'app/entities/team/service/team.service';
 import { IPitch } from 'app/entities/pitch/pitch.model';
 import { PitchService } from 'app/entities/pitch/service/pitch.service';
 import { FormBuilder } from '@angular/forms';
-import dayjs from 'dayjs';
+import dayjs, { Dayjs } from 'dayjs';
 import { MatDatepickerInputEvent, MatDatepickerModule } from '@angular/material/datepicker';
 
 @Component({
@@ -31,17 +31,26 @@ export class PitchBookingUpdateComponent implements OnInit {
   editForm: PitchBookingFormGroup = this.pitchBookingFormService.createPitchBookingFormGroup();
   bookingDate: NgbDateStruct | null = null;
   isDateSelected: boolean = false;
-  startTime: NgbTimeStruct | null = null;
+  startTime: string | null = null;
+  endTime: string | null = null;
   selected: Date | null = null;
-
+  dayjsDate: dayjs.Dayjs | null = null;
+  timeSlots = [
+    { value: '08:00-10:00', viewValue: '08:00 - 10:00' },
+    { value: '10:00-12:00', viewValue: '10:00 - 12:00' },
+    { value: '12:00-14:00', viewValue: '12:00 - 14:00' },
+    { value: '14:00-16:00', viewValue: '14:00 - 16:00' },
+    // Add more slots as needed
+  ];
+  existingBookings: { startTime: Dayjs | null | undefined; endTime: Dayjs | null | undefined }[] = [];
+  // Filtered time slots based on existing bookings
+  filteredTimeSlots: { value: string; viewValue: string }[] = [];
   constructor(
     protected pitchBookingService: PitchBookingService,
     protected pitchBookingFormService: PitchBookingFormService,
     protected teamService: TeamService,
     protected pitchService: PitchService,
-    protected activatedRoute: ActivatedRoute,
-    private fb: FormBuilder,
-    private http: HttpClient // Inject HttpClient
+    protected activatedRoute: ActivatedRoute
   ) {}
 
   compareTeam = (o1: ITeam | null, o2: ITeam | null): boolean => this.teamService.compareTeam(o1, o2);
@@ -80,14 +89,31 @@ export class PitchBookingUpdateComponent implements OnInit {
     this.isSaving = true;
     // Get the form values
     const pitchBooking = this.pitchBookingFormService.getPitchBooking(this.editForm);
-    // Convert NgbDateStruct to dayjs.Dayjs
-    const bookingDateDayjs = dayjs(`${this.bookingDate?.year}-${this.bookingDate?.month}-${this.bookingDate?.day}`);
-    //const bookingStartTimejs: dayjs
-    // Assign the converted date to the pitchBooking object
     // @ts-ignore
-    pitchBooking.bookingDate = bookingDateDayjs;
-    //pitchBooking.startTime = bookingStartTimejs;
-    console.log(' here is :' + pitchBooking);
+    pitchBooking.bookingDate = this.dayjsDate;
+    // Convert startTime and endTime to Date objects if they are strings and are not null or empty
+    if (this.startTime && this.endTime) {
+      const bookingDate = this.dayjsDate?.format('YYYY-MM-DD') || ''; // Get the bookingDate in the format 'YYYY-MM-DD'
+
+      const startTimeDate = new Date(`${bookingDate}T${this.startTime}`);
+      const endTimeDate = new Date(`${bookingDate}T${this.endTime}`);
+
+      // Check if the parsed date is valid
+      if (!isNaN(startTimeDate.getTime()) && !isNaN(endTimeDate.getTime())) {
+        // @ts-ignore
+        pitchBooking.startTime = startTimeDate;
+        // @ts-ignore
+        pitchBooking.endTime = endTimeDate;
+      } else {
+        console.error('Invalid time format for startTime or endTime');
+        return;
+      }
+    } else {
+      console.error('startTime or endTime is null or empty');
+      return;
+    }
+    console.log('Start Time:', pitchBooking.startTime);
+    console.log('End Time:', pitchBooking.endTime);
     if (pitchBooking.id !== null) {
       this.subscribeToSaveResponse(this.pitchBookingService.update(pitchBooking));
     } else {
@@ -138,34 +164,78 @@ export class PitchBookingUpdateComponent implements OnInit {
       .pipe(map((pitches: IPitch[]) => this.pitchService.addPitchToCollectionIfMissing<IPitch>(pitches, this.pitchBooking?.pitch)))
       .subscribe((pitches: IPitch[]) => (this.pitchesSharedCollection = pitches));
   }
+  checkAvailability(selectedDate: Date | null): void {
+    if (!selectedDate) {
+      console.error('No date selected');
+      return;
+    }
+    const conver = this.convertToDate(selectedDate);
+    this.pitchBookingService.getAvailableTimeSlots(conver).subscribe(
+      response => {
+        console.log('Available time slots:', response);
+        const responseBody: IPitchBooking[] = response.body ?? []; // Extract the array from the response body
+        console.log(responseBody);
+        // Handle  response data
+        this.existingBookings = responseBody.map(storedBooking => ({
+          startTime: storedBooking.startTime,
+          endTime: storedBooking.endTime,
+        }));
+        this.filterTimeSlots();
+      },
+      error => {
+        console.error('Error fetching available time slots:', error);
+      }
+    );
+    console.log(this.existingBookings);
+  }
 
-  checkAvailability() {
-    if (this.bookingDate) {
-      const selectedDate = `${this.bookingDate.year}-${this.bookingDate.month < 10 ? '0' : ''}${this.bookingDate.month}-${
-        this.bookingDate.day < 10 ? '0' : ''
-      }${this.bookingDate.day}`;
-      this.http
-        .get<any[]>(`/api/available-bookings?date=${selectedDate}`)
-        .pipe(
-          catchError(error => {
-            console.error('Error occurred while checking availability:', error);
-            return throwError(error);
-          })
-        )
-        .subscribe(response => {
-          console.log('Available bookings:', response);
-          // Handle the response from the backend
-          // You can display the available bookings or perform other actions here
-        });
+  filterTimeSlots(): void {
+    // Reset filtered time slots
+    this.filteredTimeSlots = [...this.timeSlots];
+    console.log('the current time slots: ' + this.filteredTimeSlots);
+    // Iterate through existing bookings
+    this.existingBookings.forEach(booking => {
+      // Extract start and end time from existing booking
+      const startTime = booking.startTime?.format('HH:mm');
+      console.log(startTime);
+      const endTime = booking.endTime?.format('HH:mm');
+      // Filter out the time slots that match existing booking
+      this.filteredTimeSlots = this.filteredTimeSlots.filter(slot => {
+        const [slotStartTime, slotEndTime] = slot.value.split('-');
+        console.log(this.filteredTimeSlots);
+        return !(startTime === slotStartTime && endTime === slotEndTime);
+      });
+    });
+  }
+
+  // Function to handle date selection
+  onDateSelected(date: Date): void {
+    console.log(this.filteredTimeSlots);
+    console.log('Selected date:', date);
+    this.isDateSelected = true;
+    this.checkAvailability(date);
+
+    if (date instanceof Date && !isNaN(date.getTime())) {
+      this.dayjsDate = this.convertToDate(date);
+      //  assign the dayjsDate to bookingDate
+      // @ts-ignore
+      this.bookingDate = this.dayjsDate;
+      console.log('Booking date set:', this.bookingDate);
     } else {
-      console.warn('Please select a date before checking availability.');
+      console.error('Invalid date selected:', date);
     }
   }
 
-  onDateSelected(date: NgbDateStruct): void {
-    this.bookingDate = date;
-    console.log(this.bookingDate);
-    console.log(this.pitchBooking);
-    this.isDateSelected = true;
+  convertToDate(date: Date): dayjs.Dayjs {
+    const year = date.getFullYear();
+    const month = date.getMonth() + 1; // Note: Month is zero-indexed, so we add 1
+    const day = date.getDate();
+    return dayjs(`${year}-${month}-${day}`);
+  }
+  onTimeSlotSelected(timeSlotValue: string): void {
+    console.log('slo Time: ' + timeSlotValue);
+    [this.startTime, this.endTime] = timeSlotValue.split('-');
+    console.log('Start Time:', this.startTime);
+    console.log('End Time:', this.endTime);
   }
 }

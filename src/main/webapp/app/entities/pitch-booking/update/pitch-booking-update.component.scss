@@ -1,15 +1,24 @@
-.datepickerOne {
-  background: lightgreen;
+.container {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: flex-start;
 }
 
-.datepickerOne .mat-calendar-body-today:not(.mat-calendar-body-selected) {
-  border-color: darkgreen;
+.time-slot {
+  order: 1;
 }
 
-.mat-datepicker-content .datepickerOne.mat-calendar {
-  width: 500px;
-  height: auto;
-}
 .demo-inline-calendar-card {
-  width: 300px;
+  order: 1;
+  width: 18.75em;
+}
+.time-slot,
+.demo-inline-calendar-card {
+}
+.team-drop {
+  order: 2;
+}
+.pitch-drop {
+  order: 2;
 }
