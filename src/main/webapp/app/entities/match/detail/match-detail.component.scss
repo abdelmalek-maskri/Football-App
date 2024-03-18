@@ -1,0 +1,70 @@
+#matchBox {
+  margin: auto;
+  margin-top: 65px;
+
+  padding: 10px;
+  background: #f7f7f7;
+  box-shadow: 0 0 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 10px;
+}
+
+#matchNav {
+  position: relative;
+  align-items: stretch;
+  color: white;
+  margin: -10px;
+  background: #919191;
+  border-radius: 10px;
+  height: auto;
+}
+
+#matchBack {
+  color: white;
+  position: absolute;
+  right: 0;
+  background: #029352;
+  height: 100%;
+}
+
+#matchScore {
+  padding: 50px;
+}
+
+.homeImg {
+  display: block;
+  margin-top: 5px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 2px;
+  width: 80%;
+}
+
+.playerImg {
+  float: left;
+  width: 35px;
+  margin: 5px;
+  border-radius: 10px;
+}
+
+.scrollBox {
+  overflow-y: auto;
+  overflow-x: hidden;
+  width: auto;
+  height: 200px;
+  margin: 10px;
+}
+.scrollItem {
+  width: 100%;
+  clear: both;
+  display: table;
+  background: #b3b3b3;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  border-radius: 10px;
+}
+
+.playerDets {
+  float: left;
+  margin-left: 20px;
+  margin-top: 8.5px;
+}

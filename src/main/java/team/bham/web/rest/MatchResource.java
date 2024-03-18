@@ -2,9 +2,7 @@ package team.bham.web.rest;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import org.slf4j.Logger;
@@ -14,7 +12,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import team.bham.domain.Match;
+import team.bham.domain.Team;
+import team.bham.domain.UserProfile;
 import team.bham.repository.MatchRepository;
+import team.bham.repository.UserProfileRepository;
 import team.bham.web.rest.errors.BadRequestAlertException;
 import tech.jhipster.web.util.HeaderUtil;
 import tech.jhipster.web.util.ResponseUtil;
@@ -30,13 +31,15 @@ public class MatchResource {
     private final Logger log = LoggerFactory.getLogger(MatchResource.class);
 
     private static final String ENTITY_NAME = "match";
+    private final UserProfileRepository userProfileRepository;
 
     @Value("${jhipster.clientApp.name}")
     private String applicationName;
 
     private final MatchRepository matchRepository;
 
-    public MatchResource(MatchRepository matchRepository) {
+    public MatchResource(MatchRepository matchRepository, UserProfileRepository userProfileRepository) {
+        this.userProfileRepository = userProfileRepository;
         this.matchRepository = matchRepository;
     }
 
@@ -164,6 +167,21 @@ public class MatchResource {
     public ResponseEntity<Match> getMatch(@PathVariable Long id) {
         log.debug("REST request to get Match : {}", id);
         Optional<Match> match = matchRepository.findById(id);
+        if (match.isPresent()) {
+            Team home = match.get().getHome();
+            // Get team members.
+            log.debug("OK getting team members!");
+            Set<UserProfile> teamMembers = new HashSet<>(userProfileRepository.findByTeamId(home.getId()));
+            match.get().getHome().setMembers(teamMembers);
+            log.debug("Found " + teamMembers.size() + " team members.");
+            Team away = match.get().getAway();
+            // Get team members.
+            log.debug("OK getting team members!");
+            Set<UserProfile> teamMembersA = new HashSet<>(userProfileRepository.findByTeamId(away.getId()));
+            match.get().getAway().setMembers(teamMembersA);
+            log.debug("Found " + teamMembersA.size() + " team members.");
+        }
+
         return ResponseUtil.wrapOrNotFound(match);
     }
 
