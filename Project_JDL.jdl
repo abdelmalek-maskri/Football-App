@@ -155,15 +155,15 @@ entity Match {
     date Instant required
 }
 
-relationship OneToOne {
+relationship ManyToOne {
     Match{referee} to UserProfile
 }
 
-relationship OneToOne {
+relationship ManyToOne {
     Match{pitch} to Pitch
 }
 
-relationship OneToOne {
+relationship ManyToOne {
     Match{home} to Team
     Match{away} to Team
 }

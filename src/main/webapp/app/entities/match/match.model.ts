@@ -16,4 +16,9 @@ export interface IMatch {
   tournament?: Pick<ITournament, 'id' | 'name'> | null;
 }
 
+export interface IMatchDated {
+  date?: string;
+  list: IMatch[];
+}
+
 export type NewMatch = Omit<IMatch, 'id'> & { id: null };

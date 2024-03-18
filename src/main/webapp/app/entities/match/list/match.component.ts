@@ -3,11 +3,12 @@ import { ActivatedRoute, Data, ParamMap, Router } from '@angular/router';
 import { combineLatest, filter, Observable, switchMap, tap } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
-import { IMatch } from '../match.model';
+import { IMatch, IMatchDated } from '../match.model';
 import { ASC, DESC, SORT, ITEM_DELETED_EVENT, DEFAULT_SORT_DATA } from 'app/config/navigation.constants';
 import { EntityArrayResponseType, MatchService } from '../service/match.service';
 import { MatchDeleteDialogComponent } from '../delete/match-delete-dialog.component';
 import { SortService } from 'app/shared/sort/sort.service';
+import dayjs from 'dayjs';
 
 @Component({
   selector: 'jhi-match',
@@ -16,6 +17,7 @@ import { SortService } from 'app/shared/sort/sort.service';
 })
 export class MatchComponent implements OnInit {
   matches?: IMatch[];
+  matchesDated: IMatchDated[] = [];
   isLoading = false;
 
   predicate = 'id';
@@ -82,6 +84,24 @@ export class MatchComponent implements OnInit {
   }
 
   protected refineData(data: IMatch[]): IMatch[] {
+    let dateRepeated: string;
+    data.forEach((item: IMatch) => {
+      if (item.date != null) {
+        dateRepeated = item.date.format('DD/MM/YYYY');
+
+        const itemIndex = this.matchesDated.findIndex((i: IMatchDated) => i.date != null && dateRepeated != null && i.date == dateRepeated);
+        // if same date
+        if (itemIndex > -1) {
+          this.matchesDated[itemIndex].list.push(item);
+          return;
+        }
+
+        this.matchesDated.push({
+          date: dateRepeated,
+          list: [item],
+        });
+      }
+    });
     return data.sort(this.sortService.startSort(this.predicate, this.ascending ? 1 : -1));
   }
 

@@ -2,6 +2,7 @@ package team.bham.web.rest;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.time.*;
 import java.util.*;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
@@ -154,7 +155,14 @@ public class MatchResource {
     @GetMapping("/matches")
     public List<Match> getAllMatches() {
         log.debug("REST request to get all Matches");
-        return matchRepository.findAll();
+
+        LocalDate date = LocalDate.parse("2020-12-31");
+        Instant instant = date.atStartOfDay(ZoneId.of("Europe/London")).toInstant();
+
+        LocalDate date2 = LocalDate.parse("2023-12-31");
+        Instant instant2 = date2.atStartOfDay(ZoneId.of("Europe/London")).toInstant();
+
+        return matchRepository.findByDateBetween(instant, instant2);
     }
 
     /**

@@ -1,5 +1,7 @@
 package team.bham.repository;
 
+import java.time.Instant;
+import java.util.List;
 import org.springframework.data.jpa.repository.*;
 import org.springframework.stereotype.Repository;
 import team.bham.domain.Match;
@@ -9,4 +11,6 @@ import team.bham.domain.Match;
  */
 @SuppressWarnings("unused")
 @Repository
-public interface MatchRepository extends JpaRepository<Match, Long> {}
+public interface MatchRepository extends JpaRepository<Match, Long> {
+    List<Match> findByDateBetween(Instant begin, Instant end);
+}
