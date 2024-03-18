@@ -31,6 +31,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { LeaderboardsComponent } from './entities/leaderboards/leaderboards.component';
 
 @NgModule({
   imports: [
@@ -64,6 +65,7 @@ import { MatInputModule } from '@angular/material/input';
     GdprPageComponent,
     TestComponent,
     CookiePolicyComponent,
+    LeaderboardsComponent,
   ],
   bootstrap: [MainComponent],
 })
