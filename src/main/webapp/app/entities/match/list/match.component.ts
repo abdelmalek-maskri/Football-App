@@ -12,6 +12,7 @@ import { SortService } from 'app/shared/sort/sort.service';
 @Component({
   selector: 'jhi-match',
   templateUrl: './match.component.html',
+  styleUrls: ['./match.component.scss'],
 })
 export class MatchComponent implements OnInit {
   matches?: IMatch[];

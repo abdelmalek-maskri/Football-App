@@ -170,16 +170,21 @@ public class MatchResource {
         if (match.isPresent()) {
             Team home = match.get().getHome();
             // Get team members.
-            log.debug("OK getting team members!");
-            Set<UserProfile> teamMembers = new HashSet<>(userProfileRepository.findByTeamId(home.getId()));
-            match.get().getHome().setMembers(teamMembers);
-            log.debug("Found " + teamMembers.size() + " team members.");
+            if (home != null) {
+                log.debug("OK getting team members!");
+                Set<UserProfile> teamMembers = new HashSet<>(userProfileRepository.findByTeamId(home.getId()));
+                match.get().getHome().setMembers(teamMembers);
+                log.debug("Found " + teamMembers.size() + " team members.");
+            }
+
             Team away = match.get().getAway();
-            // Get team members.
-            log.debug("OK getting team members!");
-            Set<UserProfile> teamMembersA = new HashSet<>(userProfileRepository.findByTeamId(away.getId()));
-            match.get().getAway().setMembers(teamMembersA);
-            log.debug("Found " + teamMembersA.size() + " team members.");
+            if (away != null) {
+                // Get team members.
+                log.debug("OK getting team members!");
+                Set<UserProfile> teamMembersA = new HashSet<>(userProfileRepository.findByTeamId(away.getId()));
+                match.get().getAway().setMembers(teamMembersA);
+                log.debug("Found " + teamMembersA.size() + " team members.");
+            }
         }
 
         return ResponseUtil.wrapOrNotFound(match);
