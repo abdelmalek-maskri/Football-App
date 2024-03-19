@@ -24,16 +24,16 @@
                 <constraints nullable="false" />
             </column>
             <column name="referee_id" type="bigint">
-                <constraints nullable="true" unique="true" uniqueConstraintName="ux_match__referee_id" />
+                <constraints nullable="true" />
             </column>
             <column name="pitch_id" type="bigint">
-                <constraints nullable="true" unique="true" uniqueConstraintName="ux_match__pitch_id" />
+                <constraints nullable="true"/>
             </column>
             <column name="home_id" type="bigint">
-                <constraints nullable="true" unique="true" uniqueConstraintName="ux_match__home_id" />
+                <constraints nullable="true"  />
             </column>
             <column name="away_id" type="bigint">
-                <constraints nullable="true" unique="true" uniqueConstraintName="ux_match__away_id" />
+                <constraints nullable="true" />
             </column>
             <column name="tournament_id" type="bigint">
                 <constraints nullable="true" />
