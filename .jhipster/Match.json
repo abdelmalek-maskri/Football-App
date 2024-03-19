@@ -33,25 +33,25 @@
       "otherEntityName": "userProfile",
       "ownerSide": true,
       "relationshipName": "referee",
-      "relationshipType": "one-to-one"
+      "relationshipType": "many-to-one"
     },
     {
       "otherEntityName": "pitch",
       "ownerSide": true,
       "relationshipName": "pitch",
-      "relationshipType": "one-to-one"
+      "relationshipType": "many-to-one"
     },
     {
       "otherEntityName": "team",
       "ownerSide": true,
       "relationshipName": "home",
-      "relationshipType": "one-to-one"
+      "relationshipType": "many-to-one"
     },
     {
       "otherEntityName": "team",
       "ownerSide": true,
       "relationshipName": "away",
-      "relationshipType": "one-to-one"
+      "relationshipType": "many-to-one"
     },
     {
       "otherEntityName": "tournament",

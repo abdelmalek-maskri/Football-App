@@ -2,6 +2,8 @@ package team.bham.web.rest;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.time.*;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
@@ -152,9 +154,23 @@ public class MatchResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of matches in body.
      */
     @GetMapping("/matches")
-    public List<Match> getAllMatches() {
+    public List<Match> getAllMatches(@RequestParam(required = false) String date) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
         log.debug("REST request to get all Matches");
-        return matchRepository.findAll();
+
+        LocalDate theMonth;
+        try {
+            theMonth = LocalDate.parse(date, formatter);
+        } catch (Exception e) {
+            theMonth = LocalDate.now();
+        }
+        LocalDate date1 = theMonth.withDayOfMonth(1);
+        Instant instant = date1.atStartOfDay(ZoneId.of("Europe/London")).toInstant();
+
+        LocalDate date2 = theMonth.withDayOfMonth(theMonth.lengthOfMonth());
+        Instant instant2 = date2.atStartOfDay(ZoneId.of("Europe/London")).toInstant();
+
+        return matchRepository.findByDateBetween(instant, instant2);
     }
 
     /**
@@ -170,16 +186,21 @@ public class MatchResource {
         if (match.isPresent()) {
             Team home = match.get().getHome();
             // Get team members.
-            log.debug("OK getting team members!");
-            Set<UserProfile> teamMembers = new HashSet<>(userProfileRepository.findByTeamId(home.getId()));
-            match.get().getHome().setMembers(teamMembers);
-            log.debug("Found " + teamMembers.size() + " team members.");
+            if (home != null) {
+                log.debug("OK getting team members!");
+                Set<UserProfile> teamMembers = new HashSet<>(userProfileRepository.findByTeamId(home.getId()));
+                match.get().getHome().setMembers(teamMembers);
+                log.debug("Found " + teamMembers.size() + " team members.");
+            }
+
             Team away = match.get().getAway();
-            // Get team members.
-            log.debug("OK getting team members!");
-            Set<UserProfile> teamMembersA = new HashSet<>(userProfileRepository.findByTeamId(away.getId()));
-            match.get().getAway().setMembers(teamMembersA);
-            log.debug("Found " + teamMembersA.size() + " team members.");
+            if (away != null) {
+                // Get team members.
+                log.debug("OK getting team members!");
+                Set<UserProfile> teamMembersA = new HashSet<>(userProfileRepository.findByTeamId(away.getId()));
+                match.get().getAway().setMembers(teamMembersA);
+                log.debug("Found " + teamMembersA.size() + " team members.");
+            }
         }
 
         return ResponseUtil.wrapOrNotFound(match);

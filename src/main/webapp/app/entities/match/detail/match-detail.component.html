@@ -7,7 +7,12 @@
             <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
           </button>
           <h2 data-cy="matchDetailsHeading">
-            <span>{{ match.home?.name }} vs {{ match.away?.name }}</span>
+            <ng-container *ngIf="match.home && match.away; else noTeams">
+              <span>{{ match.home.name }} vs {{ match.away.name }}</span>
+            </ng-container>
+            <ng-template #noTeams>
+              <span>Teams not allocated</span>
+            </ng-template>
           </h2>
         </div>
 

@@ -19,129 +19,163 @@
       </button>
     </div>
   </h2>
+  <div class="d-flex justify-content-center">
+    <div class="col-9">
+      <div id="matchBox">
+        <div id="matchNav" class="text-center">
+          <button (click)="prevMonth()" type="submit" id="matchPrev" class="btn" data-cy="entityDetailsBackButton">
+            <fa-icon icon="arrow-left"></fa-icon><span> Previous</span>
+          </button>
+          <button (click)="nextMonth()" type="submit" id="matchNext" class="btn" data-cy="entityDetailsBackButton">
+            <span>Next </span><fa-icon icon="arrow-right"></fa-icon>
+          </button>
+          <h2>Month of data</h2>
+        </div>
 
-  <jhi-alert-error></jhi-alert-error>
+        <ng-container *ngFor="let matchDated of matchesDated">
+          <h3>{{ matchDated.date }}</h3>
+          <ng-container *ngFor="let match of matchDated.list">
+            <div>
+              <span>{{ match.home?.name }} vs {{ match.away?.name }}</span>
+            </div>
+          </ng-container>
+        </ng-container>
 
-  <jhi-alert></jhi-alert>
+        <jhi-alert-error></jhi-alert-error>
 
-  <div class="alert alert-warning" id="no-result" *ngIf="matches?.length === 0">
-    <span>Entity translation missing for teamprojectApp.match.home.notFound</span>
-  </div>
+        <jhi-alert></jhi-alert>
 
-  <div class="table-responsive table-entities" id="entities" *ngIf="matches && matches.length > 0">
-    <table class="table table-striped" aria-describedby="page-heading">
-      <thead>
-        <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="navigateToWithComponentValues()">
-          <th scope="col" jhiSortBy="id">
-            <div class="d-flex">
-              <span>ID</span>
-              <fa-icon class="p-1" icon="sort"></fa-icon>
-            </div>
-          </th>
-          <th scope="col" jhiSortBy="homeScore">
-            <div class="d-flex">
-              <span>Home Score</span>
-              <fa-icon class="p-1" icon="sort"></fa-icon>
-            </div>
-          </th>
-          <th scope="col" jhiSortBy="awayScore">
-            <div class="d-flex">
-              <span>Away Score</span>
-              <fa-icon class="p-1" icon="sort"></fa-icon>
-            </div>
-          </th>
-          <th scope="col" jhiSortBy="date">
-            <div class="d-flex">
-              <span>Date</span>
-              <fa-icon class="p-1" icon="sort"></fa-icon>
-            </div>
-          </th>
-          <th scope="col" jhiSortBy="referee.id">
-            <div class="d-flex">
-              <span>Referee</span>
-              <fa-icon class="p-1" icon="sort"></fa-icon>
-            </div>
-          </th>
-          <th scope="col" jhiSortBy="pitch.id">
-            <div class="d-flex">
-              <span>Pitch</span>
-              <fa-icon class="p-1" icon="sort"></fa-icon>
-            </div>
-          </th>
-          <th scope="col" jhiSortBy="home.id">
-            <div class="d-flex">
-              <span>Home</span>
-              <fa-icon class="p-1" icon="sort"></fa-icon>
-            </div>
-          </th>
-          <th scope="col" jhiSortBy="away.id">
-            <div class="d-flex">
-              <span>Away</span>
-              <fa-icon class="p-1" icon="sort"></fa-icon>
-            </div>
-          </th>
-          <th scope="col" jhiSortBy="tournament.id">
-            <div class="d-flex">
-              <span>Tournament</span>
-              <fa-icon class="p-1" icon="sort"></fa-icon>
-            </div>
-          </th>
-          <th scope="col"></th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let match of matches; trackBy: trackId" data-cy="entityTable">
-          <td>
-            <a [routerLink]="['/match', match.id, 'view']">{{ match.id }}</a>
-          </td>
-          <td>{{ match.homeScore }}</td>
-          <td>{{ match.awayScore }}</td>
-          <td>{{ match.date | formatMediumDatetime }}</td>
-          <td>
-            <div *ngIf="match.referee">
-              <a [routerLink]="['/user-profile', match.referee.id, 'view']">{{ match.referee.id }}</a>
-            </div>
-          </td>
-          <td>
-            <div *ngIf="match.pitch">
-              <a [routerLink]="['/pitch', match.pitch.id, 'view']">{{ match.pitch.id }}</a>
-            </div>
-          </td>
-          <td>
-            <div *ngIf="match.home">
-              <a [routerLink]="['/team', match.home.id, 'view']">{{ match.home.id }}</a>
-            </div>
-          </td>
-          <td>
-            <div *ngIf="match.away">
-              <a [routerLink]="['/team', match.away.id, 'view']">{{ match.away.id }}</a>
-            </div>
-          </td>
-          <td>
-            <div *ngIf="match.tournament">
-              <a [routerLink]="['/tournament', match.tournament.id, 'view']">{{ match.tournament.id }}</a>
-            </div>
-          </td>
-          <td class="text-end">
-            <div class="btn-group">
-              <button type="submit" [routerLink]="['/match', match.id, 'view']" class="btn btn-info btn-sm" data-cy="entityDetailsButton">
-                <fa-icon icon="eye"></fa-icon>
-                <span class="d-none d-md-inline">View</span>
-              </button>
+        <div class="alert alert-warning" id="no-result" *ngIf="matches?.length === 0">
+          <span>Entity translation missing for teamprojectApp.match.home.notFound</span>
+        </div>
 
-              <button type="submit" [routerLink]="['/match', match.id, 'edit']" class="btn btn-primary btn-sm" data-cy="entityEditButton">
-                <fa-icon icon="pencil-alt"></fa-icon>
-                <span class="d-none d-md-inline">Edit</span>
-              </button>
+        <div class="table-responsive table-entities" id="entities" *ngIf="matches && matches.length > 0">
+          <table class="table table-striped" aria-describedby="page-heading">
+            <thead>
+              <tr>
+                <th scope="col" jhiSortBy="id">
+                  <div class="d-flex">
+                    <span>ID</span>
+                    <fa-icon class="p-1" icon="sort"></fa-icon>
+                  </div>
+                </th>
+                <th scope="col" jhiSortBy="homeScore">
+                  <div class="d-flex">
+                    <span>Home Score</span>
+                    <fa-icon class="p-1" icon="sort"></fa-icon>
+                  </div>
+                </th>
+                <th scope="col" jhiSortBy="awayScore">
+                  <div class="d-flex">
+                    <span>Away Score</span>
+                    <fa-icon class="p-1" icon="sort"></fa-icon>
+                  </div>
+                </th>
+                <th scope="col" jhiSortBy="date">
+                  <div class="d-flex">
+                    <span>Date</span>
+                    <fa-icon class="p-1" icon="sort"></fa-icon>
+                  </div>
+                </th>
+                <th scope="col" jhiSortBy="referee.id">
+                  <div class="d-flex">
+                    <span>Referee</span>
+                    <fa-icon class="p-1" icon="sort"></fa-icon>
+                  </div>
+                </th>
+                <th scope="col" jhiSortBy="pitch.id">
+                  <div class="d-flex">
+                    <span>Pitch</span>
+                    <fa-icon class="p-1" icon="sort"></fa-icon>
+                  </div>
+                </th>
+                <th scope="col" jhiSortBy="home.id">
+                  <div class="d-flex">
+                    <span>Home</span>
+                    <fa-icon class="p-1" icon="sort"></fa-icon>
+                  </div>
+                </th>
+                <th scope="col" jhiSortBy="away.id">
+                  <div class="d-flex">
+                    <span>Away</span>
+                    <fa-icon class="p-1" icon="sort"></fa-icon>
+                  </div>
+                </th>
+                <th scope="col" jhiSortBy="tournament.id">
+                  <div class="d-flex">
+                    <span>Tournament</span>
+                    <fa-icon class="p-1" icon="sort"></fa-icon>
+                  </div>
+                </th>
+                <th scope="col"></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let match of matches; trackBy: trackId" data-cy="entityTable">
+                <td>
+                  <a [routerLink]="['/match', match.id, 'view']">{{ match.id }}</a>
+                </td>
+                <td>{{ match.homeScore }}</td>
+                <td>{{ match.awayScore }}</td>
+                <td>{{ match.date | formatMediumDatetime }}</td>
+                <td>
+                  <div *ngIf="match.referee">
+                    <a [routerLink]="['/user-profile', match.referee.id, 'view']">{{ match.referee.id }}</a>
+                  </div>
+                </td>
+                <td>
+                  <div *ngIf="match.pitch">
+                    <a [routerLink]="['/pitch', match.pitch.id, 'view']">{{ match.pitch.id }}</a>
+                  </div>
+                </td>
+                <td>
+                  <div *ngIf="match.home">
+                    <a [routerLink]="['/team', match.home.id, 'view']">{{ match.home.id }}</a>
+                  </div>
+                </td>
+                <td>
+                  <div *ngIf="match.away">
+                    <a [routerLink]="['/team', match.away.id, 'view']">{{ match.away.id }}</a>
+                  </div>
+                </td>
+                <td>
+                  <div *ngIf="match.tournament">
+                    <a [routerLink]="['/tournament', match.tournament.id, 'view']">{{ match.tournament.id }}</a>
+                  </div>
+                </td>
+                <td class="text-end">
+                  <div class="btn-group">
+                    <button
+                      type="submit"
+                      [routerLink]="['/match', match.id, 'view']"
+                      class="btn btn-info btn-sm"
+                      data-cy="entityDetailsButton"
+                    >
+                      <fa-icon icon="eye"></fa-icon>
+                      <span class="d-none d-md-inline">View</span>
+                    </button>
 
-              <button type="submit" (click)="delete(match)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
-                <fa-icon icon="times"></fa-icon>
-                <span class="d-none d-md-inline">Delete</span>
-              </button>
-            </div>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+                    <button
+                      type="submit"
+                      [routerLink]="['/match', match.id, 'edit']"
+                      class="btn btn-primary btn-sm"
+                      data-cy="entityEditButton"
+                    >
+                      <fa-icon icon="pencil-alt"></fa-icon>
+                      <span class="d-none d-md-inline">Edit</span>
+                    </button>
+
+                    <button type="submit" (click)="delete(match)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                      <fa-icon icon="times"></fa-icon>
+                      <span class="d-none d-md-inline">Delete</span>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
