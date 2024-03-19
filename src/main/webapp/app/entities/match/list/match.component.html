@@ -23,10 +23,10 @@
     <div class="col-9">
       <div id="matchBox">
         <div id="matchNav" class="text-center">
-          <button type="submit" id="matchPrev" class="btn" data-cy="entityDetailsBackButton">
+          <button (click)="prevMonth()" type="submit" id="matchPrev" class="btn" data-cy="entityDetailsBackButton">
             <fa-icon icon="arrow-left"></fa-icon><span> Previous</span>
           </button>
-          <button type="submit" id="matchNext" class="btn" data-cy="entityDetailsBackButton">
+          <button (click)="nextMonth()" type="submit" id="matchNext" class="btn" data-cy="entityDetailsBackButton">
             <span>Next </span><fa-icon icon="arrow-right"></fa-icon>
           </button>
           <h2>Month of data</h2>
@@ -34,6 +34,11 @@
 
         <ng-container *ngFor="let matchDated of matchesDated">
           <h3>{{ matchDated.date }}</h3>
+          <ng-container *ngFor="let match of matchDated.list">
+            <div>
+              <span>{{ match.home?.name }} vs {{ match.away?.name }}</span>
+            </div>
+          </ng-container>
         </ng-container>
 
         <jhi-alert-error></jhi-alert-error>
@@ -47,7 +52,7 @@
         <div class="table-responsive table-entities" id="entities" *ngIf="matches && matches.length > 0">
           <table class="table table-striped" aria-describedby="page-heading">
             <thead>
-              <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="navigateToWithComponentValues()">
+              <tr>
                 <th scope="col" jhiSortBy="id">
                   <div class="d-flex">
                     <span>ID</span>

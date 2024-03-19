@@ -3,6 +3,7 @@ package team.bham.web.rest;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.time.*;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
@@ -153,13 +154,20 @@ public class MatchResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of matches in body.
      */
     @GetMapping("/matches")
-    public List<Match> getAllMatches() {
+    public List<Match> getAllMatches(@RequestParam(required = false) String date) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
         log.debug("REST request to get all Matches");
 
-        LocalDate date = LocalDate.parse("2020-12-31");
-        Instant instant = date.atStartOfDay(ZoneId.of("Europe/London")).toInstant();
+        LocalDate theMonth;
+        try {
+            theMonth = LocalDate.parse(date, formatter);
+        } catch (Exception e) {
+            theMonth = LocalDate.now();
+        }
+        LocalDate date1 = theMonth.withDayOfMonth(1);
+        Instant instant = date1.atStartOfDay(ZoneId.of("Europe/London")).toInstant();
 
-        LocalDate date2 = LocalDate.parse("2023-12-31");
+        LocalDate date2 = theMonth.withDayOfMonth(theMonth.lengthOfMonth());
         Instant instant2 = date2.atStartOfDay(ZoneId.of("Europe/London")).toInstant();
 
         return matchRepository.findByDateBetween(instant, instant2);
