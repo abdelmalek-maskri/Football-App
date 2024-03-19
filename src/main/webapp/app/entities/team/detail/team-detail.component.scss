@@ -26,6 +26,21 @@ html * {
   margin-top: 1em;
 }
 
+/* Top Row */
+#top-row {
+  margin-top: 3em;
+  margin-left: 2em;
+  margin-right: 2em;
+  height: auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#top-row > div {
+  //background-color: red;
+}
+
 /* Team Profile */
 
 #teamDetailsContainer {
