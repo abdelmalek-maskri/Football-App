@@ -11,6 +11,7 @@ import { SortService } from 'app/shared/sort/sort.service';
 import dayjs from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
 dayjs.extend(customParseFormat);
+
 @Component({
   selector: 'jhi-match',
   templateUrl: './match.component.html',
@@ -22,12 +23,12 @@ export class MatchComponent implements OnInit {
   isLoading = false;
 
   date = dayjs().format('DD-MM-YYYY');
+  month: string = dayjs().format('MMMM');
 
   constructor(
     protected matchService: MatchService,
     protected activatedRoute: ActivatedRoute,
     public router: Router,
-    protected sortService: SortService,
     protected modalService: NgbModal
   ) {}
 
@@ -47,6 +48,7 @@ export class MatchComponent implements OnInit {
   prevMonth(): void {
     var tempDate = dayjs(this.date, 'DD-MM-YYYY');
     var newDate = tempDate.subtract(1, 'month');
+    this.month = newDate.format('MMMM');
     this.date = newDate.format('DD-MM-YYYY');
     this.navigateToWithComponentValues();
   }
@@ -90,6 +92,7 @@ export class MatchComponent implements OnInit {
     var tempDate = params.get('date');
     if (tempDate != null) {
       this.date = tempDate;
+      this.month = dayjs(tempDate, 'DD-MM-YYYY').format('MMMM');
     }
   }
 
@@ -103,7 +106,7 @@ export class MatchComponent implements OnInit {
     let matchesDatedTemp: IMatchDated[] = [];
     data.forEach((item: IMatch) => {
       if (item.date != null) {
-        dateRepeated = item.date.format('DD/MM/YYYY');
+        dateRepeated = item.date.format('MMMM d');
 
         const itemIndex = matchesDatedTemp.findIndex((i: IMatchDated) => i.date != null && dateRepeated != null && i.date == dateRepeated);
         // if same date

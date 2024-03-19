@@ -29,17 +29,57 @@
           <button (click)="nextMonth()" type="submit" id="matchNext" class="btn" data-cy="entityDetailsBackButton">
             <span>Next </span><fa-icon icon="arrow-right"></fa-icon>
           </button>
-          <h2>Month of data</h2>
+          <h2>{{ month }}</h2>
         </div>
-
-        <ng-container *ngFor="let matchDated of matchesDated">
-          <h3>{{ matchDated.date }}</h3>
-          <ng-container *ngFor="let match of matchDated.list">
-            <div>
-              <span>{{ match.home?.name }} vs {{ match.away?.name }}</span>
-            </div>
-          </ng-container>
-        </ng-container>
+        <div>
+          <div *ngIf="matchesDated.length > 0; else noMatches">
+            <ng-container *ngFor="let matchDated of matchesDated">
+              <div class="matchDay">
+                <h4>{{ matchDated.date }}</h4>
+              </div>
+              <ng-container *ngFor="let match of matchDated.list">
+                <a class="matchItem" [routerLink]="['/match', match.id, 'view']">
+                  <div class="col home">
+                    <span *ngIf="match.home">
+                      {{ match.home.name }}
+                      <ng-container *ngIf="match.home.image; else defaultImage">
+                        <img
+                          [src]="'data:' + match.home.imageContentType + ';base64,' + match.home.image"
+                          alt="Home Team Logo"
+                          class="teamLogo"
+                        />
+                      </ng-container>
+                    </span>
+                  </div>
+                  <div class="col-2 text-center">
+                    <span class="vs">
+                      <span *ngIf="match.homeScore">{{ match.homeScore }}</span
+                      >&ensp; vs &ensp;<span *ngIf="match.awayScore">{{ match.awayScore }}</span></span
+                    >
+                  </div>
+                  <div class="col away">
+                    <span *ngIf="match.away">
+                      <ng-container *ngIf="match.away.image; else defaultImage">
+                        <img
+                          [src]="'data:' + match.away.imageContentType + ';base64,' + match.away.image"
+                          alt="Home Team Logo"
+                          class="teamLogo"
+                        />
+                      </ng-container>
+                      {{ match.away.name }}
+                    </span>
+                  </div>
+                </a>
+                <ng-template #defaultImage>
+                  <img src="../../../../../content/images/FootballIcon.png" alt="Default Team logo" class="teamLogo" />
+                </ng-template>
+              </ng-container>
+            </ng-container>
+          </div>
+          <ng-template #noMatches>
+            <h4><span>No matches this month</span></h4>
+          </ng-template>
+        </div>
 
         <jhi-alert-error></jhi-alert-error>
 
