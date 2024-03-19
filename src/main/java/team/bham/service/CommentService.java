@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import team.bham.domain.Comment;
 import team.bham.domain.UserProfile;
 import team.bham.repository.CommentRepository;
+import team.bham.repository.UserProfileRepository;
 
 @Service
 public class CommentService {

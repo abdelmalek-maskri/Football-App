@@ -3,6 +3,7 @@ package team.bham.web.rest;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import javax.validation.Valid;
@@ -14,7 +15,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import team.bham.domain.Comment;
+import team.bham.domain.UserProfile;
 import team.bham.repository.CommentRepository;
+import team.bham.service.CommentService;
 import team.bham.web.rest.errors.BadRequestAlertException;
 import tech.jhipster.web.util.HeaderUtil;
 import tech.jhipster.web.util.ResponseUtil;
@@ -35,9 +38,11 @@ public class CommentResource {
     private String applicationName;
 
     private final CommentRepository commentRepository;
+    private final CommentService commentService;
 
-    public CommentResource(CommentRepository commentRepository) {
+    public CommentResource(CommentRepository commentRepository, CommentService commentService) {
         this.commentRepository = commentRepository;
+        this.commentService = commentService;
     }
 
     /**
@@ -186,9 +191,9 @@ public class CommentResource {
     }
 
     @GetMapping("/calculate-averagerate/{targetUserId}")
-    public ResponseEntity<Double> calculateAverageRate(@PathVariable Long targetUserId) {
-        log.debug("REST request to calculate average rate for target user : {}", targetUserId);
-        UserProfile targetUser = commentService.getUserProfile(targetUser);
+    public ResponseEntity<Double> calculateAverageRate(@PathVariable UserProfile targetUser) {
+        //        log.debug("REST request to calculate average rate for target user : {}", targetUserId);
+        //        UserProfile targetUser = commentService.getUserProfile(targetUserId);
 
         double averageRate = commentService.calculateAverageRate(targetUser);
         return ResponseEntity.ok().body(averageRate);

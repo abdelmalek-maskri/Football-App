@@ -12,7 +12,7 @@ import { TestComponent } from 'app/test/test.component';
 
 import { GdprPageComponent } from 'app/gdpr-page/gdpr-page.component';
 import { CookiePolicyComponent } from './cookie-policy/cookie-policy.component';
-// import { LeaderboardComponent  } from '.app/leaderboards/leaderboards.component';
+import { LeaderboardsComponent } from 'app/entities/leaderboards/leaderboards.component';
 @NgModule({
   imports: [
     RouterModule.forRoot(
@@ -58,13 +58,13 @@ import { CookiePolicyComponent } from './cookie-policy/cookie-policy.component';
             pageTitle: 'Cookie Policy',
           },
         },
-        //         {
-        //           path: 'Leaderboards',
-        //           component: LeaderboardComponent,
-        //           data: {
-        //              pageTitle: 'Cookie Policy',
-        //           },
-        //         },
+        {
+          path: 'Leaderboards',
+          component: LeaderboardsComponent,
+          data: {
+            pageTitle: 'Leaderboards',
+          },
+        },
         navbarRoute,
         ...errorRoute,
       ],
