@@ -8,6 +8,8 @@ import { AccountService } from '../../../core/auth/account.service';
 import { EntityResponseType, RestTeam, TeamService } from '../../team/service/team.service';
 import { TeamComponent } from '../../team/list/team.component';
 import { ITeam } from '../../team/team.model';
+import { MatDialog, MatDialogConfig, MatDialogModule } from '@angular/material/dialog';
+import { ModalComponent } from '../modal/modal.component';
 
 @Component({
   selector: 'jhi-user-profile-detail',
@@ -23,7 +25,8 @@ export class UserProfileDetailComponent implements OnInit {
     protected dataUtils: DataUtils,
     protected activatedRoute: ActivatedRoute,
     private accountService: AccountService,
-    private teamService: TeamService
+    private teamService: TeamService,
+    public matDialog: MatDialog
   ) {}
 
   ngOnInit(): void {
@@ -46,8 +49,6 @@ export class UserProfileDetailComponent implements OnInit {
         this.usersTeam = team.body;
       });
     }
-
-    console.log(this.usersTeam);
   }
 
   byteSize(base64String: string): string {
@@ -60,5 +61,16 @@ export class UserProfileDetailComponent implements OnInit {
 
   previousState(): void {
     window.history.back();
+  }
+
+  openModal() {
+    const dialogConfig = new MatDialogConfig();
+    // The user can't close the dialog by clicking outside its body
+    dialogConfig.disableClose = true;
+    dialogConfig.id = 'modal-component';
+    dialogConfig.height = '350px';
+    dialogConfig.width = '600px';
+    // https://material.angular.io/components/dialog/overview
+    const modalDialog = this.matDialog.open(ModalComponent, dialogConfig);
   }
 }

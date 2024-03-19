@@ -14,6 +14,8 @@ import { ITeam } from 'app/entities/team/team.model';
 import { TeamService } from 'app/entities/team/service/team.service';
 import { Genders } from 'app/entities/enumerations/genders.model';
 import { Positions } from 'app/entities/enumerations/positions.model';
+import { IContact } from '../../contact/contact.model';
+import { ContactType } from '../../enumerations/contact-type.model';
 
 @Component({
   selector: 'jhi-user-profile-update',
@@ -24,8 +26,9 @@ export class UserProfileUpdateComponent implements OnInit {
   userProfile: IUserProfile | null = null;
   gendersValues = Object.keys(Genders);
   positionsValues = Object.keys(Positions);
-
   teamsSharedCollection: ITeam[] = [];
+
+  contactTypes: String[] = [];
 
   editForm: UserProfileFormGroup = this.userProfileFormService.createUserProfileFormGroup();
 
@@ -42,6 +45,10 @@ export class UserProfileUpdateComponent implements OnInit {
   compareTeam = (o1: ITeam | null, o2: ITeam | null): boolean => this.teamService.compareTeam(o1, o2);
 
   ngOnInit(): void {
+    for (const enumMember in ContactType) {
+      this.contactTypes.push(enumMember.toString());
+    }
+
     this.activatedRoute.data.subscribe(({ userProfile }) => {
       this.userProfile = userProfile;
       if (userProfile) {
@@ -124,4 +131,6 @@ export class UserProfileUpdateComponent implements OnInit {
       .pipe(map((teams: ITeam[]) => this.teamService.addTeamToCollectionIfMissing<ITeam>(teams, this.userProfile?.team)))
       .subscribe((teams: ITeam[]) => (this.teamsSharedCollection = teams));
   }
+
+  protected readonly ContactType = ContactType;
 }

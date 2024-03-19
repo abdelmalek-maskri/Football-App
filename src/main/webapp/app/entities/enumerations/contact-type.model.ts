@@ -5,7 +5,7 @@ export enum ContactType {
 
   INSTAGRAM = 'INSTAGRAM',
 
-  TWITTER = 'TWITTER',
+  X = 'X',
 
   WEBSITE = 'WEBSITE',
 }

@@ -104,8 +104,26 @@
           <label class="form-label" for="field_team">Team</label>
           <select class="form-control" id="field_team" data-cy="team" name="team" formControlName="team" [compareWith]="compareTeam">
             <option [ngValue]="null"></option>
-            <option [ngValue]="teamOption" *ngFor="let teamOption of teamsSharedCollection">{{ teamOption.id }}</option>
+            <option [ngValue]="teamOption" *ngFor="let teamOption of teamsSharedCollection">{{ teamOption.name }}</option>
           </select>
+        </div>
+
+        //need to make sure this points right
+        <div class="row mb-3">
+          <label class="form-label" for="contact_details">Contact Details</label>
+          <ul *ngFor="let contactOption of contactTypes">
+            {{
+              contactOption
+            }}
+            <input
+              type="text"
+              class="form-control"
+              name="location"
+              id="contact_details"
+              data-cy="location"
+              formControlName="contact_details"
+            />
+          </ul>
         </div>
       </div>
 

@@ -6,6 +6,7 @@ import { isPresent } from 'app/core/util/operators';
 import { ApplicationConfigService } from 'app/core/config/application-config.service';
 import { createRequestOption } from 'app/core/request/request-util';
 import { IContact, NewContact } from '../contact.model';
+import { map } from 'rxjs/operators';
 
 export type PartialUpdateContact = Partial<IContact> & Pick<IContact, 'id'>;
 
@@ -32,6 +33,10 @@ export class ContactService {
 
   find(id: number): Observable<EntityResponseType> {
     return this.http.get<IContact>(`${this.resourceUrl}/${id}`, { observe: 'response' });
+  }
+
+  findByUserID(userid: number): Observable<EntityArrayResponseType> {
+    return this.http.get<IContact[]>(`${this.resourceUrl}/user/${userid}`, { observe: 'response' });
   }
 
   query(req?: any): Observable<EntityArrayResponseType> {
