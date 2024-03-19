@@ -17,6 +17,7 @@ import { PlayType } from 'app/entities/enumerations/play-type.model';
 @Component({
   selector: 'jhi-team-update',
   templateUrl: './team-update.component.html',
+  styleUrls: ['./team-update.component.scss'],
 })
 export class TeamUpdateComponent implements OnInit {
   isSaving = false;

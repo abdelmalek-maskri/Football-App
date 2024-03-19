@@ -8,6 +8,9 @@ import { Positions } from 'app/entities/enumerations/positions.model';
 
 import { TeamService } from '../service/team.service';
 
+import { AccountService } from 'app/core/auth/account.service';
+import { Account } from 'app/core/auth/account.model';
+
 @Component({
   selector: 'jhi-team-detail',
   templateUrl: './team-detail.component.html',
@@ -15,12 +18,24 @@ import { TeamService } from '../service/team.service';
 })
 export class TeamDetailComponent implements OnInit {
   team: ITeam | null = null;
+  account: Account | null = null;
 
-  constructor(protected dataUtils: DataUtils, protected activatedRoute: ActivatedRoute, protected teamService: TeamService) {}
+  constructor(
+    private accountService: AccountService,
+    protected dataUtils: DataUtils,
+    protected activatedRoute: ActivatedRoute,
+    protected teamService: TeamService
+  ) {}
 
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ team }) => {
       this.team = team;
+    });
+
+    this.accountService.getAuthenticationState().subscribe(account => {
+      if (account) {
+        this.account = account;
+      }
     });
   }
 
