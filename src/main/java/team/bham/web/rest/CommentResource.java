@@ -184,4 +184,13 @@ public class CommentResource {
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, false, ENTITY_NAME, id.toString()))
             .build();
     }
+
+    @GetMapping("/calculate-averagerate/{targetUserId}")
+    public ResponseEntity<Double> calculateAverageRate(@PathVariable Long targetUserId) {
+        log.debug("REST request to calculate average rate for target user : {}", targetUserId);
+        UserProfile targetUser = commentService.getUserProfile(targetUser);
+
+        double averageRate = commentService.calculateAverageRate(targetUser);
+        return ResponseEntity.ok().body(averageRate);
+    }
 }
