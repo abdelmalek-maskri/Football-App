@@ -16,6 +16,9 @@ import { Genders } from 'app/entities/enumerations/genders.model';
 import { Positions } from 'app/entities/enumerations/positions.model';
 import { IContact } from '../../contact/contact.model';
 import { ContactType } from '../../enumerations/contact-type.model';
+import { ContactService } from '../../contact/service/contact.service';
+import { NewContact } from '../../contact/contact.model';
+import { ITEM_DELETED_EVENT } from '../../../config/navigation.constants';
 
 @Component({
   selector: 'jhi-user-profile-update',
@@ -37,6 +40,7 @@ export class UserProfileUpdateComponent implements OnInit {
     protected eventManager: EventManager,
     protected userProfileService: UserProfileService,
     protected userProfileFormService: UserProfileFormService,
+    protected contactService: ContactService,
     protected teamService: TeamService,
     protected elementRef: ElementRef,
     protected activatedRoute: ActivatedRoute
@@ -91,6 +95,7 @@ export class UserProfileUpdateComponent implements OnInit {
   save(): void {
     this.isSaving = true;
     const userProfile = this.userProfileFormService.getUserProfile(this.editForm);
+
     if (userProfile.id !== null) {
       this.subscribeToSaveResponse(this.userProfileService.update(userProfile));
     } else {
@@ -100,9 +105,52 @@ export class UserProfileUpdateComponent implements OnInit {
 
   protected subscribeToSaveResponse(result: Observable<HttpResponse<IUserProfile>>): void {
     result.pipe(finalize(() => this.onSaveFinalize())).subscribe({
-      next: () => this.onSaveSuccess(),
+      next: () => this.saveContactDetails(),
       error: () => this.onSaveError(),
     });
+  }
+
+  protected saveContactDetails(): void {
+    //not working
+    this.activatedRoute.data.subscribe(({ userProfile }) => {
+      this.userProfile = userProfile;
+    });
+
+    for (const enumMember of Object.values(ContactType)) {
+      console.log('HERE');
+      let tempIn = (document.getElementById('contact_details_' + enumMember.toString()) as HTMLInputElement).value;
+      if (tempIn != '') {
+        let contactsList: IContact[] | null = [];
+        this.contactService.findByUserID(this.userProfile!.id).subscribe(contacts => {
+          if (contacts) {
+            console.log('HERE:' + contacts);
+            contactsList = contacts.body;
+          }
+        });
+
+        for (const contact of contactsList) {
+          if (contact.contactType?.valueOf() === enumMember.valueOf()) {
+            this.contactService.delete(2852).subscribe(() => {
+              console.log('DELETED DUPLICATE CONTACTS');
+            });
+          }
+        }
+
+        let newCon: NewContact = {
+          id: null,
+          contactType: enumMember,
+          contactValue: tempIn,
+          userProfile: { id: this.userProfile!.id },
+          team: null,
+        };
+
+        this.contactService.create(newCon).subscribe({
+          error: () => this.onSaveError(),
+        });
+      }
+    }
+
+    this.onSaveSuccess();
   }
 
   protected onSaveSuccess(): void {

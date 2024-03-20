@@ -164,7 +164,7 @@ public class ContactResource {
         return ResponseUtil.wrapOrNotFound(contact);
     }
 
-    @GetMapping("/contacts/user/{userId}")
+    @GetMapping("/contacts/users/{userId}")
     public ResponseEntity<List<Contact>> getUserContact(@PathVariable Long userId) {
         log.debug("REST request to get Contact : {}", userId);
         List<Contact> contact = new ArrayList<>();

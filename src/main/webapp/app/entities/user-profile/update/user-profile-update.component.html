@@ -108,21 +108,13 @@
           </select>
         </div>
 
-        //need to make sure this points right
         <div class="row mb-3">
-          <label class="form-label" for="contact_details">Contact Details</label>
+          <label class="form-label">Contact Details</label>
           <ul *ngFor="let contactOption of contactTypes">
             {{
               contactOption
             }}
-            <input
-              type="text"
-              class="form-control"
-              name="location"
-              id="contact_details"
-              data-cy="location"
-              formControlName="contact_details"
-            />
+            <input type="text" class="form-control" name="location" data-cy="location" [id]="'contact_details_' + contactOption" />
           </ul>
         </div>
       </div>

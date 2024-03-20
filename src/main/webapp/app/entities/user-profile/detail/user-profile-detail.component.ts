@@ -10,6 +10,11 @@ import { TeamComponent } from '../../team/list/team.component';
 import { ITeam } from '../../team/team.model';
 import { MatDialog, MatDialogConfig, MatDialogModule } from '@angular/material/dialog';
 import { ModalComponent } from '../modal/modal.component';
+import { UserProfileDeleteDialogComponent } from '../delete/user-profile-delete-dialog.component';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { filter, switchMap } from 'rxjs';
+import { ITEM_DELETED_EVENT } from '../../../config/navigation.constants';
+import { EntityArrayResponseType } from '../service/user-profile.service';
 
 @Component({
   selector: 'jhi-user-profile-detail',
@@ -26,7 +31,8 @@ export class UserProfileDetailComponent implements OnInit {
     protected activatedRoute: ActivatedRoute,
     private accountService: AccountService,
     private teamService: TeamService,
-    public matDialog: MatDialog
+    public matDialog: MatDialog,
+    protected modalService: NgbModal
   ) {}
 
   ngOnInit(): void {
@@ -35,13 +41,9 @@ export class UserProfileDetailComponent implements OnInit {
         this.theAccount = account;
       }
     });
+
     this.activatedRoute.data.subscribe(({ userProfile }) => {
       this.userProfile = userProfile;
-    });
-    this.accountService.getAuthenticationState().subscribe(account => {
-      if (account) {
-        this.theAccount = account;
-      }
     });
 
     if (this.userProfile?.team?.id) {
@@ -64,6 +66,15 @@ export class UserProfileDetailComponent implements OnInit {
   }
 
   openModal() {
+    // const modalRef = this.modalService.open(ModalComponent, { size: 'lg', backdrop: 'static' });
+    // modalRef.componentInstance.userProfile = this.userProfile;
+    //
+    // this.modalService.open(ModalComponent).result.then((result) => {
+    //   // this.closeResult = `Closed with: ${result}`;
+    // }, (reason) => {
+    //   console.log(reason);
+    // });
+
     const dialogConfig = new MatDialogConfig();
     // The user can't close the dialog by clicking outside its body
     dialogConfig.disableClose = true;

@@ -36,7 +36,7 @@ export class ContactService {
   }
 
   findByUserID(userid: number): Observable<EntityArrayResponseType> {
-    return this.http.get<IContact[]>(`${this.resourceUrl}/user/${userid}`, { observe: 'response' });
+    return this.http.get<IContact[]>(`${this.resourceUrl}/users/${userid}`, { observe: 'response' });
   }
 
   query(req?: any): Observable<EntityArrayResponseType> {
