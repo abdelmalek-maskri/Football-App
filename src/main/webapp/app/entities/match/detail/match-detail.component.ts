@@ -6,6 +6,7 @@ import { IMatch } from '../match.model';
 @Component({
   selector: 'jhi-match-detail',
   templateUrl: './match-detail.component.html',
+  styleUrls: ['./match-detail.component.scss'],
 })
 export class MatchDetailComponent implements OnInit {
   match: IMatch | null = null;

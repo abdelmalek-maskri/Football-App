@@ -1,70 +1,154 @@
 <div class="d-flex justify-content-center">
-  <div class="col-8">
+  <div class="col-9">
     <div *ngIf="match">
-      <h2 data-cy="matchDetailsHeading"><span>Match</span></h2>
+      <div id="matchBox">
+        <div id="matchNav" class="text-center">
+          <button type="submit" id="matchBack" (click)="previousState()" class="btn" data-cy="entityDetailsBackButton">
+            <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
+          </button>
+          <h2 data-cy="matchDetailsHeading">
+            <ng-container *ngIf="match.home && match.away; else noTeams">
+              <span>{{ match.home.name }} vs {{ match.away.name }}</span>
+            </ng-container>
+            <ng-template #noTeams>
+              <span>Teams not allocated</span>
+            </ng-template>
+          </h2>
+        </div>
 
-      <hr />
+        <jhi-alert-error></jhi-alert-error>
 
-      <jhi-alert-error></jhi-alert-error>
+        <jhi-alert></jhi-alert>
+        <div class="row text-center">
+          <div class="col">
+            <div *ngIf="match.home">
+              <ng-container *ngIf="match.home.image; else defaultImage">
+                <img class="homeImg" [src]="'data:' + match.home.imageContentType + ';base64,' + match.home.image" alt="team image" />
+              </ng-container>
+              <ng-template #defaultImage>
+                <img class="homeImg" src="../../../../../content/images/FootballIcon.png" alt="default team image" />
+              </ng-template>
 
-      <jhi-alert></jhi-alert>
+              <a [routerLink]="['/team', match.home.id, 'view']"
+                ><h3>{{ match.home.name }}</h3></a
+              >
+              <div *ngIf="match.home.members; else noTeamMembers">
+                <h4>Members ({{ match.home.members.length }})</h4>
+                <div class="scrollBox">
+                  <div
+                    class="scrollItem"
+                    *ngFor="let teamMember of match.home.members"
+                    [routerLink]="['/user-profile', teamMember.id, 'view']"
+                  >
+                    <a>
+                      <div *ngIf="teamMember.profilePic; else defaultImage">
+                        <img
+                          class="playerImg"
+                          [src]="'data:' + teamMember.profilePicContentType + ';base64,' + teamMember.profilePic"
+                          alt="profile picture"
+                        />
+                      </div>
+                      <ng-template class="playerImgDiv" #defaultImage>
+                        <img class="playerImg" src="../../../../content/images/DefaultProfilePicture.jpg" alt="default profile picture" />
+                      </ng-template>
 
-      <dl class="row-md jh-entity-details">
-        <dt><span>ID</span></dt>
-        <dd>
-          <span>{{ match.id }}</span>
-        </dd>
-        <dt><span>Home Score</span></dt>
-        <dd>
-          <span>{{ match.homeScore }}</span>
-        </dd>
-        <dt><span>Away Score</span></dt>
-        <dd>
-          <span>{{ match.awayScore }}</span>
-        </dd>
-        <dt><span>Date</span></dt>
-        <dd>
-          <span>{{ match.date | formatMediumDatetime }}</span>
-        </dd>
-        <dt><span>Referee</span></dt>
-        <dd>
-          <div *ngIf="match.referee">
-            <a [routerLink]="['/user-profile', match.referee.id, 'view']">{{ match.referee.id }}</a>
+                      <div class="playerDets">
+                        <h4>{{ (teamMember.name != undefined && teamMember.name != null && teamMember.name) || 'N/A' }}</h4>
+                      </div>
+                    </a>
+                  </div>
+                </div>
+              </div>
+
+              <ng-template #noTeamMembers>
+                <div>This team currently has no members.</div>
+              </ng-template>
+            </div>
           </div>
-        </dd>
-        <dt><span>Pitch</span></dt>
-        <dd>
-          <div *ngIf="match.pitch">
-            <a [routerLink]="['/pitch', match.pitch.id, 'view']">{{ match.pitch.id }}</a>
-          </div>
-        </dd>
-        <dt><span>Home</span></dt>
-        <dd>
-          <div *ngIf="match.home">
-            <a [routerLink]="['/team', match.home.id, 'view']">{{ match.home.id }}</a>
-          </div>
-        </dd>
-        <dt><span>Away</span></dt>
-        <dd>
-          <div *ngIf="match.away">
-            <a [routerLink]="['/team', match.away.id, 'view']">{{ match.away.id }}</a>
-          </div>
-        </dd>
-        <dt><span>Tournament</span></dt>
-        <dd>
-          <div *ngIf="match.tournament">
-            <a [routerLink]="['/tournament', match.tournament.id, 'view']">{{ match.tournament.id }}</a>
-          </div>
-        </dd>
-      </dl>
+          <div class="col">
+            <div id="matchScore">
+              <div *ngIf="match.homeScore && match.awayScore; else toPlay">
+                <h2>{{ match.homeScore }} - {{ match.homeScore }}</h2>
+              </div>
+            </div>
+            <ng-template #toPlay>
+              <h2>n/a - n/a</h2>
+            </ng-template>
 
-      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
-        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
-      </button>
+            <dt><span>Date</span></dt>
+            <dd>
+              <span>{{ match.date | formatMediumDatetime }}</span>
+            </dd>
+            <dt><span>Referee</span></dt>
+            <dd>
+              <div *ngIf="match.referee">
+                <a [routerLink]="['/user-profile', match.referee.id, 'view']">{{ match.referee.name }}</a>
+              </div>
+            </dd>
+            <dt><span>Pitch</span></dt>
+            <dd>
+              <div *ngIf="match.pitch">
+                <a [routerLink]="['/pitch', match.pitch.id, 'view']">{{ match.pitch.name }}</a>
+              </div>
+            </dd>
+            <dt><span>Tournament</span></dt>
+            <dd>
+              <div *ngIf="match.tournament">
+                <a [routerLink]="['/tournament', match.tournament.id, 'view']">{{ match.tournament.name }}</a>
+              </div>
+            </dd>
+          </div>
+          <div class="col">
+            <div *ngIf="match.away">
+              <ng-container *ngIf="match.away.image; else defaultImage">
+                <img class="homeImg" [src]="'data:' + match.away.imageContentType + ';base64,' + match.away.image" alt="team image" />
+              </ng-container>
+              <ng-template #defaultImage>
+                <img class="homeImg" src="../../../../../content/images/FootballIcon.png" alt="default team image" />
+              </ng-template>
 
-      <button type="button" [routerLink]="['/match', match.id, 'edit']" class="btn btn-primary">
-        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
-      </button>
+              <a [routerLink]="['/team', match.away.id, 'view']"
+                ><h3>{{ match.away.name }}</h3></a
+              >
+              <div *ngIf="match.away.members; else noTeamMembers" id="teamMembers">
+                <h4>Members ({{ match.away.members.length }})</h4>
+                <div class="scrollBox">
+                  <div
+                    class="scrollItem"
+                    *ngFor="let teamMember of match.away.members"
+                    [routerLink]="['/user-profile', teamMember.id, 'view']"
+                  >
+                    <a>
+                      <ng-container *ngIf="teamMember.profilePic; else defaultImage">
+                        <img
+                          class="playerImg"
+                          [src]="'data:' + teamMember.profilePicContentType + ';base64,' + teamMember.profilePic"
+                          alt="profile picture"
+                        />
+                      </ng-container>
+                      <ng-template class="playerImgDiv" #defaultImage>
+                        <img class="playerImg" src="../../../../content/images/DefaultProfilePicture.jpg" alt="default profile picture" />
+                      </ng-template>
+
+                      <div class="playerDets">
+                        <h4>{{ (teamMember.name != undefined && teamMember.name != null && teamMember.name) || 'N/A' }}</h4>
+                      </div>
+                    </a>
+                  </div>
+                </div>
+              </div>
+
+              <ng-template #noTeamMembers>
+                <div id="noTeamMembersPresent">This team currently has no members.</div>
+              </ng-template>
+            </div>
+          </div>
+        </div>
+
+        <button type="button" [routerLink]="['/match', match.id, 'edit']" class="btn btn-primary">
+          <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
+        </button>
+      </div>
     </div>
   </div>
 </div>

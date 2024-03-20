@@ -20,6 +20,7 @@ describe('Navbar Component', () => {
   let accountService: AccountService;
   let profileService: ProfileService;
   const account: Account = {
+    id: 10,
     activated: true,
     authorities: [],
     email: '',

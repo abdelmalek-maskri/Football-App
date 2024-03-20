@@ -47,12 +47,12 @@ public class Match implements Serializable {
     @JoinColumn(unique = true)
     private Pitch pitch;
 
-    @JsonIgnoreProperties(value = { "owner", "bookings", "availableDates", "members", "contacts", "tournaments" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "owner", "bookings", "availableDates", "contacts", "tournaments" }, allowSetters = true)
     @OneToOne
     @JoinColumn(unique = true)
     private Team home;
 
-    @JsonIgnoreProperties(value = { "owner", "bookings", "availableDates", "members", "contacts", "tournaments" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "owner", "bookings", "availableDates", "contacts", "tournaments" }, allowSetters = true)
     @OneToOne
     @JoinColumn(unique = true)
     private Team away;
