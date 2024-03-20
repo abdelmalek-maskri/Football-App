@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.data.jpa.repository.*;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+import team.bham.domain.Pitch;
 import team.bham.domain.PitchBooking;
 
 /**
@@ -18,4 +19,6 @@ public interface PitchBookingRepository extends JpaRepository<PitchBooking, Long
     // Retrieve the list of booked pitches based on the provided date
     @Query("SELECT pb FROM PitchBooking pb WHERE pb.bookingDate = :date")
     List<PitchBooking> findBookedPitchesBasedOnDate(@Param("date") Instant date);
+
+    List<PitchBooking> findPitchByPitchName(String keyword);
 }

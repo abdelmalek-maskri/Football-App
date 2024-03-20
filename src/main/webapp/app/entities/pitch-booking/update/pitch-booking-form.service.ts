@@ -4,6 +4,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import dayjs from 'dayjs/esm';
 import { DATE_TIME_FORMAT } from 'app/config/input.constants';
 import { IPitchBooking, NewPitchBooking } from '../pitch-booking.model';
+import { PitchBookingUpdateComponent } from './pitch-booking-update.component';
 
 /**
  * A partial Type with required key is used as form input.
@@ -66,8 +67,12 @@ export class PitchBookingFormService {
       endTime: new FormControl(pitchBookingRawValue.endTime, {
         validators: [Validators.required],
       }),
-      team: new FormControl(pitchBookingRawValue.team),
-      pitch: new FormControl(pitchBookingRawValue.pitch),
+      team: new FormControl(pitchBookingRawValue.team, {
+        validators: [Validators.required],
+      }),
+      pitch: new FormControl(pitchBookingRawValue.pitch, {
+        validators: [Validators.required],
+      }),
     });
   }
 
