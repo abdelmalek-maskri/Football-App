@@ -1,0 +1,11 @@
+<div id="modal-content-wrapper">
+  <header id="modal-header">
+    <h1 id="modal-title">Player Contact Details</h1>
+  </header>
+  <section id="modal-body">
+    <li *ngFor="let contact of contactsList">{{ contact.contactType }}: {{ contact.contactValue }}</li>
+  </section>
+  <footer id="modal-footer">
+    <button mat-raised-button id="modal-cancel-button" (click)="closeModal()">Go back</button>
+  </footer>
+</div>
