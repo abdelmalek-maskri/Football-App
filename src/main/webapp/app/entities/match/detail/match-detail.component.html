@@ -41,13 +41,13 @@
                     [routerLink]="['/user-profile', teamMember.id, 'view']"
                   >
                     <a>
-                      <ng-container *ngIf="teamMember.profilePic; else defaultImage">
+                      <div *ngIf="teamMember.profilePic; else defaultImage">
                         <img
                           class="playerImg"
                           [src]="'data:' + teamMember.profilePicContentType + ';base64,' + teamMember.profilePic"
                           alt="profile picture"
                         />
-                      </ng-container>
+                      </div>
                       <ng-template class="playerImgDiv" #defaultImage>
                         <img class="playerImg" src="../../../../content/images/DefaultProfilePicture.jpg" alt="default profile picture" />
                       </ng-template>

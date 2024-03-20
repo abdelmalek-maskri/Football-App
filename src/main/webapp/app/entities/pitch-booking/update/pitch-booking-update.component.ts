@@ -14,6 +14,7 @@ import { PitchService } from 'app/entities/pitch/service/pitch.service';
 import { FormBuilder } from '@angular/forms';
 import dayjs, { Dayjs } from 'dayjs';
 import { MatDatepickerInputEvent, MatDatepickerModule } from '@angular/material/datepicker';
+import { ChangeDetectorRef } from '@angular/core';
 
 @Component({
   selector: 'jhi-pitch-booking-update',
@@ -23,11 +24,13 @@ import { MatDatepickerInputEvent, MatDatepickerModule } from '@angular/material/
 export class PitchBookingUpdateComponent implements OnInit {
   isSaving = false;
   pitchBooking: IPitchBooking | null = null;
-  selectedPitchId: number | null = null; // To store the selected pitch ID
+  selectedPitchId: number | null = null;
+  selectedPitchName: string | null = null;
+  doesIdExistFromJson: boolean = true;
 
   teamsSharedCollection: ITeam[] = [];
   pitchesSharedCollection: IPitch[] = [];
-
+  parsedCollection: IPitch | undefined;
   editForm: PitchBookingFormGroup = this.pitchBookingFormService.createPitchBookingFormGroup();
   bookingDate: NgbDateStruct | null = null;
   isDateSelected: boolean = false;
@@ -40,6 +43,8 @@ export class PitchBookingUpdateComponent implements OnInit {
     { value: '10:00-12:00', viewValue: '10:00 - 12:00' },
     { value: '12:00-14:00', viewValue: '12:00 - 14:00' },
     { value: '14:00-16:00', viewValue: '14:00 - 16:00' },
+    { value: '16:00-18:00', viewValue: '16:00 - 18:00' },
+
     // Add more slots as needed
   ];
   existingBookings: { startTime: Dayjs | null | undefined; endTime: Dayjs | null | undefined }[] = [];
@@ -50,7 +55,8 @@ export class PitchBookingUpdateComponent implements OnInit {
     protected pitchBookingFormService: PitchBookingFormService,
     protected teamService: TeamService,
     protected pitchService: PitchService,
-    protected activatedRoute: ActivatedRoute
+    protected activatedRoute: ActivatedRoute,
+    private cd: ChangeDetectorRef
   ) {}
 
   compareTeam = (o1: ITeam | null, o2: ITeam | null): boolean => this.teamService.compareTeam(o1, o2);
@@ -60,12 +66,24 @@ export class PitchBookingUpdateComponent implements OnInit {
   ngOnInit(): void {
     this.activatedRoute.queryParams.subscribe(params => {
       if (params.pitch) {
+        this.parsedCollection = JSON.parse(params.pitch);
+        console.log(this.parsedCollection);
         const pitchData = JSON.parse(params.pitch);
+        const pitchId = pitchData.id; // Get the pitch ID from pitchData
         console.log(JSON.parse(params.pitch));
-        if (pitchData.id) {
-          console.log('selectedPitchId:', pitchData.id);
-          this.selectedPitchId = pitchData.id;
+        if (pitchId) {
+          this.selectedPitchId = pitchId; // Set selectedPitchId with the found pitch ID
+          this.editForm.get('pitch')?.setValue(this.parsedCollection); // Set the default value of the form control
+          console.log(this.editForm.get('pitch'));
+          this.selectedPitchName = pitchData.name;
         }
+        /*
+        if (pitchData.id) {
+          console.log('selectedPitchId:', pitchData);
+          this.selectedPitchId = pitchData;
+        }*/
+      } else {
+        this.doesIdExistFromJson = false;
       }
     });
     console.log('pitchesSharedCollection:', this.pitchesSharedCollection);
@@ -114,6 +132,7 @@ export class PitchBookingUpdateComponent implements OnInit {
     }
     console.log('Start Time:', pitchBooking.startTime);
     console.log('End Time:', pitchBooking.endTime);
+    console.log('booking', pitchBooking);
     if (pitchBooking.id !== null) {
       this.subscribeToSaveResponse(this.pitchBookingService.update(pitchBooking));
     } else {

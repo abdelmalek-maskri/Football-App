@@ -1,0 +1,43 @@
+#modal-title {
+  text-align: center;
+  margin-top: 0.3em;
+  text-transform: uppercase;
+  //line-height: 6vw;
+  font-size: 2vw;
+  font-family: 'Anton', sans-serif;
+}
+.entity-details-container {
+  display: flex;
+}
+
+.entity-details {
+  text-align: center;
+  flex: 1;
+  //text-align: left;
+  display: flow;
+  flex-direction: column; /* Stack items vertically */
+  //align-items: flex-end; /* Align items to the end (right side) */
+}
+.entity-image {
+  flex: 1;
+  width: 50%;
+  height: 50%;
+}
+.entity-button {
+  flex: 1;
+  display: flex;
+  justify-content: flex-end; /* Align button to the right */
+  align-items: flex-end; /* Align button to the bottom */
+  margin-bottom: 1em;
+  margin-right: 1em;
+  button {
+    text-align: center;
+    text-decoration: none;
+    height: auto;
+    font-size: 1.5em;
+
+    color: #ffffff;
+    background-color: #029352;
+    border-radius: 0.3em;
+  }
+}

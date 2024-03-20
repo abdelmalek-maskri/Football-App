@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+import team.bham.domain.Pitch;
 import team.bham.domain.PitchBooking;
 import team.bham.repository.PitchBookingRepository;
 import team.bham.web.rest.errors.BadRequestAlertException;
@@ -223,6 +224,27 @@ public class PitchBookingResource {
         List<PitchBooking> bookedPitchesBasedOnDate = pitchBookingRepository.findBookedPitchesBasedOnDate(date);
         System.out.print(bookedPitchesBasedOnDate);
         return ResponseEntity.ok().body(bookedPitchesBasedOnDate);
+    }
+
+    /**
+     * GET  /pitch-booking/search?name={name} : search for bookings by name.
+     *
+     * @param keyword the name of the booking to search for.
+     * @return the ResponseEntity with status 200 (OK) and the list of booking in body.
+     */
+
+    @GetMapping("/pitch-booking/search")
+    public List<PitchBooking> searchBookings(@RequestParam(required = false) String keyword) {
+        log.debug("REST request to search bookings by name : {}", keyword);
+        List<PitchBooking> searchResults;
+
+        if (keyword != null) {
+            searchResults = pitchBookingRepository.findPitchByPitchName(keyword);
+        } else {
+            searchResults = pitchBookingRepository.findAll();
+        }
+
+        return searchResults;
     }
 
     /**

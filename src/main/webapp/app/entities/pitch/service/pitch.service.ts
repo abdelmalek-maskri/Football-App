@@ -6,6 +6,8 @@ import { isPresent } from 'app/core/util/operators';
 import { ApplicationConfigService } from 'app/core/config/application-config.service';
 import { createRequestOption } from 'app/core/request/request-util';
 import { IPitch, NewPitch } from '../pitch.model';
+import { RestPitchBooking } from '../../pitch-booking/service/pitch-booking.service';
+import { map } from 'rxjs/operators';
 
 export type PartialUpdatePitch = Partial<IPitch> & Pick<IPitch, 'id'>;
 
