@@ -27,7 +27,9 @@ export class PitchModalComponent {
     if (this.modalRef) {
       this.modalRef.close();
     }
+    const pitchWithoutBookings = { ...pitch }; // Create a copy of the pitch object
+    delete pitchWithoutBookings.pitchBookings; // Remove the pitchBookings property from the copy
     // Navigate to /pitch-booking/new and pass pitch details as query parameters
-    this.router.navigate(['/pitch-booking/new'], { queryParams: { pitch: JSON.stringify(pitch) } });
+    this.router.navigate(['/pitch-booking/new'], { queryParams: { pitch: JSON.stringify(pitchWithoutBookings) } });
   }
 }
