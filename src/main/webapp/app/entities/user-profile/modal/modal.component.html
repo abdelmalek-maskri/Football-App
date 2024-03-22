@@ -3,7 +3,14 @@
     <h1 id="modal-title">Player Contact Details</h1>
   </header>
   <section id="modal-body">
-    <li *ngFor="let contact of contactsList">{{ contact.contactType }}: {{ contact.contactValue }}</li>
+    <ul *ngFor="let contact of contactsList">
+      {{
+        contact.contactType
+      }}:
+      {{
+        contact.contactValue
+      }}
+    </ul>
   </section>
   <footer id="modal-footer">
     <button mat-raised-button id="modal-cancel-button" (click)="closeModal()">Go back</button>

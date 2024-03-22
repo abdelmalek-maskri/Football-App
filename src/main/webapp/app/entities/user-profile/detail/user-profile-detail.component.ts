@@ -66,22 +66,7 @@ export class UserProfileDetailComponent implements OnInit {
   }
 
   openModal() {
-    // const modalRef = this.modalService.open(ModalComponent, { size: 'lg', backdrop: 'static' });
-    // modalRef.componentInstance.userProfile = this.userProfile;
-    //
-    // this.modalService.open(ModalComponent).result.then((result) => {
-    //   // this.closeResult = `Closed with: ${result}`;
-    // }, (reason) => {
-    //   console.log(reason);
-    // });
-
-    const dialogConfig = new MatDialogConfig();
-    // The user can't close the dialog by clicking outside its body
-    dialogConfig.disableClose = true;
-    dialogConfig.id = 'modal-component';
-    dialogConfig.height = '350px';
-    dialogConfig.width = '600px';
-    // https://material.angular.io/components/dialog/overview
-    const modalDialog = this.matDialog.open(ModalComponent, dialogConfig);
+    const modalRef = this.modalService.open(ModalComponent, { size: 'lg', backdrop: 'static', centered: true });
+    modalRef.componentInstance.userProfile = this.userProfile;
   }
 }

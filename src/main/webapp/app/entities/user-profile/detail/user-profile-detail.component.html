@@ -110,8 +110,9 @@
                 <div class="day inactive">S</div>
               </div>
 
-              <button type="button" [routerLink]="" class="btn btn-primary center">
-                <button id="logout-button" (click)="openModal()">Contact</button>
+              <button type="submit" (click)="openModal()" class="btn btn-primary" data-cy="entityModalButton">
+                <fa-icon icon="phone"></fa-icon>
+                <span class="d-none d-md-inline">Contact</span>
               </button>
             </div>
             <!-- add code to change image depending on position-->
