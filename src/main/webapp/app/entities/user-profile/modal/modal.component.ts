@@ -24,7 +24,7 @@ export class ModalComponent implements OnInit {
   ngOnInit() {
     // this.id =  this.activatedRoute.snapshot.params['id'];
 
-    this.contactService.findByUserID(3051).subscribe(contacts => {
+    this.contactService.findByUserID(this.userProfile!.id).subscribe(contacts => {
       if (contacts) {
         this.contactsList = contacts.body;
       }

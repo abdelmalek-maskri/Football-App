@@ -19,6 +19,8 @@ import { ContactType } from '../../enumerations/contact-type.model';
 import { ContactService } from '../../contact/service/contact.service';
 import { NewContact } from '../../contact/contact.model';
 import { ITEM_DELETED_EVENT } from '../../../config/navigation.constants';
+import { AccountService } from '../../../core/auth/account.service';
+import { Account } from '../../../core/auth/account.model';
 
 @Component({
   selector: 'jhi-user-profile-update',
@@ -30,6 +32,7 @@ export class UserProfileUpdateComponent implements OnInit {
   gendersValues = Object.keys(Genders);
   positionsValues = Object.keys(Positions);
   teamsSharedCollection: ITeam[] = [];
+  theAccount?: Account;
 
   contactTypes: String[] = [];
 
@@ -43,7 +46,8 @@ export class UserProfileUpdateComponent implements OnInit {
     protected contactService: ContactService,
     protected teamService: TeamService,
     protected elementRef: ElementRef,
-    protected activatedRoute: ActivatedRoute
+    protected activatedRoute: ActivatedRoute,
+    protected accountService: AccountService
   ) {}
 
   compareTeam = (o1: ITeam | null, o2: ITeam | null): boolean => this.teamService.compareTeam(o1, o2);
@@ -58,7 +62,6 @@ export class UserProfileUpdateComponent implements OnInit {
       if (userProfile) {
         this.updateForm(userProfile);
       }
-
       this.loadRelationshipsOptions();
     });
   }
@@ -95,7 +98,6 @@ export class UserProfileUpdateComponent implements OnInit {
   save(): void {
     this.isSaving = true;
     const userProfile = this.userProfileFormService.getUserProfile(this.editForm);
-
     if (userProfile.id !== null) {
       this.subscribeToSaveResponse(this.userProfileService.update(userProfile));
     } else {
@@ -111,26 +113,27 @@ export class UserProfileUpdateComponent implements OnInit {
   }
 
   protected saveContactDetails(): void {
-    //not working
-    this.activatedRoute.data.subscribe(({ userProfile }) => {
-      this.userProfile = userProfile;
+    this.accountService.getAuthenticationState().subscribe(account => {
+      if (account) {
+        this.theAccount = account;
+      }
     });
 
+    let contactsList: IContact[] | null = [];
+    this.contactService.findByUserID(this.theAccount!.id).subscribe(contacts => {
+      if (contacts) {
+        console.log('HERE:' + contacts);
+        contactsList = contacts.body;
+      }
+    });
     for (const enumMember of Object.values(ContactType)) {
       console.log('HERE');
       let tempIn = (document.getElementById('contact_details_' + enumMember.toString()) as HTMLInputElement).value;
       if (tempIn != '') {
-        let contactsList: IContact[] | null = [];
-        this.contactService.findByUserID(this.userProfile!.id).subscribe(contacts => {
-          if (contacts) {
-            console.log('HERE:' + contacts);
-            contactsList = contacts.body;
-          }
-        });
-
+        //currently doesn't delete previous contacts
         for (const contact of contactsList) {
           if (contact.contactType?.valueOf() === enumMember.valueOf()) {
-            this.contactService.delete(2852).subscribe(() => {
+            this.contactService.delete(contact.id).subscribe(() => {
               console.log('DELETED DUPLICATE CONTACTS');
             });
           }
