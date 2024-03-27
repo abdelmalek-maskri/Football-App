@@ -11,6 +11,7 @@ import { PitchDeleteDialogComponent } from '../delete/pitch-delete-dialog.compon
 import { SortService } from 'app/shared/sort/sort.service';
 import { PitchDetailComponent } from '../detail/pitch-detail.component';
 import { PitchModalComponent } from '../modal/pitch-modal.component';
+import { HttpResponse } from '@angular/common/http';
 
 @Component({
   selector: 'jhi-pitch',
@@ -23,6 +24,8 @@ export class PitchComponent implements OnInit {
 
   predicate = 'id';
   ascending = true;
+  keyword: string = '';
+  searchResults: IPitch[] = [];
 
   constructor(
     protected pitchService: PitchService,

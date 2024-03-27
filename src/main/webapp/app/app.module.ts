@@ -32,6 +32,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { LeaderboardsComponent } from './entities/leaderboards/leaderboards.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import { ModalComponent as ModalComponent } from './entities/user-profile/modal/modal.component';
+import { MatButtonModule } from '@angular/material/button';
 
 @NgModule({
   imports: [
@@ -49,6 +52,8 @@ import { LeaderboardsComponent } from './entities/leaderboards/leaderboards.comp
     BrowserAnimationsModule,
     MatFormFieldModule,
     MatInputModule,
+    MatDialogModule,
+    MatButtonModule,
   ],
   providers: [
     Title,
@@ -66,6 +71,7 @@ import { LeaderboardsComponent } from './entities/leaderboards/leaderboards.comp
     TestComponent,
     CookiePolicyComponent,
     LeaderboardsComponent,
+    ModalComponent,
   ],
   bootstrap: [MainComponent],
 })

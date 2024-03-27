@@ -1,0 +1,39 @@
+<div class="container">
+  <div *ngIf="pitchBooking">
+    <h2 id="modal-title"><span>PITCH BOOKING DETAILS</span></h2>
+
+    <hr />
+
+    <jhi-alert-error></jhi-alert-error>
+
+    <jhi-alert></jhi-alert>
+
+    <div class="entity-details-container">
+      <div class="entity-image">
+        <img src="content/images/logo-pitch.png" alt="Image description" />
+      </div>
+      <div class="entity-details">
+        <dl>
+          <dt><span>ID</span></dt>
+          <dd>
+            <span>{{ pitchBooking.id }}</span>
+          </dd>
+          <dt><span>Name</span></dt>
+          <dd>
+            <span>{{ pitchBooking.pitch.name }}</span>
+          </dd>
+          <dt><span>Location</span></dt>
+          <dd>
+            <span>{{ pitchBooking.pitch.location }}</span>
+          </dd>
+        </dl>
+        <div class="entity-button">
+          <button (click)="navigateToEdit(pitchBooking)">VIEW BOOKING</button>
+        </div>
+      </div>
+      <div class="entity-button">
+        <button (click)="navigateToBooking(pitchBooking)">EDIT THIS BOOKING</button>
+      </div>
+    </div>
+  </div>
+</div>

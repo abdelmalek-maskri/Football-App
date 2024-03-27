@@ -14,6 +14,13 @@ import { ITeam } from 'app/entities/team/team.model';
 import { TeamService } from 'app/entities/team/service/team.service';
 import { Genders } from 'app/entities/enumerations/genders.model';
 import { Positions } from 'app/entities/enumerations/positions.model';
+import { IContact } from '../../contact/contact.model';
+import { ContactType } from '../../enumerations/contact-type.model';
+import { ContactService } from '../../contact/service/contact.service';
+import { NewContact } from '../../contact/contact.model';
+import { ITEM_DELETED_EVENT } from '../../../config/navigation.constants';
+import { AccountService } from '../../../core/auth/account.service';
+import { Account } from '../../../core/auth/account.model';
 
 @Component({
   selector: 'jhi-user-profile-update',
@@ -24,8 +31,10 @@ export class UserProfileUpdateComponent implements OnInit {
   userProfile: IUserProfile | null = null;
   gendersValues = Object.keys(Genders);
   positionsValues = Object.keys(Positions);
-
   teamsSharedCollection: ITeam[] = [];
+  theAccount?: Account;
+
+  contactTypes: String[] = [];
 
   editForm: UserProfileFormGroup = this.userProfileFormService.createUserProfileFormGroup();
 
@@ -34,20 +43,25 @@ export class UserProfileUpdateComponent implements OnInit {
     protected eventManager: EventManager,
     protected userProfileService: UserProfileService,
     protected userProfileFormService: UserProfileFormService,
+    protected contactService: ContactService,
     protected teamService: TeamService,
     protected elementRef: ElementRef,
-    protected activatedRoute: ActivatedRoute
+    protected activatedRoute: ActivatedRoute,
+    protected accountService: AccountService
   ) {}
 
   compareTeam = (o1: ITeam | null, o2: ITeam | null): boolean => this.teamService.compareTeam(o1, o2);
 
   ngOnInit(): void {
+    for (const enumMember in ContactType) {
+      this.contactTypes.push(enumMember.toString());
+    }
+
     this.activatedRoute.data.subscribe(({ userProfile }) => {
       this.userProfile = userProfile;
       if (userProfile) {
         this.updateForm(userProfile);
       }
-
       this.loadRelationshipsOptions();
     });
   }
@@ -93,9 +107,53 @@ export class UserProfileUpdateComponent implements OnInit {
 
   protected subscribeToSaveResponse(result: Observable<HttpResponse<IUserProfile>>): void {
     result.pipe(finalize(() => this.onSaveFinalize())).subscribe({
-      next: () => this.onSaveSuccess(),
+      next: () => this.saveContactDetails(),
       error: () => this.onSaveError(),
     });
+  }
+
+  protected saveContactDetails(): void {
+    this.accountService.getAuthenticationState().subscribe(account => {
+      if (account) {
+        this.theAccount = account;
+      }
+    });
+
+    let contactsList: IContact[] | null = [];
+    this.contactService.findByUserID(this.theAccount!.id).subscribe(contacts => {
+      if (contacts) {
+        console.log('HERE:' + contacts);
+        contactsList = contacts.body;
+      }
+    });
+    for (const enumMember of Object.values(ContactType)) {
+      console.log('HERE');
+      let tempIn = (document.getElementById('contact_details_' + enumMember.toString()) as HTMLInputElement).value;
+      if (tempIn != '') {
+        //currently doesn't delete previous contacts
+        for (const contact of contactsList) {
+          if (contact.contactType?.valueOf() === enumMember.valueOf()) {
+            this.contactService.delete(contact.id).subscribe(() => {
+              console.log('DELETED DUPLICATE CONTACTS');
+            });
+          }
+        }
+
+        let newCon: NewContact = {
+          id: null,
+          contactType: enumMember,
+          contactValue: tempIn,
+          userProfile: { id: this.userProfile!.id },
+          team: null,
+        };
+
+        this.contactService.create(newCon).subscribe({
+          error: () => this.onSaveError(),
+        });
+      }
+    }
+
+    this.onSaveSuccess();
   }
 
   protected onSaveSuccess(): void {
@@ -124,4 +182,6 @@ export class UserProfileUpdateComponent implements OnInit {
       .pipe(map((teams: ITeam[]) => this.teamService.addTeamToCollectionIfMissing<ITeam>(teams, this.userProfile?.team)))
       .subscribe((teams: ITeam[]) => (this.teamsSharedCollection = teams));
   }
+
+  protected readonly ContactType = ContactType;
 }

@@ -87,6 +87,13 @@ export class PitchBookingService {
   comparePitchBooking(o1: Pick<IPitchBooking, 'id'> | null, o2: Pick<IPitchBooking, 'id'> | null): boolean {
     return o1 && o2 ? this.getPitchBookingIdentifier(o1) === this.getPitchBookingIdentifier(o2) : o1 === o2;
   }
+  searchPitches(keyword: string): Observable<EntityArrayResponseType> {
+    const q = `${this.resourceUrl}/search?name=test`;
+    console.log(`${this.resourceUrl}/search?name=${keyword}`);
+    return this.http
+      .get<RestPitchBooking[]>(`${this.resourceUrl}/search?name=${keyword}`, { observe: 'response' })
+      .pipe(map(res => this.convertResponseArrayFromServer(res)));
+  }
 
   addPitchBookingToCollectionIfMissing<Type extends Pick<IPitchBooking, 'id'>>(
     pitchBookingCollection: Type[],

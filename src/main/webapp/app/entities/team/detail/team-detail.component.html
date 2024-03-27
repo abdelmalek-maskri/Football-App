@@ -1,7 +1,22 @@
 <div id="pageHolder" *ngIf="team">
   <!-- MUNEEB -->
 
-  <h1 class="page-title">Team Profile</h1>
+  <div id="top-row">
+    <div id="top-row-aligned-left">
+      <h1>Team Profile</h1>
+    </div>
+    <div id="top-row-aligned-right">
+      <button
+        *ngIf="account != null && account != undefined && team != null && team != undefined && account?.id == team.owner?.id"
+        style="margin-left: 2em"
+        type="button"
+        [routerLink]="['/team', team.id, 'edit']"
+        class="btn btn-primary"
+      >
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
+      </button>
+    </div>
+  </div>
 
   <jhi-alert-error></jhi-alert-error>
   <jhi-alert></jhi-alert>
