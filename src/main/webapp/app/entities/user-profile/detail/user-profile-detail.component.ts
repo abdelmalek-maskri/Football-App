@@ -8,7 +8,13 @@ import { AccountService } from '../../../core/auth/account.service';
 import { EntityResponseType, RestTeam, TeamService } from '../../team/service/team.service';
 import { TeamComponent } from '../../team/list/team.component';
 import { ITeam } from '../../team/team.model';
-import { CommentService } from '../../comment/service/comment.service';
+import { MatDialog, MatDialogConfig, MatDialogModule } from '@angular/material/dialog';
+import { ModalComponent } from '../modal/modal.component';
+import { UserProfileDeleteDialogComponent } from '../delete/user-profile-delete-dialog.component';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { filter, switchMap } from 'rxjs';
+import { ITEM_DELETED_EVENT } from '../../../config/navigation.constants';
+import { EntityArrayResponseType } from '../service/user-profile.service';
 
 @Component({
   selector: 'jhi-user-profile-detail',
@@ -19,14 +25,14 @@ export class UserProfileDetailComponent implements OnInit {
   theAccount?: Account;
   userProfile: IUserProfile | null = null;
   usersTeam: RestTeam | null | undefined;
-  userRating: number | null = 0;
 
   constructor(
     protected dataUtils: DataUtils,
     protected activatedRoute: ActivatedRoute,
     private accountService: AccountService,
     private teamService: TeamService,
-    protected commentService: CommentService
+    public matDialog: MatDialog,
+    protected modalService: NgbModal
   ) {}
 
   ngOnInit(): void {
@@ -35,13 +41,9 @@ export class UserProfileDetailComponent implements OnInit {
         this.theAccount = account;
       }
     });
+
     this.activatedRoute.data.subscribe(({ userProfile }) => {
       this.userProfile = userProfile;
-    });
-    this.accountService.getAuthenticationState().subscribe(account => {
-      if (account) {
-        this.theAccount = account;
-      }
     });
 
     if (this.userProfile?.team?.id) {
@@ -49,12 +51,6 @@ export class UserProfileDetailComponent implements OnInit {
         this.usersTeam = team.body;
       });
     }
-
-    this.commentService.getUserAverage(this.userProfile!.id).subscribe(response => {
-      this.userRating = response.body;
-    });
-
-    console.log(this.usersTeam);
   }
 
   byteSize(base64String: string): string {
@@ -67,5 +63,10 @@ export class UserProfileDetailComponent implements OnInit {
 
   previousState(): void {
     window.history.back();
+  }
+
+  openModal() {
+    const modalRef = this.modalService.open(ModalComponent, { size: 'lg', backdrop: 'static', centered: true });
+    modalRef.componentInstance.userProfile = this.userProfile;
   }
 }
