@@ -13,6 +13,5 @@ import team.bham.domain.UserProfile;
 @Repository
 public interface UserProfileRepository extends JpaRepository<UserProfile, Long> {
     List<UserProfile> findByTeamId(Long teamId);
-
     List<UserProfile> findByNameContainingIgnoreCase(String name);
 }
