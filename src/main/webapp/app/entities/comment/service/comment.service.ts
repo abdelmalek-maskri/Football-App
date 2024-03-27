@@ -43,6 +43,10 @@ export class CommentService {
     return this.http.delete(`${this.resourceUrl}/${id}`, { observe: 'response' });
   }
 
+  getUserAverage(userid: number): Observable<HttpResponse<number>> {
+    return this.http.get<number>(`${this.resourceUrl}/${userid}`, { observe: 'response' });
+  }
+
   getCommentIdentifier(comment: Pick<IComment, 'id'>): number {
     return comment.id;
   }

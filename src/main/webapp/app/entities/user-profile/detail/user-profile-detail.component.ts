@@ -8,6 +8,7 @@ import { AccountService } from '../../../core/auth/account.service';
 import { EntityResponseType, RestTeam, TeamService } from '../../team/service/team.service';
 import { TeamComponent } from '../../team/list/team.component';
 import { ITeam } from '../../team/team.model';
+import { CommentService } from '../../comment/service/comment.service';
 
 @Component({
   selector: 'jhi-user-profile-detail',
@@ -18,12 +19,14 @@ export class UserProfileDetailComponent implements OnInit {
   theAccount?: Account;
   userProfile: IUserProfile | null = null;
   usersTeam: RestTeam | null | undefined;
+  userRating: number | null = 0;
 
   constructor(
     protected dataUtils: DataUtils,
     protected activatedRoute: ActivatedRoute,
     private accountService: AccountService,
-    private teamService: TeamService
+    private teamService: TeamService,
+    protected commentService: CommentService
   ) {}
 
   ngOnInit(): void {
@@ -46,6 +49,10 @@ export class UserProfileDetailComponent implements OnInit {
         this.usersTeam = team.body;
       });
     }
+
+    this.commentService.getUserAverage(this.userProfile!.id).subscribe(response => {
+      this.userRating = response.body;
+    });
 
     console.log(this.usersTeam);
   }
