@@ -22,34 +22,41 @@
             <g transform="translate(0, 0)">
               <polygon
                 points="25,7 30.5,17.5 41,17.5 33,25 35.5,35.5 25,30 14.5,35.5 17,25 11,17.5 19.5,17.5"
-                style="fill: green; stroke: green; stroke-width: 1px"
+                [style.fill]="userRating >= 1 ? 'green' : 'none'"
+                style="stroke: green; stroke-width: 1px"
               />
             </g>
             <g transform="translate(40, 0)">
               <polygon
                 points="25,7 30.5,17.5 41,17.5 33,25 35.5,35.5 25,30 14.5,35.5 17,25 11,17.5 19.5,17.5"
-                style="fill: green; stroke: green; stroke-width: 1px"
+                [style.fill]="userRating >= 2 ? 'green' : 'none'"
+                style="stroke: green; stroke-width: 1px"
               />
             </g>
             <g transform="translate(80, 0)">
               <polygon
                 points="25,7 30.5,17.5 41,17.5 33,25 35.5,35.5 25,30 14.5,35.5 17,25 11,17.5 19.5,17.5"
-                style="fill: green; stroke: green; stroke-width: 1px"
+                [style.fill]="userRating >= 3 ? 'green' : 'none'"
+                style="stroke: green; stroke-width: 1px"
               />
             </g>
             <g transform="translate(120, 0)">
               <polygon
                 points="25,7 30.5,17.5 41,17.5 33,25 35.5,35.5 25,30 14.5,35.5 17,25 11,17.5 19.5,17.5"
-                style="fill: none; stroke: green; stroke-width: 1px"
+                [style.fill]="userRating >= 4 ? 'green' : 'none'"
+                style="stroke: green; stroke-width: 1px"
               />
             </g>
             <g transform="translate(160, 0)">
               <polygon
                 points="25,7 30.5,17.5 41,17.5 33,25 35.5,35.5 25,30 14.5,35.5 17,25 11,17.5 19.5,17.5"
-                style="fill: none; stroke: green; stroke-width: 1px"
+                [style.fill]="userRating >= 5 ? 'green' : 'none'"
+                style="stroke: green; stroke-width: 1px"
               />
             </g>
           </svg>
+
+          <span>{{ userRating }}</span>
 
           <img
             src="../../../content/images/refereeIcon.svg"

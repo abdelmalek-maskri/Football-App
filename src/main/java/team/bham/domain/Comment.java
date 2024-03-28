@@ -183,14 +183,28 @@ public class Comment implements Serializable {
         return getClass().hashCode();
     }
 
-    // prettier-ignore
     @Override
     public String toString() {
-        return "Comment{" +
-            "id=" + getId() +
-            ", rating=" + getRating() +
-            ", content='" + getContent() + "'" +
-            ", likeCount=" + getLikeCount() +
-            "}";
+        return (
+            "Comment{" +
+            "id=" +
+            id +
+            ", rating=" +
+            rating +
+            ", content='" +
+            content +
+            '\'' +
+            ", likeCount=" +
+            likeCount +
+            ", replyingTo=" +
+            replyingTo +
+            ", author=" +
+            author +
+            ", targetUser=" +
+            targetUser +
+            ", match=" +
+            match +
+            '}'
+        );
     }
 }

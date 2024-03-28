@@ -191,11 +191,11 @@ public class CommentResource {
     }
 
     @GetMapping("/calculate-averagerate/{targetUserId}")
-    public ResponseEntity<Double> calculateAverageRate(@PathVariable UserProfile targetUser) {
+    public ResponseEntity<Double> calculateAverageRate(@PathVariable UserProfile targetUserId) {
         //        log.debug("REST request to calculate average rate for target user : {}", targetUserId);
         //        UserProfile targetUser = commentService.getUserProfile(targetUserId);
 
-        double averageRate = commentService.calculateAverageRate(targetUser);
+        double averageRate = commentService.calculateAverageRate(targetUserId);
         return ResponseEntity.ok().body(averageRate);
     }
 }

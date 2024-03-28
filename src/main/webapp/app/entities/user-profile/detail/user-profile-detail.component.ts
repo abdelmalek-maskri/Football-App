@@ -15,6 +15,9 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { filter, switchMap } from 'rxjs';
 import { ITEM_DELETED_EVENT } from '../../../config/navigation.constants';
 import { EntityArrayResponseType } from '../service/user-profile.service';
+import { CommentService } from '../../comment/service/comment.service';
+import { IComment } from '../../comment/comment.model';
+import { IContact } from '../../contact/contact.model';
 
 @Component({
   selector: 'jhi-user-profile-detail',
@@ -25,6 +28,8 @@ export class UserProfileDetailComponent implements OnInit {
   theAccount?: Account;
   userProfile: IUserProfile | null = null;
   usersTeam: RestTeam | null | undefined;
+  userRating: number = 0;
+  listOfComments: IComment[] | undefined;
 
   constructor(
     protected dataUtils: DataUtils,
@@ -32,7 +37,8 @@ export class UserProfileDetailComponent implements OnInit {
     private accountService: AccountService,
     private teamService: TeamService,
     public matDialog: MatDialog,
-    protected modalService: NgbModal
+    protected modalService: NgbModal,
+    protected commentService: CommentService
   ) {}
 
   ngOnInit(): void {
@@ -51,6 +57,34 @@ export class UserProfileDetailComponent implements OnInit {
         this.usersTeam = team.body;
       });
     }
+
+    let totalRating = 0;
+    let counter = 0;
+
+    this.commentService.query().subscribe(response => {
+      if (response.body) {
+        this.listOfComments = response.body;
+      }
+      if (this.listOfComments != null) {
+        for (const comment of this.listOfComments!) {
+          if (comment.targetUser != null && comment.rating != null) {
+            if (comment.targetUser.id == this.userProfile!.id) {
+              totalRating = totalRating + comment.rating!;
+              counter = counter + 1;
+            }
+          }
+        }
+      }
+      this.userRating = counter;
+      this.userRating = Math.round(totalRating / counter);
+    });
+
+    // this.commentService.getUserAverage(this.userProfile!.id).subscribe(response => {
+    //     if (response.body) {
+    //       this.userRating = response.body;
+    //     }
+    //   }
+    // )
   }
 
   byteSize(base64String: string): string {
