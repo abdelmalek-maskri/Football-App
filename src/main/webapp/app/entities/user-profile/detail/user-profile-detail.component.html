@@ -56,8 +56,6 @@
             </g>
           </svg>
 
-          <span>{{ userRating }}</span>
-
           <img
             src="../../../content/images/refereeIcon.svg"
             *ngIf="userProfile?.referee; else playerTemplate"
@@ -70,6 +68,9 @@
           </ng-template>
           <ng-template #playerTemplate>
             <img src="../../../content/images/PlayerIcon.svg" alt="is Player" class="rating" />
+          </ng-template>
+          <ng-template #noTeam>
+            <h3>Not currently playing for a team</h3>
           </ng-template>
         </div>
 
@@ -125,13 +126,14 @@
             <!-- add code to change image depending on position-->
             <figure class="text-center position-avaliability">
               <img [src]="['../../../content/images/position-' + userProfile!.position + '.svg']" alt="position image" height="200" />
+              <span>{{ userProfile!.position }}</span>
             </figure>
           </div>
 
           <dd>
-            <span>Team</span>
-            <div class="team-container">
-              <div *ngIf="userProfile.team">
+            <div class="team-container grid-items">
+              <div *ngIf="userProfile.team; else noTeam">
+                <h3>Team</h3>
                 <a [routerLink]="['/team', userProfile.team.id, 'view']" class="team-items">{{ usersTeam?.name }}</a>
                 <div *ngIf="usersTeam?.image; else playerTemplate" class="team-items">
                   <img [src]="'data:' + usersTeam?.imageContentType + ';base64,' + usersTeam?.image" alt="team image" class="rating" />

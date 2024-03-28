@@ -1,22 +1,45 @@
-html,
-body {
-  height: 100%;
+#modal-content-wrapper {
+  background-color: #fff; /* Background color of the modal */
+  border-radius: 8px; /* Rounded corners */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Box shadow for a subtle effect */
 }
 
-body {
-  margin: 0;
-  font-family: Arial, Helvetica, sans-serif;
-  display: grid;
-  justify-items: center;
-  align-items: center;
-  background-color: #3a3a3a;
+#modal-header {
+  padding: 20px; /* Padding for the header */
+  background-color: #f0f0f0; /* Background color of the header */
+  border-top-left-radius: 8px; /* Rounded corners */
+  border-top-right-radius: 8px;
 }
 
-/* Overwrite the styles of the mat-dialog-container element globally, but only for those
-that have an id of `modal-component` */
-/* https://stackoverflow.com/a/48689004/9263761 */
-mat-dialog-container#modal-component {
-  border: 3px solid #262626;
-  border-radius: 11px;
-  background-color: #1a1a1a;
+#modal-title {
+  margin: 0; /* Remove default margin */
+  font-size: 1.5rem; /* Font size of the title */
+}
+
+#modal-body {
+  padding: 20px; /* Padding for the body */
+}
+
+#modal-footer {
+  padding: 20px; /* Padding for the footer */
+  background-color: #f0f0f0; /* Background color of the footer */
+  border-bottom-left-radius: 8px; /* Rounded corners */
+  border-bottom-right-radius: 8px;
+  text-align: right; /* Align buttons to the right */
+}
+
+/* Style the cancel button */
+#modal-cancel-button {
+  background-color: #f44336; /* Red background color */
+  color: #fff; /* White text color */
+  padding: 8px 16px; /* Padding for the button */
+  border: none; /* Remove default border */
+  border-radius: 4px; /* Rounded corners */
+  cursor: pointer; /* Add pointer cursor on hover */
+  transition: background-color 0.3s; /* Smooth transition for background color */
+}
+
+/* Hover effect for the cancel button */
+#modal-cancel-button:hover {
+  background-color: #d32f2f; /* Darker red background color */
 }

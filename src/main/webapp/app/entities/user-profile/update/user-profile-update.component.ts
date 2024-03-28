@@ -117,42 +117,42 @@ export class UserProfileUpdateComponent implements OnInit {
       if (account) {
         this.theAccount = account;
       }
-    });
 
-    let contactsList: IContact[] | null = [];
-    this.contactService.findByUserID(this.theAccount!.id).subscribe(contacts => {
-      if (contacts) {
-        console.log('HERE:' + contacts);
-        contactsList = contacts.body;
-      }
-    });
-    for (const enumMember of Object.values(ContactType)) {
-      console.log('HERE');
-      let tempIn = (document.getElementById('contact_details_' + enumMember.toString()) as HTMLInputElement).value;
-      if (tempIn != '') {
-        //currently doesn't delete previous contacts
-        for (const contact of contactsList) {
-          if (contact.contactType?.valueOf() === enumMember.valueOf()) {
-            this.contactService.delete(contact.id).subscribe(() => {
-              console.log('DELETED DUPLICATE CONTACTS');
-            });
-          }
+      let contactsList: IContact[] | null = [];
+      this.contactService.findByUserID(this.theAccount!.id).subscribe(contacts => {
+        if (contacts) {
+          console.log('HERE:' + contacts);
+          contactsList = contacts.body;
         }
+      });
 
-        let newCon: NewContact = {
-          id: null,
-          contactType: enumMember,
-          contactValue: tempIn,
-          userProfile: { id: this.userProfile!.id },
-          team: null,
-        };
+      for (const enumMember of Object.values(ContactType)) {
+        console.log('HERE');
+        let tempIn = (document.getElementById('contact_details_' + enumMember.toString()) as HTMLInputElement).value;
+        if (tempIn != '') {
+          //currently doesn't delete previous contacts
+          for (const contact of contactsList) {
+            if (contact.contactType?.valueOf() === enumMember.valueOf()) {
+              this.contactService.delete(contact.id).subscribe(() => {
+                console.log('DELETED DUPLICATE CONTACTS');
+              });
+            }
+          }
 
-        this.contactService.create(newCon).subscribe({
-          error: () => this.onSaveError(),
-        });
+          let newCon: NewContact = {
+            id: null,
+            contactType: enumMember,
+            contactValue: tempIn,
+            userProfile: { id: this.userProfile!.id },
+            team: null,
+          };
+
+          this.contactService.create(newCon).subscribe({
+            error: () => this.onSaveError(),
+          });
+        }
       }
-    }
-
+    });
     this.onSaveSuccess();
   }
 
