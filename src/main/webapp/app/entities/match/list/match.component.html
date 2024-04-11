@@ -1,5 +1,7 @@
 <div>
+  <!--
   <h2 id="page-heading" data-cy="MatchHeading">
+
     <span>Entity translation missing for teamprojectApp.match.home.title</span>
 
     <div class="d-flex justify-content-end">
@@ -18,9 +20,14 @@
         <span> Entity translation missing for teamprojectApp.match.home.createLabel </span>
       </button>
     </div>
+
   </h2>
+  -->
   <div class="d-flex justify-content-center">
     <div class="col-9">
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
       <div id="matchBox">
         <div id="matchNav" class="text-center">
           <button (click)="prevMonth()" type="submit" id="matchPrev" class="btn" data-cy="entityDetailsBackButton">
@@ -81,10 +88,7 @@
           </ng-template>
         </div>
 
-        <jhi-alert-error></jhi-alert-error>
-
-        <jhi-alert></jhi-alert>
-
+        <!--
         <div class="alert alert-warning" id="no-result" *ngIf="matches?.length === 0">
           <span>Entity translation missing for teamprojectApp.match.home.notFound</span>
         </div>
@@ -215,6 +219,7 @@
             </tbody>
           </table>
         </div>
+        -->
       </div>
     </div>
   </div>

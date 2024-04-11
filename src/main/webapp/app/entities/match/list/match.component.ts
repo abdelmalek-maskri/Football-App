@@ -28,6 +28,7 @@ export class MatchComponent implements OnInit {
   constructor(
     protected matchService: MatchService,
     protected activatedRoute: ActivatedRoute,
+    protected sortService: SortService,
     public router: Router,
     protected modalService: NgbModal
   ) {}
@@ -121,7 +122,8 @@ export class MatchComponent implements OnInit {
         });
       }
     });
-    return matchesDatedTemp;
+    matchesDatedTemp.sort();
+    return matchesDatedTemp.sort(this.sortService.startSort('date', 1));
   }
 
   protected fillComponentAttributesFromResponseBody(data: IMatch[] | null): IMatch[] {
