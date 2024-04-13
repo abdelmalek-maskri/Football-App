@@ -5,5 +5,113 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Leaderboards</title>
   </head>
-  <body></body>
+  <body>
+    <div class="image-container"><img src="../../../../content/images/Leaderboard_background.png" alt="" /></div>
+    <h1 style="margin: 10px; font-size: 48px">Leaderboards</h1>
+    <div class="container">
+      <div class="button-container">
+        <div class="title-box">
+          <a style="font-size: 18px" href="target-page.html">All-Time Players ></a>
+        </div>
+        <div style="margin: 20px">
+          <ul>
+            <a herf="">
+              <li>
+                <img style="width: 25%; height: auto; float: left" src="../../../../content/images/DefaultProfilePicture.jpg" alt="" />
+                <div class="bl">
+                  <div style="float: left; margin-left: 15px; font-size: 20px">messi</div>
+                  <div class="rating-content" data-rating="4.5"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+                  <div>
+                    <span>XXXXXXXXXXXXX....</span>
+                    <span class="num">4.6</span>
+                  </div>
+                </div>
+              </li>
+            </a>
+
+            <a herf="">
+              <li>
+                <img style="width: 25%; height: auto; float: left" src="../../../../content/images/DefaultProfilePicture.jpg" alt="" />
+                <div class="bl">
+                  <div style="float: left; margin-left: 15px; font-size: 20px">xx</div>
+                  <div class="rating-content" data-rating="3.5"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+                  <div>
+                    <span>XXXXXXXXXXXXX....</span>
+                    <span class="num">3.7</span>
+                  </div>
+                </div>
+              </li>
+            </a>
+
+            <a herf="">
+              <li>
+                <img style="width: 25%; height: auto; float: left" src="../../../../content/images/DefaultProfilePicture.jpg" alt="" />
+                <div class="bl">
+                  <div style="float: left; margin-left: 15px; font-size: 20px">messi</div>
+                  <div class="rating-content" data-rating="3.0"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+                  <div>
+                    <span>XXXXXXXXXXXXX....</span>
+                    <span class="num">3</span>
+                  </div>
+                </div>
+              </li>
+            </a>
+          </ul>
+        </div>
+        <div style="text-align: center"><a style="color: #ccc">Click to see more</a></div>
+      </div>
+
+      <div class="button-container">
+        <div class="title-box">
+          <a style="font-size: 18px" href="target-page.html">Players In The Match ></a>
+        </div>
+        <div style="margin: 20px">
+          <ul>
+            <a herf="">
+              <li>
+                <img style="width: 25%; height: auto; float: left" src="../../../../content/images/DefaultProfilePicture.jpg" alt="" />
+                <div class="bl">
+                  <div style="float: left; margin-left: 15px; font-size: 20px">messi</div>
+                  <div class="rating-content" data-rating="4.5"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+                  <div *ngIf="comment">
+                    <span>{{ comment?.id }}</span>
+                    <span class="num">{{ comment?.rating }}</span>
+                  </div>
+                </div>
+              </li>
+            </a>
+
+            <a herf="">
+              <li>
+                <img style="width: 25%; height: auto; float: left" src="../../../../content/images/DefaultProfilePicture.jpg" alt="" />
+                <div class="bl">
+                  <div style="float: left; margin-left: 15px; font-size: 20px">xx</div>
+                  <div class="rating-content" data-rating="3.5"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+                  <div>
+                    <span>XXXXXXXXXXXXX....</span>
+                    <span class="num">3.7</span>
+                  </div>
+                </div>
+              </li>
+            </a>
+
+            <a herf="">
+              <li>
+                <img style="width: 25%; height: auto; float: left" src="../../../../content/images/DefaultProfilePicture.jpg" alt="" />
+                <div class="bl">
+                  <div style="float: left; margin-left: 15px; font-size: 20px">messi</div>
+                  <div class="rating-content" data-rating="3.0"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+                  <div>
+                    <span>XXXXXXXXXXXXX....</span>
+                    <span class="num">3</span>
+                  </div>
+                </div>
+              </li>
+            </a>
+          </ul>
+        </div>
+        <div style="text-align: center"><a style="color: #ccc">Click to see more</a></div>
+      </div>
+    </div>
+  </body>
 </html>

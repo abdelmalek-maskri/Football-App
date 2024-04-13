@@ -59,7 +59,7 @@ import { LeaderboardsComponent } from 'app/entities/leaderboards/leaderboards.co
           },
         },
         {
-          path: 'Leaderboards',
+          path: 'ld',
           component: LeaderboardsComponent,
           data: {
             pageTitle: 'Leaderboards',
