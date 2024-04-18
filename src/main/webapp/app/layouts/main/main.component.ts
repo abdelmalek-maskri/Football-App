@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { Router, ActivatedRouteSnapshot, NavigationEnd } from '@angular/router';
+import { CookieService } from '../../cookie.service';
 
 import { AccountService } from 'app/core/auth/account.service';
 
@@ -10,7 +11,13 @@ import { AccountService } from 'app/core/auth/account.service';
   styleUrls: ['./main.component.scss'],
 })
 export class MainComponent implements OnInit {
-  constructor(private accountService: AccountService, private titleService: Title, private router: Router) {}
+  acceptCookie = false;
+  constructor(
+    private accountService: AccountService,
+    private titleService: Title,
+    private router: Router,
+    private changeDetectorRef: ChangeDetectorRef
+  ) {}
 
   ngOnInit(): void {
     // try to log in automatically
@@ -24,9 +31,17 @@ export class MainComponent implements OnInit {
     let cookiePopup = document.getElementById('cookiePopup')!;
     cookiePopup.style.display = 'block';
     let acceptButton = document.getElementById('acceptButton')!;
-    acceptButton.addEventListener('click', function handleClick() {
+    acceptButton.addEventListener('click', () => {
+      sessionStorage.setItem('acceptedCookie', 'true');
       cookiePopup.style.display = 'none';
     });
+    const accepted = sessionStorage.getItem('acceptedCookie');
+    if (accepted === 'true') {
+      cookiePopup.style.display = 'none';
+      this.changeDetectorRef.detectChanges();
+    } else {
+      cookiePopup.style.display = 'block';
+    }
   }
 
   private getPageTitle(routeSnapshot: ActivatedRouteSnapshot): string {

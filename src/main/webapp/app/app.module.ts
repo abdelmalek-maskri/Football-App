@@ -35,6 +35,7 @@ import { LeaderboardsComponent } from './entities/leaderboards/leaderboards.comp
 import { MatDialogModule } from '@angular/material/dialog';
 import { ModalComponent as ModalComponent } from './entities/user-profile/modal/modal.component';
 import { MatButtonModule } from '@angular/material/button';
+import { CookieService } from './cookie.service';
 
 @NgModule({
   imports: [
