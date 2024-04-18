@@ -33,13 +33,13 @@
 }
 
 .rating-content[data-rating='0.5'] span:nth-child(n + 2),
-.rating-content[data-rating='1.0'] span:nth-child(n + 2),
+.rating-content[data-rating='1'] span:nth-child(n + 2),
 .rating-content[data-rating='1.5'] span:nth-child(n + 3),
-.rating-content[data-rating='2.0'] span:nth-child(n + 3),
+.rating-content[data-rating='2'] span:nth-child(n + 3),
 .rating-content[data-rating='2.5'] span:nth-child(n + 4),
-.rating-content[data-rating='3.0'] span:nth-child(n + 4),
+.rating-content[data-rating='3'] span:nth-child(n + 4),
 .rating-content[data-rating='3.5'] span:nth-child(n + 5),
-.rating-content[data-rating='4.0'] span:nth-child(n + 5) {
+.rating-content[data-rating='4'] span:nth-child(n + 5) {
   display: none;
 }
 .text {
@@ -101,7 +101,7 @@ li {
   box-shadow: rgba(9, 30, 66, 0.25) 0px 1px 1px, rgba(9, 30, 66, 0.13) 0px 0px 1px 1px;
   float: left;
   width: 40%;
-  height: 65vh;
+  height: 70vh;
   margin-top: 0px;
 }
 .title-box {
@@ -117,4 +117,23 @@ li {
   padding: 10px;
   margin: 10px;
   background-color: #f7f7f7;
+}
+.list {
+  display: flex;
+  flex-wrap: wrap;
+  background-color: #f7f7f7;
+}
+.column {
+  flex: 1 1 20%; /* 每列占据 20% 的宽度 */
+  padding: 10px;
+  box-sizing: border-box;
+}
+.comment_span {
+  margin-left: 10px;
+  background-image: url('../../../../content/images/Comment_Background.png');
+  background-size: cover;
+  display: inline-block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap; /* 确保文本不换行 */
 }

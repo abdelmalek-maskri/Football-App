@@ -1,0 +1,35 @@
+<div class="pageHolder">
+  <div class="comment_container" *ngFor="let comment of commentsTo!.slice(getStartIndex(), getEndIndex()); let i = index">
+    <div class="column">
+      <img style="width: 25%; height: auto; float: left margin:5%;" src="../../../../content/images/DefaultProfilePicture.jpg" alt="" />
+      <div class="comment_content">
+        <span>{{ comment!.author!.id | userNamePipe }}</span>
+        <span>&nbsp;&nbsp;{{ comment.content }}</span>
+      </div>
+      <div class="reply_column" *ngFor="let reply of comments">
+        <p class="reply_content" *ngIf="reply.replyingTo?.id === comment.id"><span>:</span> {{ reply.content }}</p>
+      </div>
+    </div>
+  </div>
+  <div class="player_container">
+    <ng-container *ngIf="userProfile!.profilePic; else defaultImage" style="float: left">
+      <img
+        class="player_img"
+        [src]="'data:' + userProfile!.profilePicContentType + ';base64,' + userProfile!.profilePic"
+        alt="Player Image"
+      />
+    </ng-container>
+    <ng-template #defaultImage>
+      <img class="player_img" src="../../../../content/images/DefaultProfilePicture.jpg" alt="default player image" />
+    </ng-template>
+    <div class="player_info">
+      <span style="white-space: normal">Name: {{ userProfile!.name }}</span>
+      <span>Position: {{ userProfile!.position }}</span>
+      <span>Gender: {{ userProfile!.gender }}</span>
+      <span *ngIf="userTeam; else noTeam" [routerLink]="['/team', userProfile!.team!.id, 'view']">Team: {{ userTeam.name }}</span>
+      <ng-template #noTeam>
+        <span>Team: No Team</span>
+      </ng-template>
+    </div>
+  </div>
+</div>

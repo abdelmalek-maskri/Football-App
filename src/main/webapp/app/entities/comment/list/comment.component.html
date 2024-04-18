@@ -1,4 +1,105 @@
-<div>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Leaderboards</title>
+  </head>
+  <body>
+    <div class="image-container"><img src="../../../../content/images/Leaderboard_background.png" alt="" /></div>
+    <h1 style="margin: 10px; font-size: 48px; color: #446a37">LEADERBOARDS</h1>
+    <div class="container">
+      <div class="button-container">
+        <div class="title-box">
+          <a style="font-size: 18px" href="target-page.html">All-Time Players ></a>
+        </div>
+        <ng-container>
+          <div
+            class="list"
+            style="margin: 20px"
+            *ngFor="let userProfile of userProfiles!.slice(getStartIndex(), getEndIndex()); let i = index"
+          >
+            <div class="column" [routerLink]="['/comment/detail', userProfile.id]">
+              <img style="width: 25%; height: auto; float: left" src="../../../../content/images/DefaultProfilePicture.jpg" alt="" />
+              <div class="bl">
+                <div style="float: left; margin-left: 15px; font-size: 20px">{{ userProfile.name }}</div>
+                <div class="rating-content" [attr.data-rating]="userProfile.averageRating">
+                  <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+                </div>
+                <div>
+                  <div class="comment_span">{{ userProfile.contentOfHighestLikedComment }}</div>
+                  <span class="num" *ngIf="userProfile.averageRating">{{ userProfile.averageRating }}</span>
+                  <span class="num" *ngIf="userProfile.averageRating == null">Loading...</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+        <!-- 上一页按钮 -->
+        <button style="float:left margin:10px;" (click)="prevPage()" [disabled]="currentPage === 1">< prevPage</button>
+
+        <!-- 下一页按钮 -->
+        <button style="float: right; margin: 10px" (click)="nextPage()" [disabled]="getEndIndex() >= data.length">nextPage ></button>
+      </div>
+
+      <div class="button-container">
+        <div class="title-box">
+          <a style="font-size: 18px" href="target-page.html">Players In The Match ></a>
+        </div>
+        <div style="margin: 20px">
+          <ul>
+            <a herf="">
+              <li>
+                <img style="width: 25%; height: auto; float: left" src="../../../../content/images/DefaultProfilePicture.jpg" alt="" />
+                <div class="bl">
+                  <div style="float: left; margin-left: 15px; font-size: 20px">Match1</div>
+                  <div class="rating-content" data-rating="4.5"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+                  <div>
+                    <span></span>
+                    <span class="num"></span>
+                  </div>
+                </div>
+              </li>
+            </a>
+
+            <a herf="">
+              <li>
+                <img style="width: 25%; height: auto; float: left" src="../../../../content/images/DefaultProfilePicture.jpg" alt="" />
+                <div class="bl">
+                  <div style="float: left; margin-left: 15px; font-size: 20px">Match2</div>
+                  <div class="rating-content" data-rating="3.5"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+                  <div>
+                    <span>XXXXXXXXXXXXX....</span>
+                    <span class="num"></span>
+                  </div>
+                </div>
+              </li>
+            </a>
+
+            <a herf="">
+              <li>
+                <img style="width: 25%; height: auto; float: left" src="../../../../content/images/DefaultProfilePicture.jpg" alt="" />
+                <div class="bl">
+                  <div style="float: left; margin-left: 15px; font-size: 20px">Match3</div>
+                  <div class="rating-content" data-rating="3.0"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+                  <div *ngIf="comments && comments.length > 0">
+                    <div>
+                      <span></span>
+                      <span class="num"></span>
+                    </div>
+                  </div>
+                </div>
+              </li>
+            </a>
+          </ul>
+        </div>
+        <div style="text-align: center"><a style="color: #ccc">Click to see more</a></div>
+      </div>
+    </div>
+  </body>
+</html>
+
+<div *jhiHasAnyAuthority="'ROLE_ADMIN'">
   <h2 id="page-heading" data-cy="CommentHeading">
     <span>Comments</span>
 

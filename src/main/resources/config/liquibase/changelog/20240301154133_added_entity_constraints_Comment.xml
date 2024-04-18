@@ -20,11 +20,11 @@
                                  referencedColumnNames="id"
                                  referencedTableName="user_profile"/>
 
-        <addForeignKeyConstraint baseColumnNames="target_user_id"
-                                 baseTableName="comment"
-                                 constraintName="fk_comment__target_user_id"
-                                 referencedColumnNames="id"
-                                 referencedTableName="user_profile"/>
+<!--        <addForeignKeyConstraint baseColumnNames="target_user_id"-->
+<!--                                 baseTableName="comment"-->
+<!--                                 constraintName="fk_comment__target_user_id"-->
+<!--                                 referencedColumnNames="id"-->
+<!--                                 referencedTableName="user_profile"/>-->
 
         <addForeignKeyConstraint baseColumnNames="match_id"
                                  baseTableName="comment"

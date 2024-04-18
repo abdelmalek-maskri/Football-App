@@ -6,6 +6,7 @@ import { isPresent } from 'app/core/util/operators';
 import { ApplicationConfigService } from 'app/core/config/application-config.service';
 import { createRequestOption } from 'app/core/request/request-util';
 import { IComment, NewComment } from '../comment.model';
+import { IUserProfile } from '../../user-profile/user-profile.model';
 
 export type PartialUpdateComment = Partial<IComment> & Pick<IComment, 'id'>;
 
