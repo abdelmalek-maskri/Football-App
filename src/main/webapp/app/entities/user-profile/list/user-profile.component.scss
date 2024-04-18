@@ -227,3 +227,20 @@ html * {
   font-size: 1.5em;
   font-weight: 600;
 }
+
+.banner-container-page-title {
+  position: absolute;
+  font-family: 'Anton', sans-serif;
+  top: 0.75em; /* Adjust top positioning as needed */
+  right: 1em; /* Adjust left positioning as needed */
+  text-transform: uppercase;
+  line-height: 6vw;
+  font-size: 5vw;
+  font-weight: bold; /* Bold font weight */
+  color: white; /* White text color */
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Text shadow for better visibility */
+  transition: color 0.3s ease; /* Smooth transition for color change */
+}
+.banner-container-page-title:hover {
+  color: green; /* Change text color to green on hover */
+}

@@ -6,7 +6,7 @@ import { RouterModule } from '@angular/router';
     RouterModule.forChild([
       {
         path: 'user-profile',
-        data: { pageTitle: 'UserProfiles' },
+        data: { pageTitle: 'Players' },
         loadChildren: () => import('./user-profile/user-profile.module').then(m => m.UserProfileModule),
       },
       {
