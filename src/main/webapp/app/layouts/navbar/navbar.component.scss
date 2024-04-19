@@ -79,7 +79,9 @@ a.nav-link:hover {
   //background-color: #02a65c;
   font-weight: 800;
 }
-
+.recolor {
+  filter: invert(1) hue-rotate(-180deg);
+}
 .test {
   @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap');
 
