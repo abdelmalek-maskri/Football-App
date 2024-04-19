@@ -46,9 +46,6 @@ const commentRoute: Routes = [
   {
     path: 'detail/:id',
     component: LeaderboardComponent,
-    resolve: {
-      userProfile: UserProfileRoutingResolveService,
-    },
     canActivate: [UserRouteAccessService],
   },
 ];

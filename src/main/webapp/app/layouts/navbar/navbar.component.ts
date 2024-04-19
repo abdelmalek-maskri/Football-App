@@ -42,8 +42,17 @@ export class NavbarComponent implements OnInit {
     this.accountService.getAuthenticationState().subscribe(account => {
       this.account = account;
     });
+    let darkCheck = document.getElementById('dark-checkbox') as HTMLInputElement;
+    darkCheck.addEventListener('click', () => {
+      if (darkCheck.checked) {
+        document.documentElement.classList.add('dark');
+        sessionStorage.setItem('css', 'dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+        sessionStorage.removeItem('css');
+      }
+    });
   }
-
   collapseNavbar(): void {
     this.isNavbarCollapsed = true;
   }

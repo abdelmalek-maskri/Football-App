@@ -88,7 +88,11 @@ li {
   width: 100%;
   height: auto;
 }
-
+.player_img {
+  width: 25%;
+  height: auto;
+  float: left;
+}
 .container {
   display: flex;
   justify-content: space-between;
@@ -135,5 +139,19 @@ li {
   display: inline-block;
   overflow: hidden;
   text-overflow: ellipsis;
-  white-space: nowrap; /* 确保文本不换行 */
+  white-space: nowrap;
 }
+
+.floating-widget {
+  width: 100px;
+  height: 100px;
+  position: fixed;
+  top: 50%;
+  left: 0;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  transform: translateY(-50%);
+  transform: translateX(10%);
+  border-radius: 5px;
+}
+//////////////

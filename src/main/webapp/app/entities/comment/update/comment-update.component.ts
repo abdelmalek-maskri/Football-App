@@ -3,6 +3,7 @@ import { HttpResponse } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { finalize, map } from 'rxjs/operators';
+import { FormGroup, FormBuilder } from '@angular/forms';
 
 import { CommentFormService, CommentFormGroup } from './comment-form.service';
 import { IComment } from '../comment.model';
@@ -15,10 +16,14 @@ import { MatchService } from 'app/entities/match/service/match.service';
 @Component({
   selector: 'jhi-comment-update',
   templateUrl: './comment-update.component.html',
+  styleUrls: ['./comment-update.component.scss'],
 })
 export class CommentUpdateComponent implements OnInit {
   isSaving = false;
   comment: IComment | null = null;
+  myForm: FormGroup | null = null;
+  userId = 0;
+  section = '';
 
   commentsSharedCollection: IComment[] = [];
   userProfilesSharedCollection: IUserProfile[] = [];
@@ -31,7 +36,8 @@ export class CommentUpdateComponent implements OnInit {
     protected commentFormService: CommentFormService,
     protected userProfileService: UserProfileService,
     protected matchService: MatchService,
-    protected activatedRoute: ActivatedRoute
+    protected activatedRoute: ActivatedRoute,
+    private formBuilder: FormBuilder
   ) {}
 
   compareComment = (o1: IComment | null, o2: IComment | null): boolean => this.commentService.compareComment(o1, o2);
@@ -46,7 +52,10 @@ export class CommentUpdateComponent implements OnInit {
       if (comment) {
         this.updateForm(comment);
       }
-
+      this.activatedRoute.params.subscribe(params => {
+        this.userId = params['id'];
+        this.section = params['section'];
+      });
       this.loadRelationshipsOptions();
     });
   }

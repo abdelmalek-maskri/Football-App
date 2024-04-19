@@ -5,15 +5,23 @@
 
       <div>
         <jhi-alert-error></jhi-alert-error>
-
-        <div class="row mb-3" *ngIf="editForm.controls.id.value !== null">
-          <label class="form-label" for="field_id">ID</label>
-          <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+        <div *jhiHasAnyAuthority="'ROLE_ADMIN'">
+          <div class="row mb-3" *ngIf="editForm.controls.id.value !== null">
+            <label class="form-label" for="field_id">ID</label>
+            <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+          </div>
         </div>
 
         <div class="row mb-3">
-          <label class="form-label" for="field_rating">Rating</label>
-          <input type="number" class="form-control" name="rating" id="field_rating" data-cy="rating" formControlName="rating" />
+          <label class="form-label">Rating</label>
+          <!--          <input type="number" class="form-control" name="rating" id="field_rating" data-cy="rating" formControlName="rating" />-->
+          <div class="radio-group">
+            <input name="rating" type="radio" formControlName="rating" [value]="1" />
+            <input name="rating" type="radio" formControlName="rating" [value]="2" />
+            <input name="rating" type="radio" formControlName="rating" [value]="3" />
+            <input name="rating" type="radio" formControlName="rating" [value]="4" />
+            <input name="rating" type="radio" formControlName="rating" [value]="5" />
+          </div>
           <div *ngIf="editForm.get('rating')!.invalid && (editForm.get('rating')!.dirty || editForm.get('rating')!.touched)">
             <small class="form-text text-danger" *ngIf="editForm.get('rating')?.errors?.required"> This field is required. </small>
             <small class="form-text text-danger" *ngIf="editForm.get('rating')?.errors?.min"> This field should be at least 0. </small>
@@ -32,7 +40,7 @@
           </div>
         </div>
 
-        <div class="row mb-3">
+        <div class="row mb-3" *jhiHasAnyAuthority="'ROLE_ADMIN'">
           <label class="form-label" for="field_likeCount">Like Count</label>
           <input type="number" class="form-control" name="likeCount" id="field_likeCount" data-cy="likeCount" formControlName="likeCount" />
           <div *ngIf="editForm.get('likeCount')!.invalid && (editForm.get('likeCount')!.dirty || editForm.get('likeCount')!.touched)">
@@ -75,7 +83,7 @@
           </select>
         </div>
 
-        <div class="row mb-3">
+        <div class="row mb-3" *jhiHasAnyAuthority="'ROLE_ADMIN'">
           <label class="form-label" for="field_targetUser">Target User</label>
           <select
             class="form-control"

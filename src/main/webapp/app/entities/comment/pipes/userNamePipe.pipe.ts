@@ -5,18 +5,8 @@ import { UserProfileService } from '../../user-profile/service/user-profile.serv
   name: 'userNamePipe',
 })
 export class userNamePipe implements PipeTransform {
-  private userProfiles: IUserProfile[] = [];
-
-  constructor(private userProfileService: UserProfileService) {
-    this.userProfileService.query().subscribe(res => {
-      if (res.body != null) {
-        this.userProfiles = res.body;
-      }
-    });
-  }
-
-  transform(id: number): string {
-    const foundUser = this.userProfiles.find(userProfile => userProfile.id == id);
+  transform(id: number, userProfiles: IUserProfile[]): string {
+    const foundUser = userProfiles.find(userProfile => userProfile.id === id);
     return foundUser ? foundUser.name! : 'Unknown';
   }
 }
