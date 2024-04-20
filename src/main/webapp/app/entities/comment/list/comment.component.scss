@@ -1,0 +1,157 @@
+.rating-content {
+  color: #ffa100;
+  height: 80px;
+  text-align: right;
+}
+
+.rating-content span {
+  display: inline-block;
+  position: relative;
+  font-size: 25px;
+}
+
+.rating-content[data-rating='0.5'] span:nth-child(n + 1),
+.rating-content[data-rating='1.5'] span:nth-child(n + 2),
+.rating-content[data-rating='2.5'] span:nth-child(n + 3),
+.rating-content[data-rating='3.5'] span:nth-child(n + 4),
+.rating-content[data-rating='4.5'] span:last-child {
+  color: #fff;
+}
+
+.rating-content[data-rating='0.5'] span:nth-child(n + 1):before,
+.rating-content[data-rating='1.5'] span:nth-child(n + 2):before,
+.rating-content[data-rating='2.5'] span:nth-child(n + 3):before,
+.rating-content[data-rating='3.5'] span:nth-child(n + 4):before,
+.rating-content[data-rating='4.5'] span:last-child:before {
+  content: '\2605';
+  display: block;
+  position: absolute;
+  width: 60%;
+  pointer-events: none;
+  overflow: hidden;
+  color: #ffa100;
+}
+
+.rating-content[data-rating='0.5'] span:nth-child(n + 2),
+.rating-content[data-rating='1'] span:nth-child(n + 2),
+.rating-content[data-rating='1.5'] span:nth-child(n + 3),
+.rating-content[data-rating='2'] span:nth-child(n + 3),
+.rating-content[data-rating='2.5'] span:nth-child(n + 4),
+.rating-content[data-rating='3'] span:nth-child(n + 4),
+.rating-content[data-rating='3.5'] span:nth-child(n + 5),
+.rating-content[data-rating='4'] span:nth-child(n + 5) {
+  display: none;
+}
+.text {
+  font-size: 25px;
+}
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+li {
+  display: flex;
+  margin-bottom: 10px;
+  background-color: #f7f7f7;
+  padding: 10px;
+}
+.num {
+  float: right;
+  color: #01a9b6;
+  font-size: 16px;
+  font-weight: bold;
+}
+.bl {
+  flex: 1;
+}
+.ig {
+  width: 20px;
+  height: auto;
+}
+.pll {
+  display: flex;
+  align-items: center;
+}
+/////////////////////////////////////////
+
+.image-container {
+  position: relative;
+  width: 100%;
+  height: 66.666vh;
+  overflow: hidden;
+}
+
+.image-container img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: auto;
+}
+.player_img {
+  width: 25%;
+  height: auto;
+  float: left;
+}
+.container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 80vh;
+  overflow: hidden;
+}
+
+.button-container {
+  box-shadow: rgba(9, 30, 66, 0.25) 0px 1px 1px, rgba(9, 30, 66, 0.13) 0px 0px 1px 1px;
+  float: left;
+  width: 40%;
+  height: 70vh;
+  margin-top: 0px;
+}
+.title-box {
+  background-color: #006135;
+  padding: 10px;
+}
+.box-container {
+  display: grid;
+  height: 50vh;
+  padding: 10px;
+}
+.box {
+  padding: 10px;
+  margin: 10px;
+  background-color: #f7f7f7;
+}
+.list {
+  display: flex;
+  flex-wrap: wrap;
+  background-color: #f7f7f7;
+}
+.column {
+  flex: 1 1 20%; /* 每列占据 20% 的宽度 */
+  padding: 10px;
+  box-sizing: border-box;
+}
+.comment_span {
+  margin-left: 10px;
+  background-image: url('../../../../content/images/Comment_Background.png');
+  background-size: cover;
+  display: inline-block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.floating-widget {
+  width: 100px;
+  height: 100px;
+  position: fixed;
+  top: 50%;
+  left: 0;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  transform: translateY(-50%);
+  transform: translateX(10%);
+  border-radius: 5px;
+}
+//////////////

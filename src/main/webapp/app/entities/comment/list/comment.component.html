@@ -1,4 +1,86 @@
-<div>
+<!DOCTYPE html>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Leaderboards</title>
+</head>
+<body>
+  <div class="image-container"><img src="../../../../content/images/Leaderboard_background.png" alt="" /></div>
+  <h1 style="margin: 10px; font-size: 48px; color: #446a37">LEADERBOARDS</h1>
+  <div class="container">
+    <div class="button-container">
+      <div class="title-box">
+        <div style="font-size: 18px" href="target-page.html">All-Time Players</div>
+      </div>
+      <ng-container>
+        <div
+          class="list"
+          style="margin: 20px"
+          *ngFor="let userProfile of userProfiles!.slice(getUserStartIndex(), getUserEndIndex()); let i = index"
+        >
+          <div class="column" (click)="navigateToUserLD(userProfile.id)">
+            <ng-container *ngIf="userProfile!.profilePic; else defaultImage" style="float: left">
+              <img
+                class="player_img"
+                [src]="'data:' + userProfile!.profilePicContentType + ';base64,' + userProfile!.profilePic"
+                alt="Player Image"
+              />
+            </ng-container>
+            <ng-template #defaultImage>
+              <img class="player_img" src="../../../../content/images/DefaultProfilePicture.jpg" alt="default player image" />
+            </ng-template>
+            <div class="bl">
+              <div style="float: left; margin-left: 15px; font-size: 20px">{{ userProfile.name }}</div>
+              <div class="rating-content" [attr.data-rating]="userProfile.averageRating">
+                <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+              </div>
+              <div>
+                <div class="comment_span">{{ userProfile.contentOfHighestLikedComment }}</div>
+                <span class="num" *ngIf="userProfile.averageRating">{{ userProfile.averageRating }}</span>
+                <span class="num" *ngIf="userProfile.averageRating == null">Loading...</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+      <button style="float:left margin:10px;" (click)="prevUserPage()" [disabled]="currentUserPage === 1">< prevPage</button>
+      <button style="float: right; margin: 10px" (click)="nextUserPage()" [disabled]="getUserEndIndex() >= userProfiles!.length">
+        nextPage >
+      </button>
+    </div>
+
+    <div class="button-container">
+      <div class="title-box">
+        <div style="font-size: 18px">Players In The Match</div>
+      </div>
+      <ng-container>
+        <div
+          class="list"
+          style="margin: 20px"
+          *ngFor="let match of matches!.slice(getMatchStartIndex(), getMatchEndIndex()); let i = index"
+        >
+          <div class="column" (click)="navigateToMatchLD(match.id)">
+            <div class="bl">
+              <div style="float: left; margin-left: 15px; font-size: 20px">Match{{ match.id }}</div>
+              <br />
+              <span>{{ match.date | formatMediumDatetime }}</span>
+              <div></div>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+      <button style="float:left margin:10px;" (click)="prevMatchPage()" [disabled]="currentMatchPage === 1">< prevPage</button>
+      <button style="float: right; margin: 10px" (click)="nextMatchPage()" [disabled]="getMatchEndIndex() >= matches!.length">
+        nextPage >
+      </button>
+    </div>
+  </div>
+</body>
+
+<div class="floating-widget">
+  <!-- 悬浮窗内容 -->
+</div>
+<div *jhiHasAnyAuthority="'ROLE_ADMIN'">
   <h2 id="page-heading" data-cy="CommentHeading">
     <span>Comments</span>
 

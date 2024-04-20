@@ -79,3 +79,95 @@ a.nav-link:hover {
   //background-color: #02a65c;
   font-weight: 800;
 }
+.recolor {
+  filter: invert(1) hue-rotate(-180deg);
+}
+.test {
+  @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap');
+
+  $dark-color: #111;
+  $light-color: #eee;
+  $bg-color: #4c6fff;
+
+  *,
+  * *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  body {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    font-family: Poppins, serif;
+  }
+
+  h1 {
+    margin-right: 20px;
+    user-select: none;
+  }
+
+  .dark-label {
+    display: block;
+    margin: 20px 0;
+    height: 31px;
+    width: 60px;
+    border: 2px solid $bg-color;
+    border-radius: 30px;
+    position: relative;
+    cursor: pointer;
+
+    .ball {
+      position: absolute;
+      width: 25px;
+      height: 25px;
+      top: 1px;
+      left: 1px;
+      border-radius: 50%;
+      background-color: $bg-color;
+      transition: 300ms;
+      z-index: 99;
+    }
+
+    #dark-checkbox {
+      position: absolute;
+      visibility: hidden;
+    }
+
+    #dark-checkbox:checked + .ball {
+      transform: translateX(28px);
+    }
+
+    .moon-svg,
+    .sun-svg {
+      width: 16px;
+      height: 16px;
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+
+    .sun-svg {
+      left: 5px;
+    }
+
+    .moon-svg {
+      right: 5px;
+    }
+  }
+
+  .dark {
+    transition: all 1s;
+    background-color: $dark-color;
+    color: $light-color;
+
+    .sun-svg,
+    .moon-svg {
+      fill: $light-color;
+    }
+  }
+}

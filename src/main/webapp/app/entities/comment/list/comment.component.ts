@@ -4,34 +4,123 @@ import { combineLatest, filter, Observable, switchMap, tap } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { IComment } from '../comment.model';
+import { IMatch } from '../../match/match.model';
+import { IUserProfile } from '../../user-profile/user-profile.model';
+import { UserProfileService } from '../../user-profile/service/user-profile.service';
 import { ASC, DESC, SORT, ITEM_DELETED_EVENT, DEFAULT_SORT_DATA } from 'app/config/navigation.constants';
 import { EntityArrayResponseType, CommentService } from '../service/comment.service';
 import { CommentDeleteDialogComponent } from '../delete/comment-delete-dialog.component';
 import { SortService } from 'app/shared/sort/sort.service';
+import { TeamService } from '../../team/service/team.service';
+import { MatchService } from '../../match/service/match.service';
 
 @Component({
   selector: 'jhi-comment',
   templateUrl: './comment.component.html',
+  styleUrls: ['./comment.component.scss'],
 })
 export class CommentComponent implements OnInit {
   comments?: IComment[];
+  matches?: IMatch[] = [];
+  userProfiles?: (IUserProfile & { averageRating?: number } & { contentOfHighestLikedComment?: string | undefined })[] = [];
   isLoading = false;
 
   predicate = 'id';
   ascending = true;
-
+  userPerPage = 3;
+  currentUserPage = 1;
+  matchPerPage = 6;
+  currentMatchPage = 1;
   constructor(
     protected commentService: CommentService,
     protected activatedRoute: ActivatedRoute,
     public router: Router,
     protected sortService: SortService,
-    protected modalService: NgbModal
-  ) {}
+    protected modalService: NgbModal,
+    protected UserProfileService: UserProfileService,
+    protected TeamService: TeamService,
+    protected MatchService: MatchService
+  ) {
+    if (this.userProfiles) {
+      this.userProfiles.sort((a, b) => b!.averageRating! - a!.averageRating!);
+    }
+  }
+
+  getUserStartIndex(): number {
+    return (this.currentUserPage - 1) * this.currentUserPage;
+  }
+
+  getUserEndIndex(): number {
+    return this.currentUserPage * this.currentUserPage;
+  }
+
+  nextUserPage() {
+    if (this.getUserEndIndex() < this.userProfiles!.length) {
+      this.currentUserPage++;
+    }
+  }
+
+  prevUserPage() {
+    if (this.currentUserPage > 1) {
+      this.currentUserPage--;
+    }
+  }
+  getMatchStartIndex(): number {
+    return (this.currentMatchPage - 1) * this.currentMatchPage;
+  }
+
+  getMatchEndIndex(): number {
+    return this.currentMatchPage * this.currentMatchPage;
+  }
+
+  nextMatchPage() {
+    if (this.getMatchEndIndex() < this.matches!.length) {
+      this.currentMatchPage++;
+    }
+  }
+
+  prevMatchPage() {
+    if (this.currentMatchPage > 1) {
+      this.currentMatchPage--;
+    }
+  }
 
   trackId = (_index: number, item: IComment): number => this.commentService.getCommentIdentifier(item);
 
   ngOnInit(): void {
     this.load();
+    this.MatchService.query().subscribe(res => {
+      if (res.body) {
+        this.matches = res.body;
+      }
+    });
+    this.UserProfileService.query().subscribe(response => {
+      if (response.body) {
+        this.userProfiles = response.body;
+      }
+      if (this.comments != null) {
+        for (const userProfile of this.userProfiles!) {
+          let counter = 0;
+          let totalRating = 0;
+          userProfile.contentOfHighestLikedComment = 'No popular comments yet';
+          for (const comment of this.comments!) {
+            let highestLikeCount = 0;
+            if (userProfile.id != null) {
+              if (comment.targetUser != null && comment.rating != null) {
+                if (comment.targetUser.id == userProfile!.id) {
+                  totalRating = totalRating + comment.rating!;
+                  counter = counter + 1;
+                }
+                if (comment.likeCount != null && comment.likeCount > highestLikeCount) {
+                  userProfile.contentOfHighestLikedComment = comment.content as string;
+                }
+              }
+            }
+          }
+          userProfile.averageRating = Math.round(totalRating / counter);
+        }
+      }
+    });
   }
 
   delete(comment: IComment): void {
@@ -114,5 +203,11 @@ export class CommentComponent implements OnInit {
     } else {
       return [predicate + ',' + ascendingQueryParam];
     }
+  }
+  navigateToUserLD(id: number): void {
+    this.router.navigate(['./comment/detail', id], { queryParams: { section: 'Player' } });
+  }
+  navigateToMatchLD(id: number): void {
+    this.router.navigate(['./comment/detail', id], { queryParams: { section: 'Match' } });
   }
 }

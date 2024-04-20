@@ -1,0 +1,210 @@
+.pageHolder {
+  margin-top: 5%;
+  margin-left: 15%;
+  margin-right: 15%;
+}
+
+.rating-content {
+  color: #ffa100;
+  text-align: left;
+}
+
+.rating-content span {
+  display: inline-block;
+  position: relative;
+  font-size: 20px;
+}
+.rating-content[data-rating='0.5'] span:nth-child(n + 1),
+.rating-content[data-rating='1.5'] span:nth-child(n + 2),
+.rating-content[data-rating='2.5'] span:nth-child(n + 3),
+.rating-content[data-rating='3.5'] span:nth-child(n + 4),
+.rating-content[data-rating='4.5'] span:last-child {
+  color: #fff;
+}
+.rating-content[data-rating='0.5'] span:nth-child(n + 1):before,
+.rating-content[data-rating='1.5'] span:nth-child(n + 2):before,
+.rating-content[data-rating='2.5'] span:nth-child(n + 3):before,
+.rating-content[data-rating='3.5'] span:nth-child(n + 4):before,
+.rating-content[data-rating='4.5'] span:last-child:before {
+  content: '\2605';
+  display: block;
+  position: absolute;
+  width: 100%;
+  pointer-events: none;
+  overflow: hidden;
+  color: #ffa100;
+}
+
+.rating-content[data-rating='0.5'] span:nth-child(n + 2),
+.rating-content[data-rating='1'] span:nth-child(n + 2),
+.rating-content[data-rating='1.5'] span:nth-child(n + 3),
+.rating-content[data-rating='2'] span:nth-child(n + 3),
+.rating-content[data-rating='2.5'] span:nth-child(n + 4),
+.rating-content[data-rating='3'] span:nth-child(n + 4),
+.rating-content[data-rating='3.5'] span:nth-child(n + 5),
+.rating-content[data-rating='4'] span:nth-child(n + 5) {
+  display: none;
+}
+
+.reply_column {
+  background-color: #ccc;
+  margin-left: 30%;
+}
+.player_container {
+  width: 30%;
+  height: auto;
+  border-radius: 5px;
+  background-color: #ccc;
+}
+.player_img {
+  margin: 5%;
+  width: 35%;
+  height: auto;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  overflow: hidden;
+}
+.player_info {
+  float: right;
+  margin: 5%;
+  width: 45%;
+}
+.player_info span {
+  display: block;
+}
+.floating-widget {
+  width: 100px;
+  height: 100px;
+  position: fixed;
+  top: 30%;
+  left: 0;
+  background-color: #fff;
+  transform: translateY(-50%);
+  border-radius: 5px;
+}
+
+///////////////////////////////
+
+.gitment-container {
+  width: 80%;
+  font-family: sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+  color: #333;
+  word-wrap: break-word;
+}
+
+.gitment-comment-like-btn svg {
+  vertical-align: middle;
+  height: 20px;
+}
+.gitment-comment-like-btn.liked svg {
+  fill: #f44336;
+}
+
+.gitment-comments-list {
+  list-style: none;
+  padding-left: 0;
+  margin: 0 0 38px;
+}
+
+.gitment-comment,
+.gitment-editor-container {
+  position: relative;
+  min-height: 60px;
+  margin: 19px 0;
+}
+
+.gitment-comment-avatar {
+  float: left;
+  margin-left: -60px;
+}
+
+.gitment-comment-avatar,
+.gitment-comment-avatar-img,
+.gitment-comment-avatar,
+.gitment-editor-avatar-img,
+.gitment-editor-avatar svg {
+  width: 44px;
+  height: 44px;
+  border-radius: 3px;
+}
+
+.gitment-comment-main {
+  position: relative;
+  border: 1px solid #cfd8dc;
+  border-radius: 0;
+}
+
+.gitment-comment-main::before,
+.gitment-comment-main::after {
+  position: absolute;
+  top: 11px;
+  left: -16px;
+  display: block;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+  content: '';
+  border-color: transparent;
+  border-style: solid solid outset;
+}
+
+.gitment-editor-main::before,
+.gitment-comment-main::before {
+  border-width: 8px;
+  border-right-color: #cfd8dc;
+}
+
+.gitment-editor-main::after,
+.gitment-comment-main::after {
+  margin-top: 1px;
+  margin-left: 2px;
+  border-width: 7px;
+  border-right-color: #fff;
+}
+
+.gitment-comment-header {
+  margin: 12px 15px;
+  color: #666;
+  background-color: #fff;
+  border-radius: 3px;
+}
+
+a.gitment-comment-name,
+a.gitment-comment-name:visited {
+  font-weight: 600;
+  color: #666;
+}
+.gitment-comment-body {
+  position: relative;
+  margin: 12px 15px;
+  overflow: hidden;
+  border-radius: 3px;
+}
+
+.gitment-comment-body-folded {
+  cursor: pointer;
+}
+.gitment-comments-pagination {
+  list-style: none;
+  text-align: right;
+  border-radius: 0;
+  margin: -19px 0 19px 0;
+}
+
+.gitment-comments-page-item {
+  display: inline-block;
+  cursor: pointer;
+  border: 1px solid #cfd8dc;
+  margin-left: -1px;
+  padding: 0.25rem 0.5rem;
+}
+
+.gitment-comments-page-item:hover {
+  background-color: #f5f5f5;
+}
+
+.gitment-comments-page-item.gitment-selected {
+  background-color: #f5f5f5;
+}

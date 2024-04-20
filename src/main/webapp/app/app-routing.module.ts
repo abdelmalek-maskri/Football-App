@@ -12,7 +12,6 @@ import { TestComponent } from 'app/test/test.component';
 
 import { GdprPageComponent } from 'app/gdpr-page/gdpr-page.component';
 import { CookiePolicyComponent } from './cookie-policy/cookie-policy.component';
-import { LeaderboardsComponent } from 'app/entities/leaderboards/leaderboards.component';
 @NgModule({
   imports: [
     RouterModule.forRoot(
@@ -56,13 +55,6 @@ import { LeaderboardsComponent } from 'app/entities/leaderboards/leaderboards.co
           component: CookiePolicyComponent,
           data: {
             pageTitle: 'Cookie Policy',
-          },
-        },
-        {
-          path: 'Leaderboards',
-          component: LeaderboardsComponent,
-          data: {
-            pageTitle: 'Leaderboards',
           },
         },
         navbarRoute,
