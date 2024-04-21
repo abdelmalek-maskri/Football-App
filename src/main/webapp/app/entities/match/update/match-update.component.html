@@ -1,9 +1,8 @@
+<br /><br />
 <div class="d-flex justify-content-center">
   <div class="col-8">
     <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
-      <h2 id="jhi-match-heading" data-cy="MatchCreateUpdateHeading">
-        Entity translation missing for teamprojectApp.match.home.createOrEditLabel
-      </h2>
+      <h2 id="jhi-match-heading" data-cy="MatchCreateUpdateHeading">Update Match</h2>
 
       <div>
         <jhi-alert-error></jhi-alert-error>
@@ -68,7 +67,7 @@
           >
             <option [ngValue]="null"></option>
             <option [ngValue]="userProfileOption" *ngFor="let userProfileOption of userProfilesSharedCollection">
-              {{ userProfileOption.id }}
+              {{ userProfileOption.name }}
             </option>
           </select>
         </div>
@@ -77,7 +76,7 @@
           <label class="form-label" for="field_pitch">Pitch</label>
           <select class="form-control" id="field_pitch" data-cy="pitch" name="pitch" formControlName="pitch" [compareWith]="comparePitch">
             <option [ngValue]="null"></option>
-            <option [ngValue]="pitchOption" *ngFor="let pitchOption of pitchesSharedCollection">{{ pitchOption.id }}</option>
+            <option [ngValue]="pitchOption" *ngFor="let pitchOption of pitchesSharedCollection">{{ pitchOption.name }}</option>
           </select>
         </div>
 
@@ -85,7 +84,7 @@
           <label class="form-label" for="field_home">Home</label>
           <select class="form-control" id="field_home" data-cy="home" name="home" formControlName="home" [compareWith]="compareTeam">
             <option [ngValue]="null"></option>
-            <option [ngValue]="teamOption" *ngFor="let teamOption of teamsSharedCollection">{{ teamOption.id }}</option>
+            <option [ngValue]="teamOption" *ngFor="let teamOption of teamsSharedCollection">{{ teamOption.name }}</option>
           </select>
         </div>
 
@@ -93,7 +92,7 @@
           <label class="form-label" for="field_away">Away</label>
           <select class="form-control" id="field_away" data-cy="away" name="away" formControlName="away" [compareWith]="compareTeam">
             <option [ngValue]="null"></option>
-            <option [ngValue]="teamOption" *ngFor="let teamOption of teamsSharedCollection">{{ teamOption.id }}</option>
+            <option [ngValue]="teamOption" *ngFor="let teamOption of teamsSharedCollection">{{ teamOption.name }}</option>
           </select>
         </div>
 
@@ -109,7 +108,7 @@
           >
             <option [ngValue]="null"></option>
             <option [ngValue]="tournamentOption" *ngFor="let tournamentOption of tournamentsSharedCollection">
-              {{ tournamentOption.id }}
+              {{ tournamentOption.name }}
             </option>
           </select>
         </div>
