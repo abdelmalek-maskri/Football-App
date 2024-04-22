@@ -49,7 +49,7 @@ export class MatchComponent implements OnInit {
   prevMonth(): void {
     var tempDate = dayjs(this.date, 'DD-MM-YYYY');
     var newDate = tempDate.subtract(1, 'month');
-    this.month = newDate.format('MMMM');
+    this.month = newDate.format('MMMM YYYY');
     this.date = newDate.format('DD-MM-YYYY');
     this.navigateToWithComponentValues();
   }
@@ -93,7 +93,7 @@ export class MatchComponent implements OnInit {
     var tempDate = params.get('date');
     if (tempDate != null) {
       this.date = tempDate;
-      this.month = dayjs(tempDate, 'DD-MM-YYYY').format('MMMM');
+      this.month = dayjs(tempDate, 'DD-MM-YYYY').format('MMMM YYYY');
     }
   }
 
