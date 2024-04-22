@@ -12,9 +12,9 @@
   -->
 
   <img id="pageBanner" src="../../../../content/images/FootballTeamsPageBanner.png" alt="Football Team at UoB" />
-  <h1 class="banner-container-page-title">TEAMS</h1>
+  <h1 class="dynamic-text-size banner-container-page-title" [style.fontSize]="fontSizeMultiplier * 4 + 'rem'">TEAMS</h1>
 
-  <h1 class="page-title">Teams</h1>
+  <h1 class="dynamic-text-size page-title" [style.fontSize]="fontSizeMultiplier * 3 + 'rem'">Teams</h1>
 
   <jhi-alert-error></jhi-alert-error>
   <jhi-alert></jhi-alert>
@@ -28,12 +28,16 @@
         (keyup.enter)="loadSearchResultsMP(searchQuery)"
         id="search-box"
         placeholder="Search Teams..."
+        class="dynamic-text-size"
+        [style.fontSize]="fontSizeMultiplier * 2 + 'rem'"
       />
     </div>
 
     <div id="top-row-right-aligned">
       <input type="button" id="filter-button" style="display: none" />
-      <a id="create-team-button" href="/team/new">CREATE TEAM</a>
+      <a class="dynamic-text-size" [style.fontSize]="fontSizeMultiplier * 1.5 + 'rem'" id="create-team-button" href="/team/new"
+        >CREATE TEAM</a
+      >
     </div>
   </div>
 

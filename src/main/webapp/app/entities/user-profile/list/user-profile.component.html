@@ -1,8 +1,8 @@
 <div id="ourWork">
   <img id="pageBanner" src="../../../../content/images/PlayerSearchPageBanner.png" alt="Football Team at UoB" />
-  <h1 class="banner-container-page-title">PLAYERS</h1>
+  <h1 class="banner-container-page-title dynamic-text-size" [style.fontSize]="fontSizeMultiplier * 3.3 + 'rem'">PLAYERS</h1>
 
-  <h1 class="page-title">Players</h1>
+  <h1 class="dynamic-text-size page-title" [style.fontSize]="fontSizeMultiplier * 3 + 'rem'">Players</h1>
 
   <jhi-alert-error></jhi-alert-error>
   <jhi-alert></jhi-alert>
@@ -16,13 +16,12 @@
         (keyup.enter)="loadSearchResultsMP(searchQuery)"
         id="search-box"
         placeholder="Search Players..."
+        class="dynamic-text-size"
+        [style.fontSize]="fontSizeMultiplier * 2.5 + 'rem'"
       />
     </div>
 
-    <div id="top-row-right-aligned">
-      <input type="button" id="filter-button" style="display: none" />
-      <a style="display: none" id="create-team-button" href="/team/new">CREATE TEAM</a>
-    </div>
+    <div id="top-row-right-aligned"></div>
   </div>
 
   <div id="noSearchResultsFoundWarning" *ngIf="userProfiles?.length === 0">

@@ -1,6 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { ActivatedRoute, Data, ParamMap, Router } from '@angular/router';
-import { combineLatest, filter, Observable, switchMap, tap } from 'rxjs';
+import { combineLatest, filter, switchMap, tap } from 'rxjs';
 import { NgbModal, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
 import { DOCUMENT } from '@angular/common';
 
@@ -12,6 +12,10 @@ import { SortService } from 'app/shared/sort/sort.service';
 import { PitchDetailComponent } from '../detail/pitch-detail.component';
 import { PitchModalComponent } from '../modal/pitch-modal.component';
 import { HttpResponse } from '@angular/common/http';
+import { Account } from 'app/core/auth/account.model';
+import { FontResizeService } from '../../../layouts/navbar/navbar.service';
+import { Observable } from 'rxjs';
+import { VERSION } from 'app/app.constants';
 
 @Component({
   selector: 'jhi-pitch',
@@ -27,19 +31,41 @@ export class PitchComponent implements OnInit {
   keyword: string = '';
   searchResults: IPitch[] = [];
 
+  version = '';
+  account: Account | null = null;
+  fontSizeMultiplier: number = 1; // Font size multiplier property
+
   constructor(
     protected pitchService: PitchService,
     protected activatedRoute: ActivatedRoute,
     public router: Router,
     protected sortService: SortService,
     protected modalService: NgbModal,
+    private fontResizeService: FontResizeService,
     @Inject(DOCUMENT) private document: Document
-  ) {}
+  ) {
+    if (VERSION) {
+      this.version = VERSION.toLowerCase().startsWith('v') ? VERSION : `v${VERSION}`;
+    }
+  }
 
   trackId = (_index: number, item: IPitch): number => this.pitchService.getPitchIdentifier(item);
 
   ngOnInit(): void {
     this.load();
+    this.fontResizeService.fontSizeMultiplier$.subscribe(multiplier => {
+      this.fontSizeMultiplier = multiplier;
+    });
+  }
+
+  // Font size adjustment methods
+  getFontSizeKey(): string {
+    return `fontSizeMultiplier_${this.account?.login || 'default'}`;
+  }
+
+  updateFontSize(): void {
+    localStorage.setItem(this.getFontSizeKey(), this.fontSizeMultiplier.toString());
+    this.fontResizeService.setFontSizeMultiplier(this.fontSizeMultiplier);
   }
 
   delete(pitch: IPitch): void {
