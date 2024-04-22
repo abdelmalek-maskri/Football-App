@@ -1,5 +1,4 @@
 @import url('https://fonts.googleapis.com/css2?family=Anton&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap');
 
 .sub-navbar {
   background-color: #5ada86;
@@ -120,7 +119,6 @@
   font-weight: 500;
   margin-bottom: 0.5rem;
   margin-top: 0;
-  // transition: color 1ms ease-in-out;
   font-family: 'Anton';
 }
 .image-container h2:hover {
@@ -128,9 +126,6 @@
 }
 
 .title {
-  //position: absolute;
-  //left:39%;
-  //top:55%;
   font-family: 'Anton';
   padding-bottom: 50px;
   font-size: 5.5vw;
