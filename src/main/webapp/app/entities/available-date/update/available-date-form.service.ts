@@ -4,6 +4,10 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import dayjs from 'dayjs/esm';
 import { DATE_TIME_FORMAT } from 'app/config/input.constants';
 import { IAvailableDate, NewAvailableDate } from '../available-date.model';
+import { AccountService } from '../../../core/auth/account.service';
+import { Account } from '../../../core/auth/account.model';
+import { UserProfileService } from '../../user-profile/service/user-profile.service';
+import { IUserProfile } from '../../user-profile/user-profile.model';
 
 /**
  * A partial Type with required key is used as form input.
@@ -43,11 +47,29 @@ export type AvailableDateFormGroup = FormGroup<AvailableDateFormGroupContent>;
 
 @Injectable({ providedIn: 'root' })
 export class AvailableDateFormService {
+  theAccount: Account | null = null;
+  theUser: IUserProfile | null = null;
+
+  constructor(protected accountService: AccountService, protected userProfileService: UserProfileService) {}
+
   createAvailableDateFormGroup(availableDate: AvailableDateFormGroupInput = { id: null }): AvailableDateFormGroup {
     const availableDateRawValue = this.convertAvailableDateToAvailableDateRawValue({
       ...this.getFormDefaults(),
       ...availableDate,
     });
+
+    this.accountService.getAuthenticationState().subscribe(account => {
+      if (account) {
+        this.theAccount = account;
+      }
+    });
+
+    this.userProfileService.find(this.theAccount!.id).subscribe(userProfile => {
+      if (userProfile) {
+        this.theUser = userProfile.body;
+      }
+    });
+
     return new FormGroup<AvailableDateFormGroupContent>({
       id: new FormControl(
         { value: availableDateRawValue.id, disabled: true },
@@ -65,7 +87,7 @@ export class AvailableDateFormService {
       isAvailable: new FormControl(availableDateRawValue.isAvailable, {
         validators: [Validators.required],
       }),
-      userProfile: new FormControl(availableDateRawValue.userProfile),
+      userProfile: new FormControl(this.theUser),
       team: new FormControl(availableDateRawValue.team),
     });
   }
@@ -91,7 +113,7 @@ export class AvailableDateFormService {
       id: null,
       fromTime: currentTime,
       toTime: currentTime,
-      isAvailable: false,
+      isAvailable: true,
     };
   }
 
@@ -102,6 +124,7 @@ export class AvailableDateFormService {
       ...rawAvailableDate,
       fromTime: dayjs(rawAvailableDate.fromTime, DATE_TIME_FORMAT),
       toTime: dayjs(rawAvailableDate.toTime, DATE_TIME_FORMAT),
+      userProfile: this.theUser,
     };
   }
 
