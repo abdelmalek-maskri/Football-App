@@ -109,13 +109,13 @@
             <div class="text-center position-avaliability">
               <div class="day-container">
                 <!-- set the class depending on user's avaliability -->
-                <div class="day inactive">M</div>
-                <div class="day">T</div>
-                <div class="day">W</div>
-                <div class="day">T</div>
-                <div class="day">F</div>
-                <div class="day inactive">S</div>
-                <div class="day inactive">S</div>
+                <div [ngClass]="{ inactive: !dayAvaliability[0] }" class="day">M</div>
+                <div [ngClass]="{ inactive: !dayAvaliability[1] }" class="day">T</div>
+                <div [ngClass]="{ inactive: !dayAvaliability[2] }" class="day">W</div>
+                <div [ngClass]="{ inactive: !dayAvaliability[3] }" class="day">T</div>
+                <div [ngClass]="{ inactive: !dayAvaliability[4] }" class="day">F</div>
+                <div [ngClass]="{ inactive: !dayAvaliability[5] }" class="day">S</div>
+                <div [ngClass]="{ inactive: !dayAvaliability[6] }" class="day">S</div>
               </div>
 
               <button type="submit" (click)="openModal()" class="btn btn-primary" data-cy="entityModalButton">

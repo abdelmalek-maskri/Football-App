@@ -18,6 +18,8 @@ import { EntityArrayResponseType } from '../service/user-profile.service';
 import { CommentService } from '../../comment/service/comment.service';
 import { IComment } from '../../comment/comment.model';
 import { IContact } from '../../contact/contact.model';
+import { AvailableDateService } from '../../available-date/service/available-date.service';
+import dayjs, { Dayjs } from 'dayjs';
 
 @Component({
   selector: 'jhi-user-profile-detail',
@@ -30,6 +32,7 @@ export class UserProfileDetailComponent implements OnInit {
   usersTeam: RestTeam | null | undefined;
   userRating: number = 0;
   listOfComments: IComment[] | undefined;
+  dayAvaliability: boolean[] = [false, false, false, false, false, false, false];
 
   constructor(
     protected dataUtils: DataUtils,
@@ -38,7 +41,8 @@ export class UserProfileDetailComponent implements OnInit {
     private teamService: TeamService,
     public matDialog: MatDialog,
     protected modalService: NgbModal,
-    protected commentService: CommentService
+    protected commentService: CommentService,
+    protected avaliableService: AvailableDateService
   ) {}
 
   ngOnInit(): void {
@@ -79,12 +83,23 @@ export class UserProfileDetailComponent implements OnInit {
       this.userRating = Math.round(totalRating / counter);
     });
 
-    // this.commentService.getUserAverage(this.userProfile!.id).subscribe(response => {
-    //     if (response.body) {
-    //       this.userRating = response.body;
-    //     }
-    //   }
-    // )
+    const today = dayjs();
+
+    const startOfWeek = today.startOf('week').add(1, 'day');
+
+    this.avaliableService.findUser(this.userProfile!.id).subscribe(response => {
+      if (response) {
+        let userAvaliability = response.body;
+
+        for (let avaliablity of userAvaliability!) {
+          for (let i = 0; i < 7; i++) {
+            if (isSameDay(avaliablity.fromTime!, startOfWeek.add(i, 'day'))) {
+              this.dayAvaliability[i] = true;
+            }
+          }
+        }
+      }
+    });
   }
 
   byteSize(base64String: string): string {
@@ -103,4 +118,7 @@ export class UserProfileDetailComponent implements OnInit {
     const modalRef = this.modalService.open(ModalComponent, { size: 'lg', backdrop: 'static', centered: true });
     modalRef.componentInstance.userProfile = this.userProfile;
   }
+}
+function isSameDay(date1: Dayjs, date2: Dayjs): boolean {
+  return date1.isSame(date2, 'day');
 }

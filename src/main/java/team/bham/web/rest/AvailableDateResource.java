@@ -2,6 +2,7 @@ package team.bham.web.rest;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -167,6 +168,25 @@ public class AvailableDateResource {
         log.debug("REST request to get AvailableDate : {}", id);
         Optional<AvailableDate> availableDate = availableDateRepository.findById(id);
         return ResponseUtil.wrapOrNotFound(availableDate);
+    }
+
+    @GetMapping("/available-dates/user/{userId}")
+    public List<AvailableDate> getUserAvaliableDate(@PathVariable Long userId) {
+        log.debug("REST request to get AvailableDate of user : {}", userId);
+
+        List<AvailableDate> allAvailableDate = availableDateRepository.findAll();
+
+        List<AvailableDate> usersDate = new ArrayList<>();
+
+        for (AvailableDate ad : allAvailableDate) {
+            if (ad.getUserProfile() != null) {
+                if (Objects.equals(ad.getUserProfile().getId(), userId)) {
+                    usersDate.add(ad);
+                }
+            }
+        }
+
+        return usersDate;
     }
 
     /**
