@@ -5,6 +5,8 @@ import { Observable } from 'rxjs';
 import { finalize, map } from 'rxjs/operators';
 import { FormGroup, FormBuilder } from '@angular/forms';
 
+import { AccountService } from 'app/core/auth/account.service';
+import { Account } from 'app/core/auth/account.model';
 import { CommentFormService, CommentFormGroup } from './comment-form.service';
 import { IComment } from '../comment.model';
 import { CommentService } from '../service/comment.service';
@@ -12,6 +14,8 @@ import { IUserProfile } from 'app/entities/user-profile/user-profile.model';
 import { UserProfileService } from 'app/entities/user-profile/service/user-profile.service';
 import { IMatch } from 'app/entities/match/match.model';
 import { MatchService } from 'app/entities/match/service/match.service';
+import { IUser } from 'app/entities/user/user.model';
+import { UserService } from 'app/entities/user/user.service';
 
 @Component({
   selector: 'jhi-comment-update',
@@ -22,13 +26,16 @@ export class CommentUpdateComponent implements OnInit {
   isSaving = false;
   comment: IComment | null = null;
   myForm: FormGroup | null = null;
-  userId = 0;
+  currentUser: IUserProfile | null = null;
+  targetUser: IUserProfile | null = null;
+  match: IMatch | null = null;
+  toId = 0;
   section = '';
 
   commentsSharedCollection: IComment[] = [];
   userProfilesSharedCollection: IUserProfile[] = [];
   matchesSharedCollection: IMatch[] = [];
-
+  currentAccountId: number | null = null;
   editForm: CommentFormGroup = this.commentFormService.createCommentFormGroup();
 
   constructor(
@@ -37,7 +44,9 @@ export class CommentUpdateComponent implements OnInit {
     protected userProfileService: UserProfileService,
     protected matchService: MatchService,
     protected activatedRoute: ActivatedRoute,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    protected UserService: UserService,
+    protected AccountService: AccountService
   ) {}
 
   compareComment = (o1: IComment | null, o2: IComment | null): boolean => this.commentService.compareComment(o1, o2);
@@ -52,12 +61,49 @@ export class CommentUpdateComponent implements OnInit {
       if (comment) {
         this.updateForm(comment);
       }
-      this.activatedRoute.params.subscribe(params => {
-        this.userId = params['id'];
+      this.activatedRoute.queryParams.subscribe(params => {
+        this.toId = params['id'];
         this.section = params['section'];
       });
       this.loadRelationshipsOptions();
     });
+    this.AccountService.identity().subscribe(
+      account => {
+        if (account) {
+          this.currentAccountId = account.id;
+          this.userProfileService.find(this.currentAccountId).subscribe(res => {
+            this.currentUser = res.body;
+          });
+        } else {
+          this.currentAccountId = null;
+        }
+      },
+      error => {
+        console.error('Error fetching account information:', error);
+        this.currentAccountId = null;
+      }
+    );
+    if (this.editForm && this.currentAccountId != null) {
+      this.editForm.patchValue({
+        author: this.currentUser,
+        rating: 5,
+      });
+    }
+    if (this.section == 'Player') {
+      this.userProfileService.find(this.toId).subscribe(res => {
+        this.targetUser = res.body;
+        this.editForm.patchValue({
+          targetUser: this.targetUser,
+        });
+      });
+    } else if (this.section == 'Match') {
+      this.matchService.find(this.toId).subscribe(res => {
+        this.match = res.body;
+        this.editForm.patchValue({
+          match: this.match,
+        });
+      });
+    }
   }
 
   previousState(): void {

@@ -32,7 +32,7 @@
         <img class="player_img" src="../../../../content/images/DefaultProfilePicture.jpg" alt="default player image" />
       </ng-template>
       <div class="player_info">
-        <span style="white-space: normal">Name: {{ userProfile!.name }}</span>
+        <span style="white-space: normal" [routerLink]="['/user-profile', userProfile!.id, 'view']">Name: {{ userProfile!.name }}</span>
         <span>Position: {{ userProfile!.position }}</span>
         <span>Gender: {{ userProfile!.gender }}</span>
         <span *ngIf="userTeam; else noTeam" [routerLink]="['/team', userProfile!.team!.id, 'view']">Team: {{ userTeam.name }}</span>
@@ -41,7 +41,7 @@
         </ng-template>
       </div>
     </div>
-    <div class="player_container" *ngIf="sectionToShow == 'Match'">
+    <div class="player_container" *ngIf="sectionToShow == 'Match'" [routerLink]="['/match', match!.id, 'view']">
       <ng-container *ngIf="match?.home?.name != null && match?.away?.name != null; else default">
         <span>{{ match?.home?.name }} vs {{ match?.away?.name }}</span>
       </ng-container>
