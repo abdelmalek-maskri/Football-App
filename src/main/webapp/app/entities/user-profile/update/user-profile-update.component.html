@@ -1,6 +1,6 @@
 <div class="d-flex justify-content-center">
   <div class="col-8">
-    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+    <form style="margin-top: 5em" name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
       <h2 id="jhi-user-profile-heading" data-cy="UserProfileCreateUpdateHeading">Create or edit a User Profile</h2>
 
       <div>
@@ -93,14 +93,14 @@
         </div>
 
         <div class="row mb-3">
-          <label class="form-label" for="field_referee">Referee</label>
+          <label class="form-label" for="field_referee">Are you also a Referee?</label>
           <input type="checkbox" class="form-check" name="referee" id="field_referee" data-cy="referee" formControlName="referee" />
           <div *ngIf="editForm.get('referee')!.invalid && (editForm.get('referee')!.dirty || editForm.get('referee')!.touched)">
             <small class="form-text text-danger" *ngIf="editForm.get('referee')?.errors?.required"> This field is required. </small>
           </div>
         </div>
 
-        <div class="row mb-3">
+        <div style="display: none" class="row mb-3">
           <label class="form-label" for="field_team">Team</label>
           <select class="form-control" id="field_team" data-cy="team" name="team" formControlName="team" [compareWith]="compareTeam">
             <option [ngValue]="null"></option>

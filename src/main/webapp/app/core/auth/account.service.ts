@@ -8,6 +8,11 @@ import { StateStorageService } from 'app/core/auth/state-storage.service';
 import { ApplicationConfigService } from '../config/application-config.service';
 import { Account } from 'app/core/auth/account.model';
 
+import { UserProfileService } from 'app/entities/user-profile/service/user-profile.service';
+import { IUserProfile, NewUserProfile } from 'app/entities/user-profile/user-profile.model';
+import { HttpResponse } from '@angular/common/http';
+type EntityResponseType = HttpResponse<IUserProfile>;
+
 @Injectable({ providedIn: 'root' })
 export class AccountService {
   private userIdentity: Account | null = null;
@@ -18,7 +23,8 @@ export class AccountService {
     private http: HttpClient,
     private stateStorageService: StateStorageService,
     private router: Router,
-    private applicationConfigService: ApplicationConfigService
+    private applicationConfigService: ApplicationConfigService,
+    private userProfileService: UserProfileService
   ) {}
 
   save(account: Account): Observable<{}> {
@@ -49,7 +55,26 @@ export class AccountService {
         tap((account: Account) => {
           this.authenticate(account);
 
-          this.navigateToStoredUrl();
+          // Redirect to User Profile Creation page if user profile doesn't exist
+          console.log("Checking if logged in user's UserProfile exists..");
+          var foundUserProfile: Observable<EntityResponseType> = this.userProfileService.find(account.id);
+          console.log('Done checking if UserProfile exists');
+
+          foundUserProfile.subscribe({
+            next: (res: EntityResponseType) => {
+              //console.log("MP: ONE")
+              console.log('MP foundUserProfile RESPONSE STATUS:', res.status);
+              console.log('FOUND USER PROFILE INFO', res.body);
+
+              this.navigateToStoredUrl();
+            },
+            error: (any: any) => {
+              console.log('NO USER PROFILE EXISTS FOR THE USER THAT JUST LOGGED IN...');
+              this.router.navigate(['/user-profile/new']);
+            },
+          });
+
+          //this.navigateToStoredUrl(); // Moved this up, so that this only happens if a User Profile exists.
         }),
         shareReplay()
       );
