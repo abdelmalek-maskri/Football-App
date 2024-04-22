@@ -92,31 +92,12 @@ export class LeaderboardComponent implements OnInit {
     }
   }
 
-  getStartIndex(): number {
-    return (this.currentPage - 1) * this.itemsPerPage;
-  }
-
-  // 获取当前页的结束索引
-  getEndIndex(): number {
-    return this.currentPage * this.itemsPerPage;
-  }
-
-  // 加载下一页数据
-  nextPage() {
-    if (this.getEndIndex() < this.comments!.length) {
-      this.currentPage++;
-    }
-  }
-
-  // 加载上一页数据
-  prevPage() {
-    if (this.currentPage > 1) {
-      this.currentPage--;
-    }
-  }
-
   handleDivClick(): void {
-    this.router.navigate(['/comment/new'], { queryParams: { id: this.Id, section: 'Player' } });
+    if (this.sectionToShow == 'Player') {
+      this.router.navigate(['/comment/new'], { queryParams: { id: this.Id, section: 'Player' } });
+    } else if (this.sectionToShow == 'Match') {
+      this.router.navigate(['/comment/new'], { queryParams: { id: this.Id, section: 'Match' } });
+    }
   }
   toggleLike(comment: IComment & { isLiked?: boolean }) {
     comment.isLiked = !comment.isLiked;
