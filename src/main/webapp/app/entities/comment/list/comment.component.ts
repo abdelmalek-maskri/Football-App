@@ -133,6 +133,25 @@ export class CommentComponent implements OnInit {
             }
           }
           userProfile.averageRating = Math.round(totalRating / counter);
+          if (userProfile.averageRating >= 1 && userProfile.averageRating < 1.5) {
+            userProfile.averageRating = 1;
+          } else if (userProfile.averageRating >= 1.5 && userProfile.averageRating < 2) {
+            userProfile.averageRating = 1.5;
+          } else if (userProfile.averageRating >= 2 && userProfile.averageRating < 2.5) {
+            userProfile.averageRating = 2;
+          } else if (userProfile.averageRating >= 2.5 && userProfile.averageRating < 3) {
+            userProfile.averageRating = 2.5;
+          } else if (userProfile.averageRating >= 3 && userProfile.averageRating < 3.5) {
+            userProfile.averageRating = 3;
+          } else if (userProfile.averageRating >= 3.5 && userProfile.averageRating < 4) {
+            userProfile.averageRating = 3.5;
+          } else if (userProfile.averageRating >= 4 && userProfile.averageRating < 4.5) {
+            userProfile.averageRating = 4;
+          } else if (userProfile.averageRating >= 4.5 && userProfile.averageRating < 5) {
+            userProfile.averageRating = 4.5;
+          } else if (userProfile.averageRating >= 5) {
+            userProfile.averageRating = 5;
+          }
         }
       }
     });

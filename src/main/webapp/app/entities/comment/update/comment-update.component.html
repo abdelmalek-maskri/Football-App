@@ -11,8 +11,7 @@
             <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
           </div>
         </div>
-
-        <div class="row mb-3">
+        <div class="row mb-3" *ngIf="section == 'Player'">
           <label class="form-label">Rating</label>
           <!--          <input type="number" class="form-control" name="rating" id="field_rating" data-cy="rating" formControlName="rating" />-->
           <div class="radio-group">
@@ -29,7 +28,6 @@
             <small class="form-text text-danger" [hidden]="!editForm.get('rating')?.errors?.number"> This field should be a number. </small>
           </div>
         </div>
-
         <div class="row mb-3">
           <label class="form-label" for="field_content">Content</label>
           <input type="text" class="form-control" name="content" id="field_content" data-cy="content" formControlName="content" />
@@ -82,7 +80,6 @@
             </option>
           </select>
         </div>
-
         <div class="row mb-3" *jhiHasAnyAuthority="'ROLE_ADMIN'">
           <label class="form-label" for="field_targetUser">Target User</label>
           <select

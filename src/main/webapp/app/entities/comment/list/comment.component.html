@@ -10,13 +10,13 @@
   <div class="container">
     <div class="button-container">
       <div class="title-box">
-        <div style="font-size: 18px" href="target-page.html">All-Time Players</div>
+        <a style="font-size: 18px" href="../user-profile">All-Time Players</a>
       </div>
-      <ng-container>
+      <ng-container *ngIf="userProfiles != undefined && userProfiles != null; else noPlayer">
         <div
           class="list"
           style="margin: 20px"
-          *ngFor="let userProfile of userProfiles!.slice(getUserStartIndex(), getUserEndIndex()); let i = index"
+          *ngFor="let userProfile of userProfiles.slice(getUserStartIndex(), getUserEndIndex()); let i = index"
         >
           <div class="column" (click)="navigateToUserLD(userProfile.id)">
             <ng-container *ngIf="userProfile!.profilePic; else defaultImage" style="float: left">
@@ -43,15 +43,18 @@
           </div>
         </div>
       </ng-container>
-      <button style="float:left margin:10px;" (click)="prevUserPage()" [disabled]="currentUserPage === 1">< prevPage</button>
+      <ng-template #noPlayer>
+        <span>Currently no player!</span>
+      </ng-template>
+      <button style="float: left; margin: 10px" (click)="prevUserPage()" [disabled]="currentUserPage === 1">< prevPage</button>
       <button style="float: right; margin: 10px" (click)="nextUserPage()" [disabled]="getUserEndIndex() >= userProfiles!.length">
-        nextPage >
+        nextPage
       </button>
     </div>
 
     <div class="button-container">
       <div class="title-box">
-        <div style="font-size: 18px">Players In The Match</div>
+        <a style="font-size: 18px" href="../match">Players In The Match</a>
       </div>
       <ng-container>
         <div
@@ -69,7 +72,7 @@
           </div>
         </div>
       </ng-container>
-      <button style="float:left margin:10px;" (click)="prevMatchPage()" [disabled]="currentMatchPage === 1">< prevPage</button>
+      <button style="float: left; margin: 10px" (click)="prevMatchPage()" [disabled]="currentMatchPage === 1">< prevPage</button>
       <button style="float: right; margin: 10px" (click)="nextMatchPage()" [disabled]="getMatchEndIndex() >= matches!.length">
         nextPage >
       </button>
