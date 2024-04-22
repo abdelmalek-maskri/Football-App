@@ -7,6 +7,8 @@ import { AccountService } from 'app/core/auth/account.service';
 import { LoginService } from 'app/login/login.service';
 import { ProfileService } from 'app/layouts/profiles/profile.service';
 import { EntityNavbarItems } from 'app/entities/entity-navbar-items';
+import { FontResizeService } from './navbar.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'jhi-navbar',
@@ -21,10 +23,13 @@ export class NavbarComponent implements OnInit {
   account: Account | null = null;
   entitiesNavbarItems: any[] = [];
 
+  fontSizeMultiplier: number = 1; // Font size multiplier property
+
   constructor(
     private loginService: LoginService,
     private accountService: AccountService,
     private profileService: ProfileService,
+    private fontResizeService: FontResizeService,
     private router: Router
   ) {
     if (VERSION) {
@@ -37,6 +42,9 @@ export class NavbarComponent implements OnInit {
     this.profileService.getProfileInfo().subscribe(profileInfo => {
       this.inProduction = profileInfo.inProduction;
       this.openAPIEnabled = profileInfo.openAPIEnabled;
+    });
+    this.fontResizeService.fontSizeMultiplier$.subscribe(multiplier => {
+      this.fontSizeMultiplier = multiplier;
     });
 
     this.accountService.getAuthenticationState().subscribe(account => {
@@ -62,6 +70,16 @@ export class NavbarComponent implements OnInit {
 
   login(): void {
     this.router.navigate(['/login']);
+  }
+
+  // Font size adjustment methods
+  getFontSizeKey(): string {
+    return `fontSizeMultiplier_${this.account?.login || 'default'}`;
+  }
+
+  updateFontSize(): void {
+    localStorage.setItem(this.getFontSizeKey(), this.fontSizeMultiplier.toString());
+    this.fontResizeService.setFontSizeMultiplier(this.fontSizeMultiplier);
   }
 
   logout(): void {

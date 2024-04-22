@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Data, ParamMap, Router } from '@angular/router';
-import { combineLatest, filter, Observable, switchMap, tap } from 'rxjs';
+import { combineLatest, filter, switchMap, tap } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { IComment } from '../comment.model';
@@ -13,6 +13,10 @@ import { CommentDeleteDialogComponent } from '../delete/comment-delete-dialog.co
 import { SortService } from 'app/shared/sort/sort.service';
 import { TeamService } from '../../team/service/team.service';
 import { MatchService } from '../../match/service/match.service';
+import { Account } from '../../../core/auth/account.model';
+import { FontResizeService } from '../../../layouts/navbar/navbar.service';
+import { Observable } from 'rxjs';
+import { VERSION } from 'app/app.constants';
 
 @Component({
   selector: 'jhi-comment',
@@ -31,6 +35,10 @@ export class CommentComponent implements OnInit {
   currentUserPage = 1;
   matchPerPage = 6;
   currentMatchPage = 1;
+
+  version = '';
+  account: Account | null = null;
+  fontSizeMultiplier: number = 1; // Font size multiplier property
   constructor(
     protected commentService: CommentService,
     protected activatedRoute: ActivatedRoute,
@@ -39,10 +47,14 @@ export class CommentComponent implements OnInit {
     protected modalService: NgbModal,
     protected UserProfileService: UserProfileService,
     protected TeamService: TeamService,
+    private fontResizeService: FontResizeService,
     protected MatchService: MatchService
   ) {
     if (this.userProfiles) {
       this.userProfiles.sort((a, b) => b!.averageRating! - a!.averageRating!);
+    }
+    if (VERSION) {
+      this.version = VERSION.toLowerCase().startsWith('v') ? VERSION : `v${VERSION}`;
     }
   }
 
@@ -94,6 +106,9 @@ export class CommentComponent implements OnInit {
         this.matches = res.body;
       }
     });
+    this.fontResizeService.fontSizeMultiplier$.subscribe(multiplier => {
+      this.fontSizeMultiplier = multiplier;
+    });
     this.UserProfileService.query().subscribe(response => {
       if (response.body) {
         this.userProfiles = response.body;
@@ -140,6 +155,15 @@ export class CommentComponent implements OnInit {
         }
       }
     });
+  }
+  // Font size adjustment methods
+  getFontSizeKey(): string {
+    return `fontSizeMultiplier_${this.account?.login || 'default'}`;
+  }
+
+  updateFontSize(): void {
+    localStorage.setItem(this.getFontSizeKey(), this.fontSizeMultiplier.toString());
+    this.fontResizeService.setFontSizeMultiplier(this.fontSizeMultiplier);
   }
 
   delete(comment: IComment): void {

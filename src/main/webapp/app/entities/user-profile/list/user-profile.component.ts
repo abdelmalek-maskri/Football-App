@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Data, ParamMap, Router } from '@angular/router';
-import { combineLatest, filter, Observable, switchMap, tap } from 'rxjs';
+import { combineLatest, filter, switchMap, tap } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { IUserProfile } from '../user-profile.model';
@@ -13,6 +13,9 @@ import { IUser } from '../../user/user.model';
 import { AccountService } from '../../../core/auth/account.service';
 import { UserService } from '../../user/user.service';
 import { Account } from '../../../core/auth/account.model';
+import { FontResizeService } from '../../../layouts/navbar/navbar.service';
+import { Observable } from 'rxjs';
+import { VERSION } from 'app/app.constants';
 
 @Component({
   selector: 'jhi-user-profile',
@@ -27,6 +30,9 @@ export class UserProfileComponent implements OnInit {
   ascending = true;
 
   searchQuery: string = '';
+  version = '';
+  account: Account | null = null;
+  fontSizeMultiplier: number = 1; // Font size multiplier property
 
   constructor(
     protected userProfileService: UserProfileService,
@@ -35,8 +41,13 @@ export class UserProfileComponent implements OnInit {
     protected sortService: SortService,
     protected dataUtils: DataUtils,
     protected modalService: NgbModal,
+    private fontResizeService: FontResizeService,
     private accountService: AccountService
-  ) {}
+  ) {
+    if (VERSION) {
+      this.version = VERSION.toLowerCase().startsWith('v') ? VERSION : `v${VERSION}`;
+    }
+  }
 
   trackId = (_index: number, item: IUserProfile): number => this.userProfileService.getUserProfileIdentifier(item);
 
@@ -47,6 +58,19 @@ export class UserProfileComponent implements OnInit {
       }
     });
     this.load();
+    this.fontResizeService.fontSizeMultiplier$.subscribe(multiplier => {
+      this.fontSizeMultiplier = multiplier;
+    });
+  }
+
+  // Font size adjustment methods
+  getFontSizeKey(): string {
+    return `fontSizeMultiplier_${this.account?.login || 'default'}`;
+  }
+
+  updateFontSize(): void {
+    localStorage.setItem(this.getFontSizeKey(), this.fontSizeMultiplier.toString());
+    this.fontResizeService.setFontSizeMultiplier(this.fontSizeMultiplier);
   }
 
   byteSize(base64String: string): string {

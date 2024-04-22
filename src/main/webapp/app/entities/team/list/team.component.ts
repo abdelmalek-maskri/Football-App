@@ -1,14 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Data, ParamMap, Router } from '@angular/router';
-import { combineLatest, filter, Observable, switchMap, tap } from 'rxjs';
+import { combineLatest, filter, switchMap, tap } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-
+import { Account } from 'app/core/auth/account.model';
 import { ITeam } from '../team.model';
 import { ASC, DESC, SORT, ITEM_DELETED_EVENT, DEFAULT_SORT_DATA } from 'app/config/navigation.constants';
 import { EntityArrayResponseType, TeamService } from '../service/team.service';
 import { TeamDeleteDialogComponent } from '../delete/team-delete-dialog.component';
 import { DataUtils } from 'app/core/util/data-util.service';
 import { SortService } from 'app/shared/sort/sort.service';
+import { FontResizeService } from '../../../layouts/navbar/navbar.service';
+import { Observable } from 'rxjs';
+import { VERSION } from 'app/app.constants';
 
 @Component({
   selector: 'jhi-team',
@@ -23,6 +26,9 @@ export class TeamComponent implements OnInit {
 
   predicate = 'id';
   ascending = true;
+  version = '';
+  account: Account | null = null;
+  fontSizeMultiplier: number = 1; // Font size multiplier property
 
   constructor(
     protected teamService: TeamService,
@@ -30,13 +36,30 @@ export class TeamComponent implements OnInit {
     public router: Router,
     protected sortService: SortService,
     protected dataUtils: DataUtils,
+    private fontResizeService: FontResizeService,
     protected modalService: NgbModal
-  ) {}
+  ) {
+    if (VERSION) {
+      this.version = VERSION.toLowerCase().startsWith('v') ? VERSION : `v${VERSION}`;
+    }
+  }
 
   trackId = (_index: number, item: ITeam): number => this.teamService.getTeamIdentifier(item);
 
   ngOnInit(): void {
     this.load();
+    this.fontResizeService.fontSizeMultiplier$.subscribe(multiplier => {
+      this.fontSizeMultiplier = multiplier;
+    });
+  }
+  // Font size adjustment methods
+  getFontSizeKey(): string {
+    return `fontSizeMultiplier_${this.account?.login || 'default'}`;
+  }
+
+  updateFontSize(): void {
+    localStorage.setItem(this.getFontSizeKey(), this.fontSizeMultiplier.toString());
+    this.fontResizeService.setFontSizeMultiplier(this.fontSizeMultiplier);
   }
 
   byteSize(base64String: string): string {

@@ -206,3 +206,13 @@
     order: 2; /* Set the order to 2 to make it appear on the right */
   }
 }
+
+$base-font-size: 16px;
+
+.dynamic-text-size {
+  font-size: 100%;
+}
+
+.dynamic-heading {
+  font-size: 150%;
+}

@@ -1,6 +1,7 @@
 import { Component, AfterViewInit, ElementRef, ViewChild } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { Router, Routes } from '@angular/router';
 
 import { EMAIL_ALREADY_USED_TYPE, LOGIN_ALREADY_USED_TYPE } from 'app/config/error.constants';
 import { RegisterService } from './register.service';
@@ -44,7 +45,7 @@ export class RegisterComponent implements AfterViewInit {
     }),
   });
 
-  constructor(private registerService: RegisterService) {}
+  constructor(private registerService: RegisterService, private router: Router) {}
 
   ngAfterViewInit(): void {
     if (this.login) {
@@ -64,9 +65,14 @@ export class RegisterComponent implements AfterViewInit {
       this.doNotMatch = true;
     } else {
       const { login, email } = this.registerForm.getRawValue();
-      this.registerService
-        .save({ login, email, password, langKey: 'en' })
-        .subscribe({ next: () => (this.success = true), error: response => this.processError(response) });
+      this.registerService.save({ login, email, password, langKey: 'en' }).subscribe({
+        next: () => {
+          this.success = true;
+          console.log('Registration completed!! Redirecting to login page..');
+          this.router.navigate(['/login']);
+        },
+        error: response => this.processError(response),
+      });
     }
   }
 

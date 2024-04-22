@@ -73,7 +73,6 @@ public class TeamResource {
         Optional<UserProfile> teamOwner = userProfileService.findUserProfile();
         if (teamOwner.isPresent()) {
             team.setOwner(teamOwner.get());
-            // TODO: Set teamOwner's team to this new team.
         } else {
             throw new RuntimeException("You have not created a User Profile yet!");
         }

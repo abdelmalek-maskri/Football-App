@@ -13,8 +13,8 @@
       </div>
     </a>
     <div class="test">
-      <label class="dark-label" for="dark-checkbox">
-        <input id="dark-checkbox" type="checkbox" />
+      <label class="dark-label" for="dark-checkbox" title="Dark mode toggle">
+        <input id="dark-checkbox" title="Dark mode toggle" type="checkbox" />
         <span class="ball"> </span>
 
         <svg class="sun-svg" viewBox="0 0 512 512">
@@ -29,6 +29,18 @@
         </svg>
       </label>
     </div>
+
+    <li class="font-size-slider-container">
+      <input
+        type="range"
+        min="0.5"
+        max="2"
+        step="0.1"
+        [(ngModel)]="fontSizeMultiplier"
+        (ngModelChange)="updateFontSize()"
+        class="font-size-slider"
+      />
+    </li>
 
     <a
       class="navbar-toggler d-lg-none"
@@ -58,22 +70,22 @@
 
         <li class="nav-item" routerLinkActive="active selectedNavBarItem" [routerLinkActiveOptions]="{ exact: true }">
           <a class="nav-link" routerLink="/tournament" (click)="collapseNavbar()">
-            <span>TOURNAMENT</span>
+            <span class="dynamic-text-size" [style.fontSize]="fontSizeMultiplier + 'rem'">TOURNAMENT</span>
           </a>
         </li>
         <li class="nav-item" routerLinkActive="active selectedNavBarItem" [routerLinkActiveOptions]="{ exact: true }">
           <a class="nav-link" routerLink="/team" (click)="collapseNavbar()">
-            <span>TEAMS</span>
+            <span class="dynamic-text-size" [style.fontSize]="fontSizeMultiplier + 'rem'">TEAMS</span>
           </a>
         </li>
         <li class="nav-item" routerLinkActive="active selectedNavBarItem" [routerLinkActiveOptions]="{ exact: true }">
           <a class="nav-link" routerLink="/user-profile" (click)="collapseNavbar()">
-            <span>PLAYERS</span>
+            <span class="dynamic-text-size" [style.fontSize]="fontSizeMultiplier + 'rem'">PLAYERS</span>
           </a>
         </li>
         <li class="nav-item" routerLinkActive="active selectedNavBarItem" [routerLinkActiveOptions]="{ exact: true }">
           <a class="nav-link" routerLink="/pitch" (click)="collapseNavbar()">
-            <span>PITCHES</span>
+            <span class="dynamic-text-size" [style.fontSize]="fontSizeMultiplier + 'rem'">PITCHES</span>
           </a>
         </li>
 
@@ -89,7 +101,7 @@
           <a class="nav-link dropdown-toggle" ngbDropdownToggle href="javascript:void(0);" id="entity-menu" data-cy="entity">
             <span>
               <fa-icon icon="th-list"></fa-icon>
-              <span>ENTITIES</span>
+              <span class="dynamic-text-size" [style.fontSize]="fontSizeMultiplier + 'rem'">ENTITIES</span>
             </span>
           </a>
           <ul class="dropdown-menu" ngbDropdownMenu aria-labelledby="entity-menu">
@@ -274,7 +286,7 @@
           <a class="nav-link dropdown-toggle" ngbDropdownToggle href="javascript:void(0);" id="account-menu" data-cy="accountMenu">
             <span *ngIf="!account?.imageUrl">
               <fa-icon icon="user"></fa-icon>
-              <span>ACCOUNT</span>
+              <span class="dynamic-text-size" [style.fontSize]="fontSizeMultiplier + 'rem'">ACCOUNT</span>
             </span>
             <span *ngIf="account?.imageUrl">
               <img [src]="account!.imageUrl" class="profile-image rounded-circle" alt="Avatar" />
@@ -326,7 +338,7 @@
               </a>
             </li>
             <li *ngSwitchCase="false">
-              <a class="dropdown-item" (click)="login()" id="login" data-cy="login">
+              <a class="dropdown-item" routerLink="login" (click)="login()" id="login" data-cy="login">
                 <fa-icon icon="sign-in-alt" [fixedWidth]="true"></fa-icon>
                 <span>Sign in</span>
               </a>

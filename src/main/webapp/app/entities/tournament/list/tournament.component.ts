@@ -1,13 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Data, ParamMap, Router } from '@angular/router';
-import { combineLatest, filter, Observable, switchMap, tap } from 'rxjs';
+import { combineLatest, filter, switchMap, tap } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-
+import { Account } from 'app/core/auth/account.model';
 import { ITournament } from '../tournament.model';
 import { ASC, DESC, SORT, ITEM_DELETED_EVENT, DEFAULT_SORT_DATA } from 'app/config/navigation.constants';
 import { EntityArrayResponseType, TournamentService } from '../service/tournament.service';
 import { TournamentDeleteDialogComponent } from '../delete/tournament-delete-dialog.component';
 import { SortService } from 'app/shared/sort/sort.service';
+import { Observable } from 'rxjs';
+import { VERSION } from 'app/app.constants';
+import { FontResizeService } from '../../../layouts/navbar/navbar.service';
 
 @Component({
   selector: 'jhi-tournament',
@@ -20,20 +23,40 @@ export class TournamentComponent implements OnInit {
 
   predicate = 'id';
   ascending = true;
-  // tournamentId = undefined;
+  version = '';
+  account: Account | null = null;
+  fontSizeMultiplier: number = 1; // Font size multiplier property
 
   constructor(
     protected tournamentService: TournamentService,
     protected activatedRoute: ActivatedRoute,
     public router: Router,
     protected sortService: SortService,
+    private fontResizeService: FontResizeService,
     protected modalService: NgbModal
-  ) {}
+  ) {
+    if (VERSION) {
+      this.version = VERSION.toLowerCase().startsWith('v') ? VERSION : `v${VERSION}`;
+    }
+  }
 
   trackId = (_index: number, item: ITournament): number => this.tournamentService.getTournamentIdentifier(item);
 
   ngOnInit(): void {
     this.load();
+    this.fontResizeService.fontSizeMultiplier$.subscribe(multiplier => {
+      this.fontSizeMultiplier = multiplier;
+    });
+  }
+
+  // Font size adjustment methods
+  getFontSizeKey(): string {
+    return `fontSizeMultiplier_${this.account?.login || 'default'}`;
+  }
+
+  updateFontSize(): void {
+    localStorage.setItem(this.getFontSizeKey(), this.fontSizeMultiplier.toString());
+    this.fontResizeService.setFontSizeMultiplier(this.fontSizeMultiplier);
   }
 
   delete(tournament: ITournament): void {

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Data, ParamMap, Router } from '@angular/router';
-import { combineLatest, filter, Observable, switchMap, tap } from 'rxjs';
+import { combineLatest, filter, switchMap, tap } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { IMatch, IMatchDated } from '../match.model';
@@ -12,6 +12,10 @@ import dayjs from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
 dayjs.extend(customParseFormat);
 
+import { Account } from 'app/core/auth/account.model';
+import { FontResizeService } from '../../../layouts/navbar/navbar.service';
+import { Observable } from 'rxjs';
+import { VERSION } from 'app/app.constants';
 @Component({
   selector: 'jhi-match',
   templateUrl: './match.component.html',
@@ -25,18 +29,40 @@ export class MatchComponent implements OnInit {
   date = dayjs().format('DD-MM-YYYY');
   month: string = dayjs().format('MMMM');
 
+  version = '';
+  account: Account | null = null;
+  fontSizeMultiplier: number = 1; // Font size multiplier property
+
   constructor(
     protected matchService: MatchService,
     protected activatedRoute: ActivatedRoute,
     protected sortService: SortService,
     public router: Router,
+    private fontResizeService: FontResizeService,
     protected modalService: NgbModal
-  ) {}
+  ) {
+    if (VERSION) {
+      this.version = VERSION.toLowerCase().startsWith('v') ? VERSION : `v${VERSION}`;
+    }
+  }
 
   trackId = (_index: number, item: IMatch): number => this.matchService.getMatchIdentifier(item);
 
   ngOnInit(): void {
     this.load();
+    this.fontResizeService.fontSizeMultiplier$.subscribe(multiplier => {
+      this.fontSizeMultiplier = multiplier;
+    });
+  }
+
+  // Font size adjustment methods
+  getFontSizeKey(): string {
+    return `fontSizeMultiplier_${this.account?.login || 'default'}`;
+  }
+
+  updateFontSize(): void {
+    localStorage.setItem(this.getFontSizeKey(), this.fontSizeMultiplier.toString());
+    this.fontResizeService.setFontSizeMultiplier(this.fontSizeMultiplier);
   }
 
   nextMonth(): void {
@@ -49,7 +75,7 @@ export class MatchComponent implements OnInit {
   prevMonth(): void {
     var tempDate = dayjs(this.date, 'DD-MM-YYYY');
     var newDate = tempDate.subtract(1, 'month');
-    this.month = newDate.format('MMMM');
+    this.month = newDate.format('MMMM YYYY');
     this.date = newDate.format('DD-MM-YYYY');
     this.navigateToWithComponentValues();
   }
@@ -93,7 +119,7 @@ export class MatchComponent implements OnInit {
     var tempDate = params.get('date');
     if (tempDate != null) {
       this.date = tempDate;
-      this.month = dayjs(tempDate, 'DD-MM-YYYY').format('MMMM');
+      this.month = dayjs(tempDate, 'DD-MM-YYYY').format('MMMM YYYY');
     }
   }
 

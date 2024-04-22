@@ -75,3 +75,13 @@
   border: 2px solid #000000;
   width: 10%;
 }
+
+$base-font-size: 16px;
+
+.dynamic-text-size {
+  font-size: 100%;
+}
+
+.dynamic-heading {
+  font-size: 150%;
+}
