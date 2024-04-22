@@ -109,13 +109,13 @@
             <div class="text-center position-avaliability">
               <div class="day-container">
                 <!-- set the class depending on user's avaliability -->
-                <div [ngClass]="{ inactive: !dayAvaliability[0] }" class="day">M</div>
-                <div [ngClass]="{ inactive: !dayAvaliability[1] }" class="day">T</div>
-                <div [ngClass]="{ inactive: !dayAvaliability[2] }" class="day">W</div>
-                <div [ngClass]="{ inactive: !dayAvaliability[3] }" class="day">T</div>
-                <div [ngClass]="{ inactive: !dayAvaliability[4] }" class="day">F</div>
-                <div [ngClass]="{ inactive: !dayAvaliability[5] }" class="day">S</div>
-                <div [ngClass]="{ inactive: !dayAvaliability[6] }" class="day">S</div>
+                <div [ngClass]="{ unknown: dayAvaliability[0] == 0, inactive: dayAvaliability[0] == 2 }" class="day">M</div>
+                <div [ngClass]="{ unknown: dayAvaliability[1] == 0, inactive: dayAvaliability[1] == 2 }" class="day">T</div>
+                <div [ngClass]="{ unknown: dayAvaliability[2] == 0, inactive: dayAvaliability[2] == 2 }" class="day">W</div>
+                <div [ngClass]="{ unknown: dayAvaliability[3] == 0, inactive: dayAvaliability[3] == 2 }" class="day">T</div>
+                <div [ngClass]="{ unknown: dayAvaliability[4] == 0, inactive: dayAvaliability[4] == 2 }" class="day">F</div>
+                <div [ngClass]="{ unknown: dayAvaliability[5] == 0, inactive: dayAvaliability[5] == 2 }" class="day">S</div>
+                <div [ngClass]="{ unknown: dayAvaliability[6] == 0, inactive: dayAvaliability[6] == 2 }" class="day">S</div>
               </div>
 
               <button type="submit" (click)="openModal()" class="btn btn-primary" data-cy="entityModalButton">

@@ -32,7 +32,7 @@ export class UserProfileDetailComponent implements OnInit {
   usersTeam: RestTeam | null | undefined;
   userRating: number = 0;
   listOfComments: IComment[] | undefined;
-  dayAvaliability: boolean[] = [false, false, false, false, false, false, false];
+  dayAvaliability: number[] = [0, 0, 0, 0, 0, 0, 0];
 
   constructor(
     protected dataUtils: DataUtils,
@@ -94,7 +94,11 @@ export class UserProfileDetailComponent implements OnInit {
         for (let avaliablity of userAvaliability!) {
           for (let i = 0; i < 7; i++) {
             if (isSameDay(avaliablity.fromTime!, startOfWeek.add(i, 'day'))) {
-              this.dayAvaliability[i] = true;
+              if (avaliablity.isAvailable) {
+                this.dayAvaliability[i] = 1;
+              } else {
+                this.dayAvaliability[i] = 2;
+              }
             }
           }
         }
