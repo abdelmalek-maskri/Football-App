@@ -7,6 +7,11 @@ import { UserProfileService } from '../../user-profile/service/user-profile.serv
 export class userNamePipe implements PipeTransform {
   transform(id: number, userProfiles: IUserProfile[]): string {
     const foundUser = userProfiles.find(userProfile => userProfile.id === id);
-    return foundUser ? foundUser.name! : 'Unknown';
+    if (foundUser?.name && typeof foundUser.name != undefined) {
+      return foundUser?.name;
+    } else {
+      return 'Unknown Name';
+    }
+    return 'Unknown Name';
   }
 }

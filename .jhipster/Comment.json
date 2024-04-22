@@ -1,8 +1,9 @@
 {
+  "annotations": {
+    "changelogDate": "20240301154133"
+  },
   "applications": "*",
   "changelogDate": "20240301154133",
-  "dto": "no",
-  "embedded": false,
   "entityTableName": "comment",
   "fields": [
     {
@@ -25,36 +26,32 @@
       "fieldValidateRulesMin": "0"
     }
   ],
-  "fluentMethods": true,
-  "jpaMetamodelFiltering": false,
   "name": "Comment",
-  "pagination": "no",
-  "readOnly": false,
   "relationships": [
     {
       "otherEntityName": "comment",
-      "ownerSide": true,
       "relationshipName": "replyingTo",
-      "relationshipType": "one-to-one"
+      "relationshipSide": "left",
+      "relationshipType": "many-to-one"
     },
     {
       "otherEntityName": "userProfile",
-      "ownerSide": true,
       "relationshipName": "author",
-      "relationshipType": "one-to-one"
+      "relationshipSide": "left",
+      "relationshipType": "many-to-one"
     },
     {
       "otherEntityName": "userProfile",
-      "ownerSide": true,
       "relationshipName": "targetUser",
-      "relationshipType": "one-to-one"
+      "relationshipSide": "left",
+      "relationshipType": "many-to-one"
     },
     {
       "otherEntityName": "match",
-      "ownerSide": true,
       "relationshipName": "match",
-      "relationshipType": "one-to-one"
+      "relationshipSide": "left",
+      "relationshipType": "many-to-one"
     }
   ],
-  "service": "no"
+  "searchEngine": "no"
 }

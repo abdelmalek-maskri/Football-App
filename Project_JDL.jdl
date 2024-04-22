@@ -128,12 +128,12 @@ entity Comment {
     likeCount Integer min(0)
 }
 
-relationship OneToOne {
+relationship ManyToOne {
     Comment{replyingTo} to Comment
 }
 
 
-relationship OneToOne {
+relationship ManyToOne {
     Comment{author} to UserProfile
     Comment{targetUser} to UserProfile
     Comment{match} to Match
