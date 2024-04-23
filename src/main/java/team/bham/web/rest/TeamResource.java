@@ -363,13 +363,15 @@ public class TeamResource {
 
             try {
                 // Unassign members from the team before deleting it
-                for (UserProfile teamMember : team.get().getMembers()) userProfileRepository
-                    .findById(teamMember.getId())
-                    .map(existingUserProfile -> {
-                        existingUserProfile.setTeam(null);
-                        return existingUserProfile;
-                    })
-                    .map(userProfileRepository::save);
+                for (UserProfile teamMember : team.get().getMembers()) {
+                    Optional<UserProfile> result = userProfileRepository
+                        .findById(teamMember.getId())
+                        .map(existingUserProfile -> {
+                            existingUserProfile.setTeam(null);
+                            return existingUserProfile;
+                        })
+                        .map(userProfileRepository::save);
+                }
             } catch (Exception e) {
                 // You better not error......
             }
