@@ -31,23 +31,25 @@
       <div id="matchBox">
         <div id="matchNav" class="text-center">
           <button (click)="prevMonth()" type="submit" id="matchPrev" class="btn" data-cy="entityDetailsBackButton">
-            <fa-icon icon="arrow-left"></fa-icon><span> Previous</span>
+            <fa-icon icon="arrow-left"></fa-icon
+            ><span class="dynamic-text-size" [style.fontSize]="fontSizeMultiplier * 1.1 + 'rem'"> Previous</span>
           </button>
           <button (click)="nextMonth()" type="submit" id="matchNext" class="btn" data-cy="entityDetailsBackButton">
-            <span>Next </span><fa-icon icon="arrow-right"></fa-icon>
+            <span class="dynamic-text-size" [style.fontSize]="fontSizeMultiplier * 1.1 + 'rem'">Next </span
+            ><fa-icon icon="arrow-right"></fa-icon>
           </button>
-          <h2>{{ month }}</h2>
+          <h2 class="dynamic-text-size" [style.fontSize]="fontSizeMultiplier * 2 + 'rem'">{{ month }}</h2>
         </div>
         <div>
           <div *ngIf="matchesDated.length > 0; else noMatches">
             <ng-container *ngFor="let matchDated of matchesDated">
               <div class="matchDay">
-                <h4>{{ matchDated.date }}</h4>
+                <h4 class="dynamic-text-size" [style.fontSize]="fontSizeMultiplier * 1.3 + 'rem'">{{ matchDated.date }}</h4>
               </div>
               <ng-container *ngFor="let match of matchDated.list">
                 <a class="matchItem" [routerLink]="['/match', match.id, 'view']">
                   <div class="col home">
-                    <span *ngIf="match.home">
+                    <span *ngIf="match.home" class="dynamic-text-size" [style.fontSize]="fontSizeMultiplier * 1.2 + 'rem'">
                       {{ match.home.name }}
                       <ng-container *ngIf="match.home.image; else defaultImage">
                         <img
@@ -60,12 +62,19 @@
                   </div>
                   <div class="col-2 text-center">
                     <span class="vs">
-                      <span *ngIf="match.homeScore">{{ match.homeScore }}</span
-                      >&ensp; vs &ensp;<span *ngIf="match.awayScore">{{ match.awayScore }}</span></span
+                      <span *ngIf="match.homeScore" class="dynamic-text-size" [style.fontSize]="fontSizeMultiplier * 1.2 + 'rem'">{{
+                        match.homeScore
+                      }}</span
+                      >&ensp; vs &ensp;<span
+                        *ngIf="match.awayScore"
+                        class="dynamic-text-size"
+                        [style.fontSize]="fontSizeMultiplier * 1.2 + 'rem'"
+                        >{{ match.awayScore }}</span
+                      ></span
                     >
                   </div>
                   <div class="col away">
-                    <span *ngIf="match.away">
+                    <span *ngIf="match.away" class="dynamic-text-size" [style.fontSize]="fontSizeMultiplier * 1.2 + 'rem'">
                       <ng-container *ngIf="match.away.image; else defaultImage">
                         <img
                           [src]="'data:' + match.away.imageContentType + ';base64,' + match.away.image"
@@ -84,7 +93,7 @@
             </ng-container>
           </div>
           <ng-template #noMatches>
-            <h4><span>No matches this month</span></h4>
+            <h4><span class="dynamic-text-size" [style.fontSize]="fontSizeMultiplier * 1.2 + 'rem'">No matches this month</span></h4>
           </ng-template>
         </div>
 

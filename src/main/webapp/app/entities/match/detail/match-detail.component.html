@@ -8,10 +8,12 @@
           </button>
           <h2 data-cy="matchDetailsHeading">
             <ng-container *ngIf="match.home && match.away; else noTeams">
-              <span>{{ match.home.name }} vs {{ match.away.name }}</span>
+              <span class="dynamic-text-size" [style.fontSize]="fontSizeMultiplier * 2 + 'rem'"
+                >{{ match.home.name }} vs {{ match.away.name }}</span
+              >
             </ng-container>
             <ng-template #noTeams>
-              <span>Teams not allocated</span>
+              <span class="dynamic-text-size" [style.fontSize]="fontSizeMultiplier * 1.5 + 'rem'">Teams not allocated</span>
             </ng-template>
           </h2>
         </div>
@@ -30,10 +32,10 @@
               </ng-template>
 
               <a [routerLink]="['/team', match.home.id, 'view']"
-                ><h3>{{ match.home.name }}</h3></a
+                ><h3 class="dynamic-text-size" [style.fontSize]="fontSizeMultiplier * 1.7 + 'rem'">{{ match.home.name }}</h3></a
               >
               <div *ngIf="match.home.members; else noTeamMembers">
-                <h4>Members ({{ match.home.members.length }})</h4>
+                <h4 class="dynamic-text-size" [style.fontSize]="fontSizeMultiplier + 'rem'">Members ({{ match.home.members.length }})</h4>
                 <div class="scrollBox">
                   <div
                     class="scrollItem"
@@ -53,7 +55,9 @@
                       </ng-template>
 
                       <div class="playerDets">
-                        <h4>{{ (teamMember.name != undefined && teamMember.name != null && teamMember.name) || 'N/A' }}</h4>
+                        <h4 class="dynamic-text-size" [style.fontSize]="fontSizeMultiplier + 'rem'">
+                          {{ (teamMember.name != undefined && teamMember.name != null && teamMember.name) || 'N/A' }}
+                        </h4>
                       </div>
                     </a>
                   </div>
@@ -68,30 +72,42 @@
           <div class="col">
             <div id="matchScore">
               <div *ngIf="match.homeScore && match.awayScore; else toPlay">
-                <h2>{{ match.homeScore }} - {{ match.homeScore }}</h2>
+                <h2 class="dynamic-text-size" [style.fontSize]="fontSizeMultiplier * 1.5 + 'rem'">
+                  {{ match.homeScore }} - {{ match.homeScore }}
+                </h2>
               </div>
             </div>
             <ng-template #toPlay>
-              <h2>n/a - n/a</h2>
+              <h2 class="dynamic-text-size" [style.fontSize]="fontSizeMultiplier + 'rem'">n/a - n/a</h2>
             </ng-template>
 
-            <dt><span>Date</span></dt>
+            <dt><span class="dynamic-text-size" [style.fontSize]="fontSizeMultiplier + 'rem'">Date</span></dt>
             <dd>
-              <span>{{ match.date | formatMediumDatetime }}</span>
+              <span class="dynamic-text-size" [style.fontSize]="fontSizeMultiplier + 'rem'">{{ match.date | formatMediumDatetime }}</span>
             </dd>
-            <dt><span>Referee</span></dt>
+            <dt><span class="dynamic-text-size" [style.fontSize]="fontSizeMultiplier + 'rem'">Referee</span></dt>
             <dd>
               <div *ngIf="match.referee">
-                <a [routerLink]="['/user-profile', match.referee.id, 'view']">{{ match.referee.name }}</a>
+                <a
+                  [routerLink]="['/user-profile', match.referee.id, 'view']"
+                  class="dynamic-text-size"
+                  [style.fontSize]="fontSizeMultiplier + 'rem'"
+                  >{{ match.referee.name }}</a
+                >
               </div>
             </dd>
-            <dt><span>Pitch</span></dt>
+            <dt><span class="dynamic-text-size" [style.fontSize]="fontSizeMultiplier + 'rem'">Pitch</span></dt>
             <dd>
               <div *ngIf="match.pitch">
-                <a [routerLink]="['/pitch', match.pitch.id, 'view']">{{ match.pitch.name }}</a>
+                <a
+                  [routerLink]="['/pitch', match.pitch.id, 'view']"
+                  class="dynamic-text-size"
+                  [style.fontSize]="fontSizeMultiplier + 'rem'"
+                  >{{ match.pitch.name }}</a
+                >
               </div>
             </dd>
-            <dt><span>Tournament</span></dt>
+            <dt><span class="dynamic-text-size" [style.fontSize]="fontSizeMultiplier + 'rem'">Tournament</span></dt>
             <dd>
               <div *ngIf="match.tournament">
                 <a [routerLink]="['/tournament', match.tournament.id, 'view']">{{ match.tournament.name }}</a>
@@ -108,10 +124,10 @@
               </ng-template>
 
               <a [routerLink]="['/team', match.away.id, 'view']"
-                ><h3>{{ match.away.name }}</h3></a
+                ><h3 class="dynamic-text-size" [style.fontSize]="fontSizeMultiplier * 1.5 + 'rem'">{{ match.away.name }}</h3></a
               >
               <div *ngIf="match.away.members; else noTeamMembers" id="teamMembers">
-                <h4>Members ({{ match.away.members.length }})</h4>
+                <h4 class="dynamic-text-size" [style.fontSize]="fontSizeMultiplier + 'rem'">Members ({{ match.away.members.length }})</h4>
                 <div class="scrollBox">
                   <div
                     class="scrollItem"
@@ -131,7 +147,9 @@
                       </ng-template>
 
                       <div class="playerDets">
-                        <h4>{{ (teamMember.name != undefined && teamMember.name != null && teamMember.name) || 'N/A' }}</h4>
+                        <h4 class="dynamic-text-size" [style.fontSize]="fontSizeMultiplier + 'rem'">
+                          {{ (teamMember.name != undefined && teamMember.name != null && teamMember.name) || 'N/A' }}
+                        </h4>
                       </div>
                     </a>
                   </div>

@@ -6,11 +6,13 @@
 </head>
 <body>
   <div class="image-container"><img src="../../../../content/images/Leaderboard_background.png" alt="" /></div>
-  <h1 class="banner-container-page-title">LEADERBOARDS</h1>
+  <h1 class="banner-container-page-title dynamic-text-size" [style.fontSize]="fontSizeMultiplier * 3.3 + 'rem'">LEADERBOARDS</h1>
   <div class="container">
     <div class="button-container">
       <div class="title-box">
-        <a style="font-size: 18px" href="../user-profile">All-Time Players</a>
+        <a style="font-size: 18px" href="../user-profile" class="dynamic-text-size" [style.fontSize]="fontSizeMultiplier + 'rem'"
+          >All-Time Players</a
+        >
       </div>
       <ng-container *ngIf="userProfiles != undefined && userProfiles != null; else noPlayer">
         <div
@@ -30,39 +32,71 @@
               <img class="player_img" src="../../../../content/images/DefaultProfilePicture.jpg" alt="default player image" />
             </ng-template>
             <div class="bl">
-              <div style="float: left; margin-left: 15px; font-size: 20px">{{ userProfile.name }}</div>
+              <div
+                style="float: left; margin-left: 15px; font-size: 20px"
+                class="dynamic-text-size"
+                [style.fontSize]="fontSizeMultiplier + 'rem'"
+              >
+                {{ userProfile.name }}
+              </div>
               <ng-container *ngIf="userProfile.averageRating; else noRating">
                 <div class="rating-content" [attr.data-rating]="userProfile.averageRating">
-                  <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+                  <span class="dynamic-text-size" [style.fontSize]="fontSizeMultiplier + 'rem'">★</span
+                  ><span class="dynamic-text-size" [style.fontSize]="fontSizeMultiplier + 'rem'">★</span
+                  ><span class="dynamic-text-size" [style.fontSize]="fontSizeMultiplier + 'rem'">★</span
+                  ><span class="dynamic-text-size" [style.fontSize]="fontSizeMultiplier + 'rem'">★</span
+                  ><span class="dynamic-text-size" [style.fontSize]="fontSizeMultiplier + 'rem'">★</span>
                 </div>
               </ng-container>
               <ng-template #noRating>
                 <div class="rating-content" [attr.data-rating]="userProfile.averageRating">
-                  <span>No Rating</span>
+                  <span class="dynamic-text-size" [style.fontSize]="fontSizeMultiplier + 'rem'">No Rating</span>
                 </div>
               </ng-template>
 
               <div>
-                <div class="comment_span">{{ userProfile.contentOfHighestLikedComment }}</div>
-                <span class="num" *ngIf="userProfile.averageRating">{{ userProfile.averageRating }}</span>
-                <span class="num" *ngIf="userProfile.averageRating == null">Loading...</span>
+                <div class="comment_span dynamic-text-size" [style.fontSize]="fontSizeMultiplier + 'rem'">
+                  {{ userProfile.contentOfHighestLikedComment }}
+                </div>
+                <span class="dynamic-text-size num" [style.fontSize]="fontSizeMultiplier + 'rem'" *ngIf="userProfile.averageRating">{{
+                  userProfile.averageRating
+                }}</span>
+                <span class="dynamic-text-size num" [style.fontSize]="fontSizeMultiplier + 'rem'" *ngIf="userProfile.averageRating == null"
+                  >Loading...</span
+                >
               </div>
             </div>
           </div>
         </div>
       </ng-container>
       <ng-template #noPlayer>
-        <span>Currently no player!</span>
+        <span class="dynamic-text-size" [style.fontSize]="fontSizeMultiplier + 'rem'">Currently no player!</span>
       </ng-template>
-      <button style="float: left; margin-left: 10px" (click)="prevUserPage()" [disabled]="currentUserPage === 1">< prevPage</button>
-      <button style="float: right; margin-right: 10px" (click)="nextUserPage()" [disabled]="getUserEndIndex() >= userProfiles!.length">
+      <button
+        class="dynamic-text-size"
+        [style.fontSize]="fontSizeMultiplier + 'rem'"
+        style="float: left; margin-left: 10px"
+        (click)="prevUserPage()"
+        [disabled]="currentUserPage === 1"
+      >
+        < prevPage
+      </button>
+      <button
+        class="dynamic-text-size"
+        [style.fontSize]="fontSizeMultiplier + 'rem'"
+        style="float: right; margin-right: 10px"
+        (click)="nextUserPage()"
+        [disabled]="getUserEndIndex() >= userProfiles!.length"
+      >
         nextPage >
       </button>
     </div>
 
     <div class="button-container">
       <div class="title-box">
-        <a style="font-size: 18px" href="../match">Players In The Match</a>
+        <a class="dynamic-text-size" [style.fontSize]="fontSizeMultiplier + 'rem'" style="font-size: 18px" href="../match"
+          >Players In The Match</a
+        >
       </div>
       <ng-container>
         <div
@@ -72,16 +106,36 @@
         >
           <div class="column" (click)="navigateToMatchLD(match.id)">
             <div class="bl">
-              <div style="float: left; margin-left: 15px; font-size: 20px">{{ match?.home?.name }} vs {{ match?.away?.name }}</div>
+              <div
+                class="dynamic-text-size"
+                [style.fontSize]="fontSizeMultiplier + 'rem'"
+                style="float: left; margin-left: 15px; font-size: 20px"
+              >
+                {{ match?.home?.name }} vs {{ match?.away?.name }}
+              </div>
               <br />
-              <span>{{ match.date | formatMediumDatetime }}</span>
+              <span class="dynamic-text-size" [style.fontSize]="fontSizeMultiplier + 'rem'">{{ match.date | formatMediumDatetime }}</span>
               <div></div>
             </div>
           </div>
         </div>
       </ng-container>
-      <button style="float: left; margin: 10px" (click)="prevMatchPage()" [disabled]="currentMatchPage === 1">< prevPage</button>
-      <button style="float: right; margin: 10px" (click)="nextMatchPage()" [disabled]="getMatchEndIndex() >= matches!.length">
+      <button
+        class="dynamic-text-size"
+        [style.fontSize]="fontSizeMultiplier + 'rem'"
+        style="float: left; margin: 10px"
+        (click)="prevMatchPage()"
+        [disabled]="currentMatchPage === 1"
+      >
+        < prevPage
+      </button>
+      <button
+        class="dynamic-text-size"
+        [style.fontSize]="fontSizeMultiplier + 'rem'"
+        style="float: right; margin: 10px"
+        (click)="nextMatchPage()"
+        [disabled]="getMatchEndIndex() >= matches!.length"
+      >
         nextPage >
       </button>
     </div>
@@ -90,12 +144,12 @@
 
 <div *jhiHasAnyAuthority="'ROLE_ADMIN'">
   <h2 id="page-heading" data-cy="CommentHeading">
-    <span>Comments</span>
+    <span class="dynamic-text-size" [style.fontSize]="fontSizeMultiplier + 'rem'">Comments</span>
 
     <div class="d-flex justify-content-end">
       <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading">
         <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
-        <span>Refresh list</span>
+        <span class="dynamic-text-size" [style.fontSize]="fontSizeMultiplier + 'rem'">Refresh list</span>
       </button>
 
       <button
@@ -105,7 +159,7 @@
         [routerLink]="['/comment/new']"
       >
         <fa-icon icon="plus"></fa-icon>
-        <span> Create a new Comment </span>
+        <span class="dynamic-text-size" [style.fontSize]="fontSizeMultiplier + 'rem'"> Create a new Comment </span>
       </button>
     </div>
   </h2>
@@ -115,7 +169,7 @@
   <jhi-alert></jhi-alert>
 
   <div class="alert alert-warning" id="no-result" *ngIf="comments?.length === 0">
-    <span>No Comments found</span>
+    <span class="dynamic-text-size" [style.fontSize]="fontSizeMultiplier + 'rem'">No Comments found</span>
   </div>
 
   <div class="table-responsive table-entities" id="entities" *ngIf="comments && comments.length > 0">
@@ -124,49 +178,49 @@
         <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="navigateToWithComponentValues()">
           <th scope="col" jhiSortBy="id">
             <div class="d-flex">
-              <span>ID</span>
+              <span class="dynamic-text-size" [style.fontSize]="fontSizeMultiplier + 'rem'">ID</span>
               <fa-icon class="p-1" icon="sort"></fa-icon>
             </div>
           </th>
           <th scope="col" jhiSortBy="rating">
             <div class="d-flex">
-              <span>Rating</span>
+              <span class="dynamic-text-size" [style.fontSize]="fontSizeMultiplier + 'rem'">Rating</span>
               <fa-icon class="p-1" icon="sort"></fa-icon>
             </div>
           </th>
           <th scope="col" jhiSortBy="content">
             <div class="d-flex">
-              <span>Content</span>
+              <span class="dynamic-text-size" [style.fontSize]="fontSizeMultiplier + 'rem'">Content</span>
               <fa-icon class="p-1" icon="sort"></fa-icon>
             </div>
           </th>
           <th scope="col" jhiSortBy="likeCount">
             <div class="d-flex">
-              <span>Like Count</span>
+              <span class="dynamic-text-size" [style.fontSize]="fontSizeMultiplier + 'rem'">Like Count</span>
               <fa-icon class="p-1" icon="sort"></fa-icon>
             </div>
           </th>
           <th scope="col" jhiSortBy="replyingTo.id">
             <div class="d-flex">
-              <span>Replying To</span>
+              <span class="dynamic-text-size" [style.fontSize]="fontSizeMultiplier + 'rem'">Replying To</span>
               <fa-icon class="p-1" icon="sort"></fa-icon>
             </div>
           </th>
           <th scope="col" jhiSortBy="author.id">
             <div class="d-flex">
-              <span>Author</span>
+              <span class="dynamic-text-size" [style.fontSize]="fontSizeMultiplier + 'rem'">Author</span>
               <fa-icon class="p-1" icon="sort"></fa-icon>
             </div>
           </th>
           <th scope="col" jhiSortBy="targetUser.id">
             <div class="d-flex">
-              <span>Target User</span>
+              <span class="dynamic-text-size" [style.fontSize]="fontSizeMultiplier + 'rem'">Target User</span>
               <fa-icon class="p-1" icon="sort"></fa-icon>
             </div>
           </th>
           <th scope="col" jhiSortBy="match.id">
             <div class="d-flex">
-              <span>Match</span>
+              <span class="dynamic-text-size" [style.fontSize]="fontSizeMultiplier + 'rem'">Match</span>
               <fa-icon class="p-1" icon="sort"></fa-icon>
             </div>
           </th>
@@ -176,11 +230,13 @@
       <tbody>
         <tr *ngFor="let comment of comments; trackBy: trackId" data-cy="entityTable">
           <td>
-            <a [routerLink]="['/comment', comment.id, 'view']">{{ comment.id }}</a>
+            <a [routerLink]="['/comment', comment.id, 'view']" class="dynamic-text-size" [style.fontSize]="fontSizeMultiplier + 'rem'">{{
+              comment.id
+            }}</a>
           </td>
-          <td>{{ comment.rating }}</td>
-          <td>{{ comment.content }}</td>
-          <td>{{ comment.likeCount }}</td>
+          <td class="dynamic-text-size" [style.fontSize]="fontSizeMultiplier + 'rem'">{{ comment.rating }}</td>
+          <td class="dynamic-text-size" [style.fontSize]="fontSizeMultiplier + 'rem'">{{ comment.content }}</td>
+          <td class="dynamic-text-size" [style.fontSize]="fontSizeMultiplier + 'rem'">{{ comment.likeCount }}</td>
           <td>
             <div *ngIf="comment.replyingTo">
               <a [routerLink]="['/comment', comment.replyingTo.id, 'view']">{{ comment.replyingTo.id }}</a>

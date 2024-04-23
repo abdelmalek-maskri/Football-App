@@ -98,3 +98,13 @@ div.pictures {
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Soft shadow */
 }
+
+$base-font-size: 16px; /* Adjusted base font size to 16px */
+
+.dynamic-text-size {
+  font-size: 100%; /* Default font size relative to parent element */
+}
+
+.dynamic-heading {
+  font-size: 150%; /* Default heading font size, adjusted relative to parent element */
+}

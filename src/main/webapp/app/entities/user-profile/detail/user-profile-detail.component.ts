@@ -21,6 +21,9 @@ import { IContact } from '../../contact/contact.model';
 import { AvailableDateService } from '../../available-date/service/available-date.service';
 import dayjs, { Dayjs } from 'dayjs';
 import { Router } from '@angular/router';
+import { FontResizeService } from '../../../layouts/navbar/navbar.service';
+import { Observable } from 'rxjs';
+import { VERSION } from 'app/app.constants';
 
 @Component({
   selector: 'jhi-user-profile-detail',
@@ -34,6 +37,9 @@ export class UserProfileDetailComponent implements OnInit {
   userRating: number = 0;
   listOfComments: IComment[] | undefined;
   dayAvaliability: number[] = [0, 0, 0, 0, 0, 0, 0];
+  version = '';
+  account: Account | null = null;
+  fontSizeMultiplier: number = 1; // Font size multiplier property
 
   constructor(
     protected dataUtils: DataUtils,
@@ -44,6 +50,7 @@ export class UserProfileDetailComponent implements OnInit {
     protected modalService: NgbModal,
     protected commentService: CommentService,
     protected avaliableService: AvailableDateService,
+    private fontResizeService: FontResizeService,
     private router: Router
   ) {}
 
@@ -52,6 +59,9 @@ export class UserProfileDetailComponent implements OnInit {
       if (account) {
         this.theAccount = account;
       }
+    });
+    this.fontResizeService.fontSizeMultiplier$.subscribe(multiplier => {
+      this.fontSizeMultiplier = multiplier;
     });
 
     this.activatedRoute.data.subscribe(({ userProfile }) => {
@@ -106,6 +116,15 @@ export class UserProfileDetailComponent implements OnInit {
         }
       }
     });
+  }
+  // Font size adjustment methods
+  getFontSizeKey(): string {
+    return `fontSizeMultiplier_${this.account?.login || 'default'}`;
+  }
+
+  updateFontSize(): void {
+    localStorage.setItem(this.getFontSizeKey(), this.fontSizeMultiplier.toString());
+    this.fontResizeService.setFontSizeMultiplier(this.fontSizeMultiplier);
   }
 
   byteSize(base64String: string): string {

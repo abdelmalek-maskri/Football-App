@@ -25,9 +25,9 @@
   </div>
 
   <div id="noSearchResultsFoundWarning" *ngIf="userProfiles?.length === 0">
-    <div>Sorry, no players were found.</div>
+    <div class="dynamic-text-size" [style.fontSize]="fontSizeMultiplier * 1.5 + 'rem'">Sorry, no players were found.</div>
     <img src="../../../../content/images/NoSearchResultsFound.png" alt="No search results found" />
-    <div>Why not try another search instead?</div>
+    <div class="dynamic-text-size" [style.fontSize]="fontSizeMultiplier * 1.5 + 'rem'">Why not try another search instead?</div>
   </div>
 
   <div class="searchResultsGrid section" *ngIf="userProfiles !== null && userProfiles !== undefined && userProfiles.length > 0">
@@ -42,10 +42,10 @@
         </ng-template>
 
         <div class="card-content">
-          <h1>{{ userProfile.name }}</h1>
-          <p>Position: {{ userProfile.position }}</p>
-          <p>Gender: {{ userProfile.gender }}</p>
-          <p>Area: {{ userProfile.location }}</p>
+          <h1 class="dynamic-text-size" [style.fontSize]="fontSizeMultiplier * 1.6 + 'rem'">{{ userProfile.name }}</h1>
+          <p class="dynamic-text-size" [style.fontSize]="fontSizeMultiplier + 'rem'">Position: {{ userProfile.position }}</p>
+          <p class="dynamic-text-size" [style.fontSize]="fontSizeMultiplier + 'rem'">Gender: {{ userProfile.gender }}</p>
+          <p class="dynamic-text-size" [style.fontSize]="fontSizeMultiplier + 'rem'">Area: {{ userProfile.location }}</p>
         </div>
       </div>
     </a>

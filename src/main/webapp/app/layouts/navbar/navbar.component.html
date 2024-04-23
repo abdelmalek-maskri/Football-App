@@ -90,7 +90,7 @@
         </li>
         <li class="nav-item" routerLinkActive="active selectedNavBarItem" [routerLinkActiveOptions]="{ exact: true }">
           <a class="nav-link" routerLink="/comment" (click)="collapseNavbar()">
-            <span>LEADERBOARD</span>
+            <span class="dynamic-text-size" [style.fontSize]="fontSizeMultiplier + 'rem'">LEADERBOARD</span>
           </a>
         </li>
 

@@ -76,37 +76,39 @@
             <img src="../../../content/images/PlayerIcon.svg" alt="Image indicating that the user is a player" class="rating" />
           </ng-template>
           <ng-template #noTeam>
-            <h3>Not currently playing for a team</h3>
+            <h3 class="dynamic-text-size" [style.fontSize]="fontSizeMultiplier * 2.2 + 'rem'">Not currently playing for a team</h3>
           </ng-template>
         </div>
 
         <div class="section">
           <div class="grid-container">
             <div class="grid-items">
-              <dt><span>Name</span></dt>
+              <dt><span class="dynamic-text-size" [style.fontSize]="fontSizeMultiplier + 'rem'">Name</span></dt>
               <dd>
-                <span>{{ userProfile.name }}</span>
+                <span class="dynamic-text-size" [style.fontSize]="fontSizeMultiplier + 'rem'">{{ userProfile.name }}</span>
               </dd>
             </div>
 
             <div class="grid-items">
-              <dt><span>Location</span></dt>
+              <dt><span class="dynamic-text-size" [style.fontSize]="fontSizeMultiplier + 'rem'">Location</span></dt>
               <dd>
-                <span>{{ userProfile.location }}</span>
+                <span class="dynamic-text-size" [style.fontSize]="fontSizeMultiplier + 'rem'">{{ userProfile.location }}</span>
               </dd>
             </div>
 
             <div class="grid-items">
-              <dt><span>Gender</span></dt>
+              <dt><span class="dynamic-text-size" [style.fontSize]="fontSizeMultiplier + 'rem'">Gender</span></dt>
               <dd>
-                <span>{{ userProfile.gender }}</span>
+                <span class="dynamic-text-size" [style.fontSize]="fontSizeMultiplier + 'rem'">{{ userProfile.gender }}</span>
               </dd>
             </div>
 
             <div class="grid-items">
-              <dt><span>Player Since</span></dt>
+              <dt><span class="dynamic-text-size" [style.fontSize]="fontSizeMultiplier + 'rem'">Player Since</span></dt>
               <dd>
-                <span>{{ userProfile.created | formatMediumDate }}</span>
+                <span class="dynamic-text-size" [style.fontSize]="fontSizeMultiplier + 'rem'">{{
+                  userProfile.created | formatMediumDate
+                }}</span>
               </dd>
             </div>
           </div>
@@ -115,18 +117,60 @@
             <div class="text-center position-avaliability">
               <div class="day-container">
                 <!-- set the class depending on user's avaliability -->
-                <div [ngClass]="{ unknown: dayAvaliability[0] == 0, inactive: dayAvaliability[0] == 2 }" class="day">M</div>
-                <div [ngClass]="{ unknown: dayAvaliability[1] == 0, inactive: dayAvaliability[1] == 2 }" class="day">T</div>
-                <div [ngClass]="{ unknown: dayAvaliability[2] == 0, inactive: dayAvaliability[2] == 2 }" class="day">W</div>
-                <div [ngClass]="{ unknown: dayAvaliability[3] == 0, inactive: dayAvaliability[3] == 2 }" class="day">T</div>
-                <div [ngClass]="{ unknown: dayAvaliability[4] == 0, inactive: dayAvaliability[4] == 2 }" class="day">F</div>
-                <div [ngClass]="{ unknown: dayAvaliability[5] == 0, inactive: dayAvaliability[5] == 2 }" class="day">S</div>
-                <div [ngClass]="{ unknown: dayAvaliability[6] == 0, inactive: dayAvaliability[6] == 2 }" class="day">S</div>
+                <div
+                  [ngClass]="{ unknown: dayAvaliability[0] == 0, inactive: dayAvaliability[0] == 2 }"
+                  class="dynamic-text-size day"
+                  [style.fontSize]="fontSizeMultiplier + 'rem'"
+                >
+                  M
+                </div>
+                <div
+                  [ngClass]="{ unknown: dayAvaliability[1] == 0, inactive: dayAvaliability[1] == 2 }"
+                  class="dynamic-text-size day"
+                  [style.fontSize]="fontSizeMultiplier + 'rem'"
+                >
+                  T
+                </div>
+                <div
+                  [ngClass]="{ unknown: dayAvaliability[2] == 0, inactive: dayAvaliability[2] == 2 }"
+                  class="dynamic-text-size day"
+                  [style.fontSize]="fontSizeMultiplier + 'rem'"
+                >
+                  W
+                </div>
+                <div
+                  [ngClass]="{ unknown: dayAvaliability[3] == 0, inactive: dayAvaliability[3] == 2 }"
+                  class="dynamic-text-size day"
+                  [style.fontSize]="fontSizeMultiplier + 'rem'"
+                >
+                  T
+                </div>
+                <div
+                  [ngClass]="{ unknown: dayAvaliability[4] == 0, inactive: dayAvaliability[4] == 2 }"
+                  class="dynamic-text-size day"
+                  [style.fontSize]="fontSizeMultiplier + 'rem'"
+                >
+                  F
+                </div>
+                <div
+                  [ngClass]="{ unknown: dayAvaliability[5] == 0, inactive: dayAvaliability[5] == 2 }"
+                  class="dynamic-text-size day"
+                  [style.fontSize]="fontSizeMultiplier + 'rem'"
+                >
+                  S
+                </div>
+                <div
+                  [ngClass]="{ unknown: dayAvaliability[6] == 0, inactive: dayAvaliability[6] == 2 }"
+                  class="dynamic-text-size day"
+                  [style.fontSize]="fontSizeMultiplier + 'rem'"
+                >
+                  S
+                </div>
               </div>
 
               <button type="submit" (click)="openModal()" class="btn btn-primary" data-cy="entityModalButton">
                 <fa-icon icon="phone"></fa-icon>
-                <span class="d-none d-md-inline">Contact</span>
+                <span class="d-none d-md-inline dynamic-text-size" [style.fontSize]="fontSizeMultiplier + 'rem'">Contact</span>
               </button>
             </div>
             <!-- add code to change image depending on position-->
@@ -136,15 +180,21 @@
                 alt="Image indicating the user's position"
                 height="200"
               />
-              <span>{{ userProfile!.position }}</span>
+              <span class="dynamic-text-size" [style.fontSize]="fontSizeMultiplier + 'rem'">{{ userProfile!.position }}</span>
             </figure>
           </div>
 
           <dd>
             <div class="team-container grid-items">
               <div *ngIf="userProfile.team; else noTeam">
-                <h3>Team</h3>
-                <a [routerLink]="['/team', userProfile.team.id, 'view']" class="team-items">{{ usersTeam?.name }}</a>
+                <h3 class="dynamic-text-size" [style.fontSize]="fontSizeMultiplier * 2 + 'rem'">Team</h3>
+                <a
+                  [routerLink]="['/team', userProfile.team.id, 'view']"
+                  class="team-items"
+                  class="dynamic-text-size"
+                  [style.fontSize]="fontSizeMultiplier + 'rem'"
+                  >{{ usersTeam?.name }}</a
+                >
                 <div *ngIf="usersTeam?.image; else playerTemplate" class="team-items">
                   <img
                     [src]="'data:' + usersTeam?.imageContentType + ';base64,' + usersTeam?.image"
@@ -160,7 +210,9 @@
 
       <div class="footer">
         <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
-          <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
+          <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span class="dynamic-text-size" [style.fontSize]="fontSizeMultiplier + 'rem'"
+            >Back</span
+          >
         </button>
 
         <button
@@ -169,7 +221,9 @@
           class="btn btn-primary"
           *ngIf="theAccount?.id == userProfile.id"
         >
-          <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
+          <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span class="dynamic-text-size" [style.fontSize]="fontSizeMultiplier + 'rem'"
+            >Edit</span
+          >
         </button>
       </div>
     </div>

@@ -10,6 +10,9 @@ import { TeamService } from '../service/team.service';
 
 import { AccountService } from 'app/core/auth/account.service';
 import { Account } from 'app/core/auth/account.model';
+import { FontResizeService } from '../../../layouts/navbar/navbar.service';
+import { Observable } from 'rxjs';
+import { VERSION } from 'app/app.constants';
 
 @Component({
   selector: 'jhi-team-detail',
@@ -20,10 +23,14 @@ export class TeamDetailComponent implements OnInit {
   team: ITeam | null = null;
   account: Account | null = null;
 
+  version = '';
+  fontSizeMultiplier: number = 1; // Font size multiplier property
+
   constructor(
     private accountService: AccountService,
     protected dataUtils: DataUtils,
     protected activatedRoute: ActivatedRoute,
+    private fontResizeService: FontResizeService,
     protected teamService: TeamService
   ) {}
 
@@ -37,6 +44,19 @@ export class TeamDetailComponent implements OnInit {
         this.account = account;
       }
     });
+    this.fontResizeService.fontSizeMultiplier$.subscribe(multiplier => {
+      this.fontSizeMultiplier = multiplier;
+    });
+  }
+
+  // Font size adjustment methods
+  getFontSizeKey(): string {
+    return `fontSizeMultiplier_${this.account?.login || 'default'}`;
+  }
+
+  updateFontSize(): void {
+    localStorage.setItem(this.getFontSizeKey(), this.fontSizeMultiplier.toString());
+    this.fontResizeService.setFontSizeMultiplier(this.fontSizeMultiplier);
   }
 
   joinTeam(teamId: number): void {
