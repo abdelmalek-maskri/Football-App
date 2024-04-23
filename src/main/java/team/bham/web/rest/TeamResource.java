@@ -13,11 +13,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+import team.bham.domain.Authority;
 import team.bham.domain.Team;
+import team.bham.domain.User;
 import team.bham.domain.UserProfile;
 import team.bham.repository.TeamRepository;
 import team.bham.repository.UserProfileRepository;
 import team.bham.repository.UserRepository;
+import team.bham.security.AuthoritiesConstants;
 import team.bham.security.SecurityUtils;
 import team.bham.service.UserProfileService;
 import team.bham.web.rest.errors.BadRequestAlertException;
@@ -42,10 +45,17 @@ public class TeamResource {
     private final TeamRepository teamRepository;
     private final UserProfileRepository userProfileRepository;
     private final UserProfileService userProfileService;
+    private final UserRepository userRepository;
 
-    public TeamResource(TeamRepository teamRepository, UserProfileRepository userProfileRepository, UserProfileService userProfileService) {
+    public TeamResource(
+        TeamRepository teamRepository,
+        UserProfileRepository userProfileRepository,
+        UserProfileService userProfileService,
+        UserRepository userRepository
+    ) {
         this.teamRepository = teamRepository;
         this.userProfileRepository = userProfileRepository;
+        this.userRepository = userRepository;
 
         this.userProfileService = userProfileService;
     }
@@ -342,7 +352,28 @@ public class TeamResource {
         Optional<Team> team = teamRepository.findById(id);
         if (team.isPresent()) {
             if (team.get().getOwner() == null || team.get().getOwner().getId() != userProfileService.getUserId()) {
-                throw new RuntimeException("Unauthorized: You are not the owner of this team.");
+                // Check if they are an admin
+                if (SecurityUtils.hasCurrentUserThisAuthority(AuthoritiesConstants.ADMIN)) {
+                    log.debug("Administrator user is deleting a team");
+                } else {
+                    log.debug("An unauthorized user attempted to delete a team.");
+                    throw new RuntimeException("Unauthorized: You are not the owner of this team.");
+                }
+            }
+
+            try {
+                // Unassign members from the team before deleting it
+                for (UserProfile teamMember : team.get().getMembers()) {
+                    Optional<UserProfile> result = userProfileRepository
+                        .findById(teamMember.getId())
+                        .map(existingUserProfile -> {
+                            existingUserProfile.setTeam(null);
+                            return existingUserProfile;
+                        })
+                        .map(userProfileRepository::save);
+                }
+            } catch (Exception e) {
+                // You better not error......
             }
         }
 

@@ -25,10 +25,14 @@
           <div class="col">
             <div *ngIf="match.home">
               <ng-container *ngIf="match.home.image; else defaultImage">
-                <img class="homeImg" [src]="'data:' + match.home.imageContentType + ';base64,' + match.home.image" alt="team image" />
+                <img
+                  class="homeImg"
+                  [src]="'data:' + match.home.imageContentType + ';base64,' + match.home.image"
+                  [alt]="match.home.name + ' team logo'"
+                />
               </ng-container>
               <ng-template #defaultImage>
-                <img class="homeImg" src="../../../../../content/images/FootballIcon.png" alt="default team image" />
+                <img class="homeImg" src="../../../../../content/images/FootballIcon.png" [alt]="match.home.name + ' default team logo'" />
               </ng-template>
 
               <a [routerLink]="['/team', match.home.id, 'view']"
@@ -110,17 +114,21 @@
             <dt><span class="dynamic-text-size" [style.fontSize]="fontSizeMultiplier + 'rem'">Tournament</span></dt>
             <dd>
               <div *ngIf="match.tournament">
-                <a [routerLink]="['/tournament', match.tournament.id, 'view']">{{ match.tournament.name }}</a>
+                <a [routerLink]="['/tournament']">{{ match.tournament.name }}</a>
               </div>
             </dd>
           </div>
           <div class="col">
             <div *ngIf="match.away">
               <ng-container *ngIf="match.away.image; else defaultImage">
-                <img class="homeImg" [src]="'data:' + match.away.imageContentType + ';base64,' + match.away.image" alt="team image" />
+                <img
+                  class="homeImg"
+                  [src]="'data:' + match.away.imageContentType + ';base64,' + match.away.image"
+                  [alt]="match.away.name + ' team logo'"
+                />
               </ng-container>
               <ng-template #defaultImage>
-                <img class="homeImg" src="../../../../../content/images/FootballIcon.png" alt="default team image" />
+                <img class="homeImg" src="../../../../../content/images/FootballIcon.png" [alt]="match.away.name + ' default team logo'" />
               </ng-template>
 
               <a [routerLink]="['/team', match.away.id, 'view']"

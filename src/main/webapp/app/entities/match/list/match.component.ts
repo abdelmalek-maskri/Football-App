@@ -27,7 +27,7 @@ export class MatchComponent implements OnInit {
   isLoading = false;
 
   date = dayjs().format('DD-MM-YYYY');
-  month: string = dayjs().format('MMMM');
+  month: string = dayjs().format('MMMM YYYY');
 
   version = '';
   account: Account | null = null;
