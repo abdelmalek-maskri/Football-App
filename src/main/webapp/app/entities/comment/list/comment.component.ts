@@ -47,11 +47,11 @@ export class CommentComponent implements OnInit {
   }
 
   getUserStartIndex(): number {
-    return (this.currentUserPage - 1) * this.currentUserPage;
+    return (this.currentUserPage - 1) * this.userPerPage;
   }
 
   getUserEndIndex(): number {
-    return this.currentUserPage * this.currentUserPage;
+    return this.currentUserPage * this.userPerPage;
   }
 
   nextUserPage() {
@@ -66,11 +66,11 @@ export class CommentComponent implements OnInit {
     }
   }
   getMatchStartIndex(): number {
-    return (this.currentMatchPage - 1) * this.currentMatchPage;
+    return (this.currentMatchPage - 1) * this.matchPerPage;
   }
 
   getMatchEndIndex(): number {
-    return this.currentMatchPage * this.currentMatchPage;
+    return this.currentMatchPage * this.matchPerPage;
   }
 
   nextMatchPage() {
@@ -102,17 +102,18 @@ export class CommentComponent implements OnInit {
         for (const userProfile of this.userProfiles!) {
           let counter = 0;
           let totalRating = 0;
+          let highestLikeCount = 0;
           userProfile.contentOfHighestLikedComment = 'No popular comments yet';
           for (const comment of this.comments!) {
-            let highestLikeCount = 0;
             if (userProfile.id != null) {
               if (comment.targetUser != null && comment.rating != null) {
                 if (comment.targetUser.id == userProfile!.id) {
                   totalRating = totalRating + comment.rating!;
                   counter = counter + 1;
-                }
-                if (comment.likeCount != null && comment.likeCount > highestLikeCount) {
-                  userProfile.contentOfHighestLikedComment = comment.content as string;
+                  if (comment.likeCount != null && comment.likeCount > highestLikeCount) {
+                    highestLikeCount = comment.likeCount;
+                    userProfile.contentOfHighestLikedComment = comment.content as string;
+                  }
                 }
               }
             }
@@ -134,7 +135,7 @@ export class CommentComponent implements OnInit {
             userProfile.averageRating = 4;
           } else if (userProfile.averageRating >= 4.5 && userProfile.averageRating < 5) {
             userProfile.averageRating = 4.5;
-          } else if (userProfile.averageRating >= 5) {
+          } else {
             userProfile.averageRating = 5;
           }
         }

@@ -31,6 +31,7 @@ export class CommentUpdateComponent implements OnInit {
   match: IMatch | null = null;
   toId = 0;
   section = '';
+  test = 0;
 
   commentsSharedCollection: IComment[] = [];
   userProfilesSharedCollection: IUserProfile[] = [];
@@ -56,20 +57,9 @@ export class CommentUpdateComponent implements OnInit {
   compareMatch = (o1: IMatch | null, o2: IMatch | null): boolean => this.matchService.compareMatch(o1, o2);
 
   ngOnInit(): void {
-    this.activatedRoute.data.subscribe(({ comment }) => {
-      this.comment = comment;
-      if (comment) {
-        this.updateForm(comment);
-      }
-      this.activatedRoute.queryParams.subscribe(params => {
-        this.toId = params['id'];
-        this.section = params['section'];
-      });
-      this.loadRelationshipsOptions();
-    });
     this.AccountService.identity().subscribe(
       account => {
-        if (account) {
+        if (account && account.id) {
           this.currentAccountId = account.id;
           this.userProfileService.find(this.currentAccountId).subscribe(res => {
             this.currentUser = res.body;
@@ -83,9 +73,19 @@ export class CommentUpdateComponent implements OnInit {
         this.currentAccountId = null;
       }
     );
+    this.activatedRoute.data.subscribe(({ comment }) => {
+      this.comment = comment;
+      if (comment) {
+        this.updateForm(comment);
+      }
+      this.activatedRoute.queryParams.subscribe(params => {
+        this.toId = params['id'];
+        this.section = params['section'];
+      });
+      this.loadRelationshipsOptions();
+    });
     if (this.editForm && this.currentAccountId != null) {
       this.editForm.patchValue({
-        author: this.currentUser,
         rating: 5,
       });
     }
@@ -93,13 +93,16 @@ export class CommentUpdateComponent implements OnInit {
       this.userProfileService.find(this.toId).subscribe(res => {
         this.targetUser = res.body;
         this.editForm.patchValue({
+          author: this.currentUser,
           targetUser: this.targetUser,
         });
       });
-    } else if (this.section == 'Match') {
+    }
+    if (this.section == 'Match') {
       this.matchService.find(this.toId).subscribe(res => {
         this.match = res.body;
         this.editForm.patchValue({
+          author: this.currentUser,
           match: this.match,
         });
       });

@@ -35,7 +35,7 @@ export class LeaderboardComponent implements OnInit {
   itemsPerPage = 3;
   currentPage = 1;
   isLiked = false;
-
+  ct = 0;
   constructor(
     protected commentService: CommentService,
     protected activatedRoute: ActivatedRoute,
@@ -69,27 +69,34 @@ export class LeaderboardComponent implements OnInit {
     }
     if (this.sectionToShow == 'Player') {
       this.UserProfileService.find(this.Id).subscribe(user => {
-        this.userProfile = user.body;
+        if (user.body) {
+          this.userProfile = user.body;
+        }
         if (this.userProfile?.team?.id) {
           this.TeamService.findTeam(this.userProfile.team.id).subscribe(team => {
             this.userTeam = team.body;
           });
         }
       });
-      this.commentService.query().subscribe(response => {
-        if (response.body) {
-          this.comments = response.body.map(comment => ({ ...comment, isLiked: false }));
-        }
-        if (this.comments != null) {
-          //             this.commentsTo = this.comments.filter((comment:IComment) => comment.targetUser!.id == this.userId);
-          for (const comment of this.comments) {
-            if (comment.targetUser != null && comment.targetUser.id == this.Id) {
-              this.commentsTo!.push(comment);
-            }
+    }
+    this.commentService.query().subscribe(response => {
+      if (response.body) {
+        this.comments = response.body.map(comment => ({ ...comment, isLiked: false }));
+      }
+      if (this.comments != null && this.sectionToShow == 'Player') {
+        for (const comment of this.comments) {
+          if (comment.targetUser != null && comment.targetUser.id == this.Id) {
+            this.commentsTo!.push(comment);
           }
         }
-      });
-    }
+      } else if (this.comments != null && this.sectionToShow == 'Match') {
+        for (const comment of this.comments) {
+          if (comment.match != null && comment.match.id == this.Id) {
+            this.commentsTo!.push(comment);
+          }
+        }
+      }
+    });
   }
 
   handleDivClick(): void {

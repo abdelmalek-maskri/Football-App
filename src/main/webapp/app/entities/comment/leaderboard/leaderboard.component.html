@@ -32,92 +32,112 @@
         <img class="player_img" src="../../../../content/images/DefaultProfilePicture.jpg" alt="default player image" />
       </ng-template>
       <div class="player_info">
-        <span style="white-space: normal" [routerLink]="['/user-profile', userProfile!.id, 'view']">Name: {{ userProfile!.name }}</span>
+        <a style="white-space: normal" [routerLink]="['/user-profile', userProfile!.id, 'view']">Name: {{ userProfile!.name }}</a>
         <span>Position: {{ userProfile!.position }}</span>
         <span>Gender: {{ userProfile!.gender }}</span>
-        <span *ngIf="userTeam; else noTeam" [routerLink]="['/team', userProfile!.team!.id, 'view']">Team: {{ userTeam.name }}</span>
+        <a *ngIf="userTeam; else noTeam" [routerLink]="['/team', userProfile!.team!.id, 'view']">Team: {{ userTeam.name }}</a>
         <ng-template #noTeam>
           <span>Team: No Team</span>
         </ng-template>
       </div>
     </div>
-    <div class="player_container" *ngIf="sectionToShow == 'Match'" [routerLink]="['/match', match!.id, 'view']">
+    <div class="player_container" style="place-items: center" *ngIf="sectionToShow == 'Match'">
       <ng-container *ngIf="match?.home?.name != null && match?.away?.name != null; else default">
-        <span>{{ match?.home?.name }} vs {{ match?.away?.name }}</span>
+        <a [routerLink]="['/match', match!.id, 'view']" style="text-align=center">{{ match?.home?.name }} vs {{ match?.away?.name }}</a>
       </ng-container>
       <ng-template #default>
-        <span>Unknown</span>
+        <span>Unknown match</span>
       </ng-template>
     </div>
     <div lang="en-US" class="gitment-container gitment-comments-container">
       <ul class="gitment-comments-list">
-        <ng-container *ngFor="let comment of commentsTo">
-          <li class="gitment-comment">
-            <a class="gitment-comment-avatar">
-              <ng-container>
-                <!--                <img-->
-                <!--                  [src]="'data:' + userProfile!.profilePicContentType + ';base64,' + userProfile!.profilePic"-->
-                <!--                  alt="Player Image"-->
-                <!--                />-->
-                <img
-                  style="width: 44px; height: 44px; border-radius: 3px"
-                  src="../../../../content/images/DefaultProfilePicture.jpg"
-                  alt="default player image"
-                />
-              </ng-container>
-              <ng-template #defaultImage>
-                <img src="../../../../content/images/DefaultProfilePicture.jpg" alt="default player image" />
-              </ng-template>
-            </a>
-            <div class="gitment-comment-main">
-              <div class="gitment-comment-header">
-                <a class="gitment-comment-name" style="display: flex; align-items: center">
-                  {{ comment!.author!.id | userNamePipe: users! }}
-                  <div style="margin-left: 20px" class="rating-content" [attr.data-rating]="comment.rating">
-                    <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
-                  </div>
-                </a>
+        <div *ngIf="this.sectionToShow == 'Player'">
+          <ng-container *ngFor="let comment of commentsTo">
+            <li class="gitment-comment">
+              <a class="gitment-comment-avatar">
+                <ng-container>
+                  <!--                <img-->
+                  <!--                  [src]="'data:' + userProfile!.profilePicContentType + ';base64,' + userProfile!.profilePic"-->
+                  <!--                  alt="Player Image"-->
+                  <!--                />-->
+                  <img
+                    style="width: 44px; height: 44px; border-radius: 3px"
+                    src="../../../../content/images/DefaultProfilePicture.jpg"
+                    alt="default player image"
+                  />
+                </ng-container>
+                <ng-template #defaultImage>
+                  <img src="../../../../content/images/DefaultProfilePicture.jpg" alt="default player image" />
+                </ng-template>
+              </a>
+              <div class="gitment-comment-main">
+                <div class="gitment-comment-header">
+                  <a class="gitment-comment-name" style="display: flex; align-items: center">
+                    {{ comment!.author!.id | userNamePipe: users! }}
+                    <div style="margin-left: 20px" class="rating-content" [attr.data-rating]="comment.rating">
+                      <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+                    </div>
+                  </a>
 
-                <div class="gitment-comment-like-btn" style="float: right">
-                  <svg class="gitment-heart-icon" (click)="toggleLike(comment)" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50">
-                    <path
-                      [attr.fill]="comment.isLiked ? 'red' : 'gray'"
-                      d="M25 39.7l-.6-.5C11.5 28.7 8 25 8 19c0-5 4-9 9-9 4.1 0 6.4 2.3 8 4.1 1.6-1.8 3.9-4.1 8-4.1 5 0 9 4 9 9 0 6-3.5 9.7-16.4 20.2l-.6.5zM17 12c-3.9 0-7 3.1-7 7 0 5.1 3.2 8.5 15 18.1 11.8-9.6 15-13 15-18.1 0-3.9-3.1-7-7-7-3.5 0-5.4 2.1-6.9 3.8L25 17.1l-1.1-1.3C22.4 14.1 20.5 12 17 12z"
-                    ></path>
-                  </svg>
-                  {{ comment.likeCount }}
+                  <div class="gitment-comment-like-btn" style="float: right">
+                    <svg class="gitment-heart-icon" (click)="toggleLike(comment)" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50">
+                      <path
+                        [attr.fill]="comment.isLiked ? 'red' : 'gray'"
+                        d="M25 39.7l-.6-.5C11.5 28.7 8 25 8 19c0-5 4-9 9-9 4.1 0 6.4 2.3 8 4.1 1.6-1.8 3.9-4.1 8-4.1 5 0 9 4 9 9 0 6-3.5 9.7-16.4 20.2l-.6.5zM17 12c-3.9 0-7 3.1-7 7 0 5.1 3.2 8.5 15 18.1 11.8-9.6 15-13 15-18.1 0-3.9-3.1-7-7-7-3.5 0-5.4 2.1-6.9 3.8L25 17.1l-1.1-1.3C22.4 14.1 20.5 12 17 12z"
+                      ></path>
+                    </svg>
+                    {{ comment.likeCount }}
+                  </div>
+                </div>
+                <div class="gitment-comment-body gitment-markdown">
+                  <p>{{ comment.content }}</p>
                 </div>
               </div>
-              <div class="gitment-comment-body gitment-markdown">
-                <p>{{ comment.content }}</p>
-              </div>
-            </div>
-          </li>
-        </ng-container>
-        <!--        <li class="gitment-comment">-->
-        <!--          <a class="gitment-comment-avatar">-->
-        <!--            <img class="gitment-comment-avatar-img" src="../images/default-avatar.png">-->
-        <!--          </a>-->
-        <!--          <div class="gitment-comment-main">-->
-        <!--            <div class="gitment-comment-header">-->
-        <!--              <a class="gitment-comment-name">-->
-        <!--                张三-->
-        <!--              </a>-->
-        <!--              <span>2018.05.17</span>-->
+            </li>
+          </ng-container>
+        </div>
+        <div *ngIf="this.sectionToShow == 'Match'">
+          <ng-container *ngFor="let comment of commentsTo">
+            <li class="gitment-comment">
+              <a class="gitment-comment-avatar">
+                <ng-container>
+                  <!--                <img-->
+                  <!--                  [src]="'data:' + userProfile!.profilePicContentType + ';base64,' + userProfile!.profilePic"-->
+                  <!--                  alt="Player Image"-->
+                  <!--                />-->
+                  <img
+                    style="width: 44px; height: 44px; border-radius: 3px"
+                    src="../../../../content/images/DefaultProfilePicture.jpg"
+                    alt="default player image"
+                  />
+                </ng-container>
+                <ng-template #defaultImage>
+                  <img src="../../../../content/images/DefaultProfilePicture.jpg" alt="default player image" />
+                </ng-template>
+              </a>
+              <div class="gitment-comment-main">
+                <div class="gitment-comment-header">
+                  <a class="gitment-comment-name" style="display: flex; align-items: center">
+                    {{ comment!.author!.id | userNamePipe: users! }}
+                  </a>
 
-        <!--              <div class="gitment-comment-like-btn">-->
-        <!--                <svg class="gitment-heart-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50">-->
-        <!--                  <path d="M25 39.7l-.6-.5C11.5 28.7 8 25 8 19c0-5 4-9 9-9 4.1 0 6.4 2.3 8 4.1 1.6-1.8 3.9-4.1 8-4.1 5 0 9 4 9 9 0 6-3.5 9.7-16.4 20.2l-.6.5zM17 12c-3.9 0-7 3.1-7 7 0 5.1 3.2 8.5 15 18.1 11.8-9.6 15-13 15-18.1 0-3.9-3.1-7-7-7-3.5 0-5.4 2.1-6.9 3.8L25 17.1l-1.1-1.3C22.4 14.1 20.5 12 17 12z"></path>-->
-        <!--                </svg>-->
-        <!--                22-->
-        <!--              </div>-->
-        <!--            </div>-->
-        <!--            <div class="gitment-comment-body gitment-markdown"><p>评论的内容评论的内容评论的内容评论的内容评论的内容-->
-        <!--              评论的内容评论的内容评论的内容评论的内容评论的内容评论的内容-->
-        <!--              评论的内容评论的内容评论的内容评论的内容评论的内容评论的内容评论的内容-->
-        <!--              评论的内容评论的内容评论的内容评论的内容</p></div>-->
-        <!--          </div>-->
-        <!--        </li>-->
+                  <div class="gitment-comment-like-btn" style="float: right">
+                    <svg class="gitment-heart-icon" (click)="toggleLike(comment)" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50">
+                      <path
+                        [attr.fill]="comment.isLiked ? 'red' : 'gray'"
+                        d="M25 39.7l-.6-.5C11.5 28.7 8 25 8 19c0-5 4-9 9-9 4.1 0 6.4 2.3 8 4.1 1.6-1.8 3.9-4.1 8-4.1 5 0 9 4 9 9 0 6-3.5 9.7-16.4 20.2l-.6.5zM17 12c-3.9 0-7 3.1-7 7 0 5.1 3.2 8.5 15 18.1 11.8-9.6 15-13 15-18.1 0-3.9-3.1-7-7-7-3.5 0-5.4 2.1-6.9 3.8L25 17.1l-1.1-1.3C22.4 14.1 20.5 12 17 12z"
+                      ></path>
+                    </svg>
+                    {{ comment.likeCount }}
+                  </div>
+                </div>
+                <div class="gitment-comment-body gitment-markdown">
+                  <p>{{ comment.content }}</p>
+                </div>
+              </div>
+            </li>
+          </ng-container>
+        </div>
       </ul>
     </div>
   </div>

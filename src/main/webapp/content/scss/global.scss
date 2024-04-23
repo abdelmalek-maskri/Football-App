@@ -213,9 +213,13 @@ angular-cli removes postcss-rtl processed inline css, processed rules must be ad
 /* jhipster-needle-scss-add-main JHipster will add new css style */
 
 .dark {
-  transition: all 1s;
+  transition: all 1.5s;
   filter: invert(1) hue-rotate(180deg);
   img {
+    transition: all 1.5s;
+    filter: invert(1) hue-rotate(-180deg);
+  }
+  #LoggedInMessage {
     filter: invert(1) hue-rotate(-180deg);
   }
 }

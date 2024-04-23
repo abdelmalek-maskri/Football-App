@@ -6,7 +6,7 @@
 </head>
 <body>
   <div class="image-container"><img src="../../../../content/images/Leaderboard_background.png" alt="" /></div>
-  <h1 style="margin: 10px; font-size: 48px; color: #446a37">LEADERBOARDS</h1>
+  <h1 class="banner-container-page-title">LEADERBOARDS</h1>
   <div class="container">
     <div class="button-container">
       <div class="title-box">
@@ -31,9 +31,17 @@
             </ng-template>
             <div class="bl">
               <div style="float: left; margin-left: 15px; font-size: 20px">{{ userProfile.name }}</div>
-              <div class="rating-content" [attr.data-rating]="userProfile.averageRating">
-                <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
-              </div>
+              <ng-container *ngIf="userProfile.averageRating; else noRating">
+                <div class="rating-content" [attr.data-rating]="userProfile.averageRating">
+                  <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+                </div>
+              </ng-container>
+              <ng-template #noRating>
+                <div class="rating-content" [attr.data-rating]="userProfile.averageRating">
+                  <span>No Rating</span>
+                </div>
+              </ng-template>
+
               <div>
                 <div class="comment_span">{{ userProfile.contentOfHighestLikedComment }}</div>
                 <span class="num" *ngIf="userProfile.averageRating">{{ userProfile.averageRating }}</span>
@@ -46,9 +54,9 @@
       <ng-template #noPlayer>
         <span>Currently no player!</span>
       </ng-template>
-      <button style="float: left; margin: 10px" (click)="prevUserPage()" [disabled]="currentUserPage === 1">< prevPage</button>
-      <button style="float: right; margin: 10px" (click)="nextUserPage()" [disabled]="getUserEndIndex() >= userProfiles!.length">
-        nextPage
+      <button style="float: left; margin-left: 10px" (click)="prevUserPage()" [disabled]="currentUserPage === 1">< prevPage</button>
+      <button style="float: right; margin-right: 10px" (click)="nextUserPage()" [disabled]="getUserEndIndex() >= userProfiles!.length">
+        nextPage >
       </button>
     </div>
 
@@ -64,7 +72,7 @@
         >
           <div class="column" (click)="navigateToMatchLD(match.id)">
             <div class="bl">
-              <div style="float: left; margin-left: 15px; font-size: 20px">Match{{ match.id }}</div>
+              <div style="float: left; margin-left: 15px; font-size: 20px">{{ match?.home?.name }} vs {{ match?.away?.name }}</div>
               <br />
               <span>{{ match.date | formatMediumDatetime }}</span>
               <div></div>
@@ -80,9 +88,6 @@
   </div>
 </body>
 
-<div class="floating-widget">
-  <!-- 悬浮窗内容 -->
-</div>
 <div *jhiHasAnyAuthority="'ROLE_ADMIN'">
   <h2 id="page-heading" data-cy="CommentHeading">
     <span>Comments</span>
