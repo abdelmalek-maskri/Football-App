@@ -34,7 +34,7 @@
   font-size: 2em;
   max-width: 25%;
   position: absolute;
-  top: 10%;
+  top: 15%;
   left: 3%;
 }
 
@@ -48,6 +48,12 @@
   position: absolute;
   top: 60px;
   right: 15px;
+}
+
+#GetStartedButton {
+  top: 75px;
+  right: 15px;
+  position: absolute;
 }
 
 // OLD HOME PAGE STYLES:
@@ -75,7 +81,9 @@ Main page styles
   }
 }
 
-$color: #2194e0;
+// Get Started Button Styles:
+
+$color: #ffffff;
 
 @keyframes sheen {
   0% {
@@ -86,18 +94,11 @@ $color: #2194e0;
   }
 }
 
-.wrapper {
-  display: block;
-  position: absolute;
-  margin-top: 45%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
 .button {
   padding: 0.75em 2em;
   text-align: center;
   text-decoration: none;
-  color: $color;
+  color: white;
   border: 2px solid $color;
   font-size: 24px;
   display: inline-block;
@@ -118,8 +119,8 @@ $color: #2194e0;
     transition: none;
   }
   &:hover {
-    background-color: $color;
-    color: #fff;
+    background-color: #025f35;
+    color: white;
     border-bottom: 4px solid darken($color, 10%);
     &:before {
       transform: skewX(-45deg) translateX(13.5em);
