@@ -25,6 +25,7 @@ import { Account } from '../../../core/auth/account.model';
 @Component({
   selector: 'jhi-user-profile-update',
   templateUrl: './user-profile-update.component.html',
+  styleUrls: ['../../../../content/scss/updatePage.scss'],
 })
 export class UserProfileUpdateComponent implements OnInit {
   isSaving = false;

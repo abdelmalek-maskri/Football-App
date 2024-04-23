@@ -13,6 +13,7 @@ import { TeamService } from 'app/entities/team/service/team.service';
 @Component({
   selector: 'jhi-tournament-update',
   templateUrl: './tournament-update.component.html',
+  styleUrls: ['../../../../content/scss/updatePage.scss'],
 })
 export class TournamentUpdateComponent implements OnInit {
   isSaving = false;

@@ -314,6 +314,19 @@
             <li *ngSwitchCase="true">
               <a
                 class="dropdown-item"
+                [routerLink]="['/available-date/new']"
+                routerLinkActive="active"
+                (click)="collapseNavbar()"
+                data-cy="avaliability"
+              >
+                <fa-icon icon="calendar" [fixedWidth]="true"></fa-icon>
+                <span>Add Availability</span>
+              </a>
+            </li>
+
+            <li *ngSwitchCase="true">
+              <a
+                class="dropdown-item"
                 routerLink="account/settings"
                 routerLinkActive="active"
                 (click)="collapseNavbar()"
