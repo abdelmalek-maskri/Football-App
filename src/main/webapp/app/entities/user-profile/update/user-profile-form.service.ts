@@ -70,8 +70,12 @@ export class UserProfileFormService {
       gender: new FormControl(userProfileRawValue.gender, {
         validators: [Validators.required],
       }),
-      location: new FormControl(userProfileRawValue.location),
-      position: new FormControl(userProfileRawValue.position),
+      location: new FormControl(userProfileRawValue.location, {
+        validators: [Validators.required],
+      }),
+      position: new FormControl(userProfileRawValue.position, {
+        validators: [Validators.required],
+      }),
       referee: new FormControl(userProfileRawValue.referee, {
         validators: [Validators.required],
       }),

@@ -12,62 +12,68 @@
               <a (click)="openFile(userProfile.profilePic, userProfile.profilePicContentType)">
                 <img
                   [src]="'data:' + userProfile.profilePicContentType + ';base64,' + userProfile.profilePic"
-                  alt="userProfile image"
+                  alt="user's profile picture"
                   class="userProfilePic"
                 />
               </a>
             </div>
           </dd>
-          <svg width="200" height="100" xmlns="http://www.w3.org/2000/svg" version="1.1">
-            <g transform="translate(0, 0)">
-              <polygon
-                points="25,7 30.5,17.5 41,17.5 33,25 35.5,35.5 25,30 14.5,35.5 17,25 11,17.5 19.5,17.5"
-                [style.fill]="userRating >= 1 ? 'green' : 'none'"
-                style="stroke: green; stroke-width: 1px"
-              />
-            </g>
-            <g transform="translate(40, 0)">
-              <polygon
-                points="25,7 30.5,17.5 41,17.5 33,25 35.5,35.5 25,30 14.5,35.5 17,25 11,17.5 19.5,17.5"
-                [style.fill]="userRating >= 2 ? 'green' : 'none'"
-                style="stroke: green; stroke-width: 1px"
-              />
-            </g>
-            <g transform="translate(80, 0)">
-              <polygon
-                points="25,7 30.5,17.5 41,17.5 33,25 35.5,35.5 25,30 14.5,35.5 17,25 11,17.5 19.5,17.5"
-                [style.fill]="userRating >= 3 ? 'green' : 'none'"
-                style="stroke: green; stroke-width: 1px"
-              />
-            </g>
-            <g transform="translate(120, 0)">
-              <polygon
-                points="25,7 30.5,17.5 41,17.5 33,25 35.5,35.5 25,30 14.5,35.5 17,25 11,17.5 19.5,17.5"
-                [style.fill]="userRating >= 4 ? 'green' : 'none'"
-                style="stroke: green; stroke-width: 1px"
-              />
-            </g>
-            <g transform="translate(160, 0)">
-              <polygon
-                points="25,7 30.5,17.5 41,17.5 33,25 35.5,35.5 25,30 14.5,35.5 17,25 11,17.5 19.5,17.5"
-                [style.fill]="userRating >= 5 ? 'green' : 'none'"
-                style="stroke: green; stroke-width: 1px"
-              />
-            </g>
-          </svg>
+          <a (click)="goToUsersComments(userProfile.id)">
+            <svg width="200" height="100" xmlns="http://www.w3.org/2000/svg" version="1.1">
+              <g transform="translate(0, 0)">
+                <polygon
+                  points="25,7 30.5,17.5 41,17.5 33,25 35.5,35.5 25,30 14.5,35.5 17,25 11,17.5 19.5,17.5"
+                  [style.fill]="userRating >= 1 ? 'green' : 'none'"
+                  style="stroke: green; stroke-width: 1px"
+                />
+              </g>
+              <g transform="translate(40, 0)">
+                <polygon
+                  points="25,7 30.5,17.5 41,17.5 33,25 35.5,35.5 25,30 14.5,35.5 17,25 11,17.5 19.5,17.5"
+                  [style.fill]="userRating >= 2 ? 'green' : 'none'"
+                  style="stroke: green; stroke-width: 1px"
+                />
+              </g>
+              <g transform="translate(80, 0)">
+                <polygon
+                  points="25,7 30.5,17.5 41,17.5 33,25 35.5,35.5 25,30 14.5,35.5 17,25 11,17.5 19.5,17.5"
+                  [style.fill]="userRating >= 3 ? 'green' : 'none'"
+                  style="stroke: green; stroke-width: 1px"
+                />
+              </g>
+              <g transform="translate(120, 0)">
+                <polygon
+                  points="25,7 30.5,17.5 41,17.5 33,25 35.5,35.5 25,30 14.5,35.5 17,25 11,17.5 19.5,17.5"
+                  [style.fill]="userRating >= 4 ? 'green' : 'none'"
+                  style="stroke: green; stroke-width: 1px"
+                />
+              </g>
+              <g transform="translate(160, 0)">
+                <polygon
+                  points="25,7 30.5,17.5 41,17.5 33,25 35.5,35.5 25,30 14.5,35.5 17,25 11,17.5 19.5,17.5"
+                  [style.fill]="userRating >= 5 ? 'green' : 'none'"
+                  style="stroke: green; stroke-width: 1px"
+                />
+              </g>
+            </svg>
+          </a>
 
           <img
             src="../../../content/images/refereeIcon.svg"
             *ngIf="userProfile?.referee; else playerTemplate"
-            alt="is Referee"
+            alt="Image indicating that the user is a referee"
             class="rating"
           />
 
           <ng-template #noPic>
-            <img src="../../../content/images/DefaultProfilePicture.jpg" alt="default image" class="userProfilePic" />
+            <img
+              src="../../../content/images/DefaultProfilePicture.jpg"
+              alt="Image of the default user rofile picture"
+              class="userProfilePic"
+            />
           </ng-template>
           <ng-template #playerTemplate>
-            <img src="../../../content/images/PlayerIcon.svg" alt="is Player" class="rating" />
+            <img src="../../../content/images/PlayerIcon.svg" alt="Image indicating that the user is a player" class="rating" />
           </ng-template>
           <ng-template #noTeam>
             <h3>Not currently playing for a team</h3>
@@ -125,7 +131,11 @@
             </div>
             <!-- add code to change image depending on position-->
             <figure class="text-center position-avaliability">
-              <img [src]="['../../../content/images/position-' + userProfile!.position + '.svg']" alt="position image" height="200" />
+              <img
+                [src]="['../../../content/images/position-' + userProfile!.position + '.svg']"
+                alt="Image indicating the user's position"
+                height="200"
+              />
               <span>{{ userProfile!.position }}</span>
             </figure>
           </div>
@@ -136,7 +146,11 @@
                 <h3>Team</h3>
                 <a [routerLink]="['/team', userProfile.team.id, 'view']" class="team-items">{{ usersTeam?.name }}</a>
                 <div *ngIf="usersTeam?.image; else playerTemplate" class="team-items">
-                  <img [src]="'data:' + usersTeam?.imageContentType + ';base64,' + usersTeam?.image" alt="team image" class="rating" />
+                  <img
+                    [src]="'data:' + usersTeam?.imageContentType + ';base64,' + usersTeam?.image"
+                    alt="image of team logo"
+                    class="rating"
+                  />
                 </div>
               </div>
             </div>

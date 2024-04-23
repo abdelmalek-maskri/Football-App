@@ -20,6 +20,7 @@ import { IComment } from '../../comment/comment.model';
 import { IContact } from '../../contact/contact.model';
 import { AvailableDateService } from '../../available-date/service/available-date.service';
 import dayjs, { Dayjs } from 'dayjs';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'jhi-user-profile-detail',
@@ -42,7 +43,8 @@ export class UserProfileDetailComponent implements OnInit {
     public matDialog: MatDialog,
     protected modalService: NgbModal,
     protected commentService: CommentService,
-    protected avaliableService: AvailableDateService
+    protected avaliableService: AvailableDateService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -112,6 +114,10 @@ export class UserProfileDetailComponent implements OnInit {
 
   openFile(base64String: string, contentType: string | null | undefined): void {
     this.dataUtils.openFile(base64String, contentType);
+  }
+
+  goToUsersComments(userProfileId: number) {
+    this.router.navigate(['/comment/detail', userProfileId], { queryParams: { section: 'Player' } });
   }
 
   previousState(): void {

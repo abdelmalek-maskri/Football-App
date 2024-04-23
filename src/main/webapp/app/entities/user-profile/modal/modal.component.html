@@ -3,14 +3,19 @@
     <h1 id="modal-title">Player Contact Details</h1>
   </header>
   <section id="modal-body">
-    <ul *ngFor="let contact of contactsList">
-      {{
-        contact.contactType
-      }}:
-      {{
-        contact.contactValue
-      }}
-    </ul>
+    <div *ngIf="contactsList!.length > 0">
+      <ul *ngFor="let contact of contactsList">
+        {{
+          contact.contactType
+        }}:
+        {{
+          contact.contactValue
+        }}
+      </ul>
+    </div>
+    <div *ngIf="contactsList!.length == 0">
+      <p>The user has no contact details available</p>
+    </div>
   </section>
   <footer id="modal-footer">
     <button mat-raised-button id="modal-cancel-button" (click)="closeModal()">Go back</button>
