@@ -170,3 +170,13 @@ li {
 .banner-container-page-title:hover {
   color: green; /* Change text color to green on hover */
 }
+
+$base-font-size: 16px;
+
+.dynamic-text-size {
+  font-size: 100%;
+}
+
+.dynamic-heading {
+  font-size: 150%;
+}

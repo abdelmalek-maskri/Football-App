@@ -8,7 +8,7 @@
       src="./../../../content/images/tournamentBackground-4.jpg"
       alt="tournament image"
     />
-    <h2>Football Tournament</h2>
+    <h2 class="dynamic-text-size" [style.fontSize]="fontSizeMultiplier * 5 + 'rem'">Football Tournament</h2>
   </div>
   <div class="sub-navbar">
     <div class="left-nav">
@@ -16,7 +16,7 @@
         <a class="link" href="/groups" target="_self">Groups</a>
       </div> -->
       <div class="relative-container" (mouseenter)="showDetails = true" (mouseleave)="hideDetails()">
-        <span class="link details-button" (click)="toggleDetails()"
+        <span (click)="toggleDetails()" class="dynamic-text-size link details-button" [style.fontSize]="fontSizeMultiplier + 'rem'"
           >Details <i (mouseenter)="showDetails = true" (mouseleave)="hideDetails()" (click)="toggleDetails()" class="arrow down"></i
         ></span>
         <div class="tournament-popUp" *ngIf="showDetails">
@@ -46,7 +46,9 @@
         </div>
       </div>
       <div>
-        <a class="link link2" [routerLink]="['/match']" target="_self">Matches</a>
+        <a [routerLink]="['/match']" target="_self" class="dynamic-text-size link link2" [style.fontSize]="fontSizeMultiplier + 'rem'"
+          >Matches</a
+        >
       </div>
     </div>
     <!-- <div *ngFor="let tournament of tournaments">
@@ -54,7 +56,15 @@
       <button id="join-button" (click)="joinTournament(tournament.id)">Join</button>
     </div> -->
     <div>
-      <button id="join-button" (click)="joinTournament()" title="JOIN PLEAASSE!">Join</button>
+      <button
+        id="join-button"
+        (click)="joinTournament()"
+        title="JOIN PLEAASSE!"
+        class="dynamic-text-size"
+        [style.fontSize]="fontSizeMultiplier + 'rem'"
+      >
+        Join
+      </button>
     </div>
   </div>
 
@@ -62,28 +72,37 @@
   <jhi-alert class="topAlert"></jhi-alert>
 
   <div class="tournament-container">
-    <div class="title"><h2>Tournament Details</h2></div>
+    <div class="title"><h2 class="dynamic-text-size" [style.fontSize]="fontSizeMultiplier * 2.5 + 'rem'">Tournament Details</h2></div>
 
     <ng-container *ngFor="let tournament of tournaments">
       <div *ngIf="tournament.teams && tournament.teams.length > 0" class="tournament-card">
         <div class="tournament-details">
-          <h2>{{ tournament.name }}</h2>
+          <h2 class="dynamic-text-size" [style.fontSize]="fontSizeMultiplier * 2.3 + 'rem'">{{ tournament.name }}</h2>
           <p class="detail">
-            <span id="tournament-info">Location:</span
-            ><span class="tournament-info">{{ tournament.location }} <span class="marker"></span></span>
+            <span id="tournament-info" class="dynamic-text-size" [style.fontSize]="fontSizeMultiplier + 'rem'">Location:</span
+            ><span class="dynamic-text-size tournament-info" [style.fontSize]="fontSizeMultiplier + 'rem'"
+              >{{ tournament.location }} <span class="marker"></span
+            ></span>
           </p>
           <p class="detail">
-            <span id="tournament-info">Max Teams:</span><span class="tournament-info">{{ tournament.maxTeams }}</span>
+            <span id="tournament-info" class="dynamic-text-size" [style.fontSize]="fontSizeMultiplier + 'rem'">Max Teams:</span
+            ><span class="dynamic-text-size tournament-info" [style.fontSize]="fontSizeMultiplier + 'rem'">{{ tournament.maxTeams }}</span>
           </p>
           <p class="detail">
-            <span id="tournament-info">Start Date:</span
-            ><span class="tournament-info">{{ tournament.startDate ? (tournament.startDate.toDate() | date) : 'N/A' }}</span>
+            <span id="tournament-info" class="dynamic-text-size" [style.fontSize]="fontSizeMultiplier + 'rem'">Start Date:</span
+            ><span class="dynamic-text-size tournament-info" [style.fontSize]="fontSizeMultiplier + 'rem'">{{
+              tournament.startDate ? (tournament.startDate.toDate() | date) : 'N/A'
+            }}</span>
           </p>
           <p class="detail">
-            <span id="tournament-info">End Date:</span
-            ><span class="tournament-info">{{ tournament.endDate ? (tournament.endDate.toDate() | date) : 'N/A' }}</span>
+            <span id="tournament-info" class="dynamic-text-size" [style.fontSize]="fontSizeMultiplier + 'rem'">End Date:</span
+            ><span class="dynamic-text-size tournament-info" [style.fontSize]="fontSizeMultiplier + 'rem'">{{
+              tournament.endDate ? (tournament.endDate.toDate() | date) : 'N/A'
+            }}</span>
           </p>
-          <p class="detail"><span id="tournament-info">Teams participating:</span></p>
+          <p class="detail">
+            <span id="tournament-info" class="dynamic-text-size" [style.fontSize]="fontSizeMultiplier + 'rem'">Teams participating:</span>
+          </p>
 
           <div class="team-list">
             <a class="team-item" *ngFor="let team of tournament.teams" [routerLink]="['/team', team.id, 'view']">
@@ -93,10 +112,18 @@
               <ng-template #defaultImage>
                 <img src="../../../../content/images/FootballIcon.png" alt="default team image" />
               </ng-template>
-              <p>{{ team.name }}</p>
+              <p class="dynamic-text-size" [style.fontSize]="fontSizeMultiplier + 'rem'">{{ team.name }}</p>
             </a>
             <div>
-              <button id="join-button2" (click)="joinTournament()" title="JOIN PLEAASSE!!">Join</button>
+              <button
+                id="join-button2"
+                (click)="joinTournament()"
+                title="JOIN PLEAASSE!!"
+                class="dynamic-text-size"
+                [style.fontSize]="fontSizeMultiplier + 'rem'"
+              >
+                Join
+              </button>
             </div>
           </div>
         </div>

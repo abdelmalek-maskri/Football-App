@@ -11,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import team.bham.domain.Match;
@@ -18,6 +19,7 @@ import team.bham.domain.Team;
 import team.bham.domain.UserProfile;
 import team.bham.repository.MatchRepository;
 import team.bham.repository.UserProfileRepository;
+import team.bham.security.AuthoritiesConstants;
 import team.bham.web.rest.errors.BadRequestAlertException;
 import tech.jhipster.web.util.HeaderUtil;
 import tech.jhipster.web.util.ResponseUtil;
@@ -53,6 +55,7 @@ public class MatchResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/matches")
+    @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.ADMIN + "\")")
     public ResponseEntity<Match> createMatch(@Valid @RequestBody Match match) throws URISyntaxException {
         log.debug("REST request to save Match : {}", match);
         if (match.getId() != null) {
@@ -76,6 +79,7 @@ public class MatchResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/matches/{id}")
+    @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.ADMIN + "\")")
     public ResponseEntity<Match> updateMatch(@PathVariable(value = "id", required = false) final Long id, @Valid @RequestBody Match match)
         throws URISyntaxException {
         log.debug("REST request to update Match : {}, {}", id, match);
@@ -109,6 +113,7 @@ public class MatchResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PatchMapping(value = "/matches/{id}", consumes = { "application/json", "application/merge-patch+json" })
+    @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.ADMIN + "\")")
     public ResponseEntity<Match> partialUpdateMatch(
         @PathVariable(value = "id", required = false) final Long id,
         @NotNull @RequestBody Match match
@@ -213,6 +218,7 @@ public class MatchResource {
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
     @DeleteMapping("/matches/{id}")
+    @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.ADMIN + "\")")
     public ResponseEntity<Void> deleteMatch(@PathVariable Long id) {
         log.debug("REST request to delete Match : {}", id);
         matchRepository.deleteById(id);

@@ -1,5 +1,4 @@
 @import url('https://fonts.googleapis.com/css2?family=Anton&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap');
 
 .sub-navbar {
   background-color: #5ada86;
@@ -120,43 +119,20 @@
   font-weight: 500;
   margin-bottom: 0.5rem;
   margin-top: 0;
-  // transition: color 1ms ease-in-out;
   font-family: 'Anton';
 }
 .image-container h2:hover {
   color: #5ada86;
 }
 
-// .container-page {
-//   background-color: #e6e6e6;
-// }
-
 .title {
-  //position: absolute;
-  //left:39%;
-  //top:55%;
   font-family: 'Anton';
   padding-bottom: 50px;
   font-size: 5.5vw;
   text-transform: uppercase;
   line-height: 6vw;
   text-shadow: 1px 1px 0px rgba(0, 0, 0, 0.5);
-
-  // background: linear-gradient(to right, white, white 50%, black 50%);
-  // -webkit-background-clip: text;
-  // background-clip: text;
-  // -webkit-text-fill-color: transparent;
-
-  // background-size: 202% 102%;
-  // background-position: 100%;
-
-  // transition effect
-  // transition: background-position 235ms ease-in-out;
 }
-
-// .title:hover {
-//   background-position: 0%;
-// }
 
 .tournament-container {
   display: flex;
@@ -206,21 +182,7 @@
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
-
-  // box-shadow: 0.1rem 0.1rem 0.2rem 0.1rem rgba(0, 0, 0, 0.1);
 }
-/* shadow (optional if you don't need a shadow) */
-// .marker::after {
-//   content: '';
-//   background: rgba(128, 128, 128, 0.2);
-//   width: 75%;
-//   height: 75%;
-//   border-radius: 100%;
-//   position: absolute;
-//   top: 100%;
-//   left: 100%;
-//   transform: translate(-50%, -50%) rotate(45deg) scaleX(0.5);
-// }
 
 .detail {
   margin-bottom: 10px;
@@ -324,4 +286,14 @@
   position: absolute;
   top: -10%;
   left: 40%;
+}
+
+$base-font-size: 16px;
+
+.dynamic-text-size {
+  font-size: 100%;
+}
+
+.dynamic-heading {
+  font-size: 150%;
 }
