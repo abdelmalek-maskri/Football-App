@@ -98,7 +98,7 @@
             <dt><span>Tournament</span></dt>
             <dd>
               <div *ngIf="match.tournament">
-                <a [routerLink]="['/tournament', match.tournament.id, 'view']">{{ match.tournament.name }}</a>
+                <a [routerLink]="['/tournament']">{{ match.tournament.name }}</a>
               </div>
             </dd>
           </div>
