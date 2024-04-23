@@ -3,14 +3,7 @@
 
   <div class="overlay" [ngSwitch]="account !== null">
     <span id="LoggedInMessage" *ngIf="account">Hello, {{ account.login | titlecase }}!</span>
-
-    <div id="title-box" style="margin-bottom: 28%">
-      <h1 id="title">Football Connect</h1>
-      <p style="text-align: center; color: black">Your Football Commuity</p>
-      <div class="wrapper" role="tablist">
-        <a tabindex="0" *ngSwitchCase="false" class="button" (click)="login()">Get Start -></a>
-      </div>
-    </div>
+    <a id="GetStartedButton" tabindex="0" *ngSwitchCase="false" class="button" (click)="login()">Get Started</a>
   </div>
 </div>
 
