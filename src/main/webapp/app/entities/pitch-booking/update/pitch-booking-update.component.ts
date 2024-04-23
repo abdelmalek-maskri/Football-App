@@ -15,6 +15,7 @@ import { FormBuilder } from '@angular/forms';
 import dayjs, { Dayjs } from 'dayjs';
 import { MatDatepickerInputEvent, MatDatepickerModule } from '@angular/material/datepicker';
 import { ChangeDetectorRef } from '@angular/core';
+import { tryUnwrapForwardRef } from '@angular/compiler-cli/src/ngtsc/annotations/common';
 
 @Component({
   selector: 'jhi-pitch-booking-update',
@@ -228,6 +229,7 @@ export class PitchBookingUpdateComponent implements OnInit {
   }
 
   // Function to handle date selection
+  selectedTimeSlot: any | boolean;
   onDateSelected(date: Date): void {
     console.log(this.filteredTimeSlots);
     console.log('Selected date:', date);
@@ -252,6 +254,7 @@ export class PitchBookingUpdateComponent implements OnInit {
     return dayjs(`${year}-${month}-${day}`);
   }
   onTimeSlotSelected(timeSlotValue: string): void {
+    this.selectedTimeSlot = true;
     console.log('slo Time: ' + timeSlotValue);
     [this.startTime, this.endTime] = timeSlotValue.split('-');
     console.log('Start Time:', this.startTime);

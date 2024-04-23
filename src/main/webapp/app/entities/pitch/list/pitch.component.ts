@@ -164,4 +164,11 @@ export class PitchComponent implements OnInit {
     const pitchModalComponentInstance = modalRef.componentInstance as PitchModalComponent;
     pitchModalComponentInstance.setModalRef(modalRef);
   }
+
+  scrollDown() {
+    window.scrollTo({
+      top: window.innerHeight,
+      behavior: 'smooth',
+    });
+  }
 }

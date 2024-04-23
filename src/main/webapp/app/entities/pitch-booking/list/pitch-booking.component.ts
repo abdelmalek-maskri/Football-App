@@ -25,6 +25,7 @@ export class PitchBookingComponent implements OnInit {
   predicate = 'id';
   ascending = true;
   keyword = '';
+  fontSizeMultiplier: number = 1; // Font size multiplier property
 
   constructor(
     protected pitchBookingService: PitchBookingService,
