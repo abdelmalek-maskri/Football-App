@@ -19,6 +19,7 @@ import { TournamentService } from 'app/entities/tournament/service/tournament.se
 @Component({
   selector: 'jhi-match-update',
   templateUrl: './match-update.component.html',
+  styleUrls: ['../../../../content/scss/updatePage.scss'],
 })
 export class MatchUpdateComponent implements OnInit {
   isSaving = false;
