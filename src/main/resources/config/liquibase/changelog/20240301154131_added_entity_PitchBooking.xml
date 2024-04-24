@@ -14,6 +14,11 @@
             <column name="id" type="bigint">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
+
+            <column name="user_profile_id" type="bigint">
+                <constraints primaryKey="false" nullable="false"/>
+            </column>
+
             <column name="booking_date" type="${datetimeType}">
                 <constraints nullable="false" />
             </column>
@@ -46,6 +51,7 @@
           This can be customized by adding or removing 'faker' in the 'spring.liquibase.contexts'
           Spring Boot configuration key.
     -->
+    <!--
     <changeSet id="20240301154131-1-data" author="jhipster" context="faker">
         <loadData
                   file="config/liquibase/fake-data/pitch_booking.csv"
@@ -56,7 +62,8 @@
             <column name="booking_date" type="date"/>
             <column name="start_time" type="date"/>
             <column name="end_time" type="date"/>
-            <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here -->
+
         </loadData>
     </changeSet>
+    -->
 </databaseChangeLog>
