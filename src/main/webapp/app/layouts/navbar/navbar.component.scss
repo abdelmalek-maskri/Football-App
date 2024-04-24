@@ -181,6 +181,35 @@ $base-font-size: 16px; /* Adjusted base font size to 16px */
 .dynamic-heading {
   font-size: 150%; /* Default heading font size, adjusted relative to parent element */
 }
+
+.font-size-slider-container {
+  display: flex;
+  flex-direction: row;
+  align-content: center;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  margin-left: 1em;
+  p {
+    //background-color: white;
+    color: white;
+    margin: 0;
+  }
+  input {
+    //background-color: pink;
+    margin: 0;
+  }
+  //background-color: red;
+  .lowerA {
+    font-size: 17px;
+    color: white;
+  }
+  .upperA {
+    font-size: 30px;
+    color: white;
+  }
+}
+
 .font-size-slider {
   color: black;
 }
@@ -190,7 +219,7 @@ $base-font-size: 16px; /* Adjusted base font size to 16px */
   appearance: none;
 
   width: 100%;
-  height: 15px;
+  height: 10px;
 
   //background color
   background: black;
@@ -204,8 +233,8 @@ $base-font-size: 16px; /* Adjusted base font size to 16px */
   -webkit-appearance: none;
   appearance: none;
 
-  width: 17px;
-  height: 17px;
+  width: 14.5px;
+  height: 14.5px;
   background: white;
   border-radius: 50%;
   cursor: pointer;

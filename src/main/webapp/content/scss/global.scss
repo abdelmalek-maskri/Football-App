@@ -224,4 +224,10 @@ angular-cli removes postcss-rtl processed inline css, processed rules must be ad
   #LoggedInMessage {
     filter: invert(1) hue-rotate(-180deg);
   }
+  #navbar {
+    filter: invert(1) hue-rotate(-180deg);
+    a {
+      filter: invert(1) hue-rotate(-180deg);
+    }
+  }
 }

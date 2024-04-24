@@ -9,6 +9,7 @@ const initialAccount: Account = {} as Account;
 @Component({
   selector: 'jhi-settings',
   templateUrl: './settings.component.html',
+  styleUrls: ['./settings.component.scss'],
 })
 export class SettingsComponent implements OnInit {
   success = false;

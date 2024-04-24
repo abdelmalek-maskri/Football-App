@@ -88,7 +88,8 @@ li {
   height: auto;
 }
 .player_img {
-  width: 25%;
+  height: 100px;
+  width: 100px;
   height: auto;
   float: left;
 }
@@ -98,6 +99,8 @@ li {
   align-items: center;
   height: 80vh;
   overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis; /* 使用省略号截断 */
 }
 
 .button-container {
@@ -126,6 +129,9 @@ li {
   flex-wrap: wrap;
   background-color: #f7f7f7;
 }
+.list:focus {
+  border: 1px solid #ccc;
+}
 .column {
   flex: 1 1 20%; /* 每列占据 20% 的宽度 */
   padding: 10px;
@@ -133,12 +139,13 @@ li {
 }
 .comment_span {
   margin-left: 10px;
-  background-image: url('../../../../content/images/Comment_Background.png');
   background-size: cover;
   display: inline-block;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  width: 42%;
+  height: 15%;
 }
 
 .floating-widget {
@@ -157,7 +164,7 @@ li {
 .banner-container-page-title {
   position: absolute;
   font-family: 'Anton', sans-serif;
-  top: 0.75em; /* Adjust top positioning as needed */
+  top: 1.5em; /* Adjust top positioning as needed */
   right: 1em; /* Adjust left positioning as needed */
   text-transform: uppercase;
   line-height: 6vw;
@@ -166,6 +173,8 @@ li {
   color: white; /* White text color */
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Text shadow for better visibility */
   transition: color 0.3s ease; /* Smooth transition for color change */
+  text-decoration: none;
+  cursor: pointer;
 }
 .banner-container-page-title:hover {
   color: green; /* Change text color to green on hover */
