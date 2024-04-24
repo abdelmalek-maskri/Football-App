@@ -12,7 +12,9 @@
   -->
 
   <img id="pageBanner" src="../../../../content/images/FootballTeamsPageBanner.png" alt="Football Team at UoB" />
-  <h1 class="dynamic-text-size banner-container-page-title" [style.fontSize]="fontSizeMultiplier * 4 + 'rem'">TEAMS</h1>
+  <a class="dynamic-text-size banner-container-page-title" [style.fontSize]="fontSizeMultiplier * 4 + 'rem'" (click)="scrollDown()"
+    >TEAMS</a
+  >
 
   <h1 class="dynamic-text-size page-title" [style.fontSize]="fontSizeMultiplier * 3 + 'rem'">Teams</h1>
 

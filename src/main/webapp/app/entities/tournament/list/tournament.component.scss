@@ -107,19 +107,21 @@
 }
 .image-container-h2 {
   position: absolute;
-  z-index: 13;
-  color: white;
-  font-size: 5.5vw;
+  font-family: 'Anton', sans-serif;
+  right: 1em;
+  top: 15%;
   text-transform: uppercase;
-  right: 10%;
-  top: 8%;
-  width: 30vw;
   line-height: 6vw;
-  text-shadow: 5px 3px 0px var(--rt-dark-blue);
-  font-weight: 500;
+  font-size: 5vw;
+  font-weight: bold;
+  color: white;
+  //text-shadow: 5px 3px 0px var(--rt-dark-blue);
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  transition: color 0.3s ease; /* Smooth transition for color change */
+  /*
+  width: 30vw;
   margin-bottom: 0.5rem;
-  margin-top: 0;
-  font-family: 'Anton';
+  margin-top: 0;*/
   text-decoration: none;
   cursor: pointer;
 }
@@ -131,6 +133,7 @@
   font-family: 'Anton';
   padding-bottom: 50px;
   font-size: 5.5vw;
+  //font-size: 1em;
   text-transform: uppercase;
   line-height: 6vw;
   text-shadow: 1px 1px 0px rgba(0, 0, 0, 0.5);

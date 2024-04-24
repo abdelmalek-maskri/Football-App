@@ -163,4 +163,10 @@ export class TeamComponent implements OnInit {
       return [predicate + ',' + ascendingQueryParam];
     }
   }
+  scrollDown() {
+    window.scrollTo({
+      top: window.innerHeight,
+      behavior: 'smooth',
+    });
+  }
 }

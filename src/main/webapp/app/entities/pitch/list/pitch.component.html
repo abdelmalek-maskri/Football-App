@@ -1,19 +1,22 @@
 <div id="pitch-page">
   <div class="banner-container">
     <img id="banner-container-image" src="content/images/banner-pitch.jpg" alt="image for banner" />
-    <h1 class="banner-container-page-title dynamic-text-size" [style.fontSize]="fontSizeMultiplier * 3.3 + 'rem'">PITCHES</h1>
-    <a class="banner-container-page-text dynamic-text-size" [style.fontSize]="fontSizeMultiplier * 2.5 + 'rem'" (click)="scrollDown()"
-      >Book the available pitches here!</a
+    <a class="banner-container-page-title dynamic-text-size" [style.fontSize]="fontSizeMultiplier * 3.3 + 'rem'" (click)="scrollDown()"
+      >PITCHES</a
     >
   </div>
   <jhi-alert-error></jhi-alert-error>
   <jhi-alert></jhi-alert>
-  <h1 class="dynamic-text-size page-title" [style.fontSize]="fontSizeMultiplier * 3 + 'rem'">Pitches</h1>
 
   <div id="top-row">
-    <div id="top-row-left-aligned"></div>
+    <div id="top-row-left-aligned">
+      <h1 class="dynamic-text-size page-title" [style.fontSize]="fontSizeMultiplier * 3 + 'rem'">Pitches</h1>
+    </div>
     <div id="top-row-right-aligned">
-      <!-- <a id="create-pitch-button" href="/pitch-booking">CREATE PITCH</a> -->
+      <input type="button" id="filter-button" style="display: none" />
+      <a class="dynamic-text-size" [style.fontSize]="fontSizeMultiplier * 1.5 + 'rem'" id="create-pitch-button" href="/pitch-booking"
+        >VIEW PITCH BOOKINGS</a
+      >
     </div>
   </div>
 
