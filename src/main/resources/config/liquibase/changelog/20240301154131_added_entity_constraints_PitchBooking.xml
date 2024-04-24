@@ -14,6 +14,12 @@
                                  referencedColumnNames="id"
                                  referencedTableName="team"/>
 
+        <addForeignKeyConstraint baseColumnNames="user_profile_id"
+                                 baseTableName="pitch_booking"
+                                 constraintName="fk_pitch_booking__user_profile_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="user_profile"/>
+
         <addForeignKeyConstraint baseColumnNames="pitch_id"
                                  baseTableName="pitch_booking"
                                  constraintName="fk_pitch_booking__pitch_id"

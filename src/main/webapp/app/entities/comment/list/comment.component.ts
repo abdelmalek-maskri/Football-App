@@ -254,4 +254,10 @@ export class CommentComponent implements OnInit {
   navigateToMatchLD(id: number): void {
     this.router.navigate(['./comment/detail', id], { queryParams: { section: 'Match' } });
   }
+  scrollDown() {
+    window.scrollTo({
+      top: window.innerHeight,
+      behavior: 'smooth',
+    });
+  }
 }

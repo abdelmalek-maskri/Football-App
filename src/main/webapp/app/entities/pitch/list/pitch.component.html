@@ -15,7 +15,7 @@
     <div id="top-row-right-aligned">
       <input type="button" id="filter-button" style="display: none" />
       <a class="dynamic-text-size" [style.fontSize]="fontSizeMultiplier * 1.5 + 'rem'" id="create-pitch-button" href="/pitch-booking"
-        >VIEW PITCH BOOKINGS</a
+        >VIEW YOUR PITCH BOOKINGS</a
       >
     </div>
   </div>
@@ -29,7 +29,7 @@
     <!-- <a *ngFor="let pitch of pitches" class="card" [routerLink]="['/pitch-booking/new']"> -->
     <a *ngFor="let pitch of pitches" class="card" (click)="openModal(pitch)">
       <div class="card-content">
-        <img src="content/images/bournbrook.jpg" />
+        <img src="content/images/bournbrook.jpg" alt="banner for cards" />
         <div id="inner-card-content">
           <h1>{{ pitch.name }}</h1>
           <!-- <img src="content/images/logo-pitch.png" /> -->

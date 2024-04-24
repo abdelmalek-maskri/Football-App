@@ -7,6 +7,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import team.bham.domain.Pitch;
 import team.bham.domain.PitchBooking;
+import team.bham.domain.User;
 
 /**
  * Spring Data JPA repository for the PitchBooking entity.
