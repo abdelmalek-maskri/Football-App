@@ -21,6 +21,8 @@
   color: white; /* White text color */
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Text shadow for better visibility */
   transition: color 0.3s ease; /* Smooth transition for color change */
+  text-decoration: none; /* Remove underline */
+  cursor: pointer; /* Change cursor to indicate clickable */
 }
 .banner-container-page-title:hover {
   color: green; /* Change text color to green on hover */
@@ -197,12 +199,23 @@
   display: flex;
 
   img {
-    width: 50%;
-    height: 50%;
+    width: 38%;
+    height: 38%;
     order: 1; /* Set the order to 1 to make it appear on the left */
   }
   h1 {
     flex: 1; /* Take up remaining space */
     order: 2; /* Set the order to 2 to make it appear on the right */
+    font-size: 0.8em;
   }
+}
+
+$base-font-size: 16px;
+
+.dynamic-text-size {
+  font-size: 100%;
+}
+
+.dynamic-heading {
+  font-size: 150%;
 }

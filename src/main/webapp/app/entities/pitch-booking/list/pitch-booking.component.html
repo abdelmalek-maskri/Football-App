@@ -1,7 +1,9 @@
 <div id="pitch-booking-page">
   <div class="banner-container">
     <img id="banner-container-image" src="content/images/banner_pitch_bookings.jpg" alt="image for banner" />
-    <h1 class="banner-container-page-title">PITCH BOOKINGS</h1>
+    <a class="banner-container-page-title dynamic-text-size" (click)="scrollDown()" [style.fontSize]="fontSizeMultiplier * 3.3 + 'rem'"
+      >PITCH BOOKINGS</a
+    >
   </div>
   <jhi-alert-error></jhi-alert-error>
   <jhi-alert></jhi-alert>
@@ -22,9 +24,9 @@
     <!-- <a *ngFor="let pitch of pitches" class="card" [routerLink]="['/pitch-booking/new']"> -->
     <a *ngFor="let pitchBooking of pitchBookings" class="card" (click)="openModal(pitchBooking)">
       <div class="card-content">
-        <img src="content/images/bournbrook.jpg" />
+        <img class="banner-image-for-the-container" src="content/images/bournbrook.jpg" />
         <div id="inner-card-content">
-          <h1>View Booking</h1>
+          <h1 class="view-booking-text">View Booking {{ pitchBooking.bookingDate }}</h1>
           <img src="content/images/logo-pitch.png" />
         </div>
       </div>

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Data, ParamMap, Router } from '@angular/router';
-import { combineLatest, filter, Observable, switchMap, tap } from 'rxjs';
+import { combineLatest, filter, switchMap, tap } from 'rxjs';
 import { NgbModal, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
 
 import { IPitchBooking } from '../pitch-booking.model';
@@ -11,6 +11,10 @@ import { SortService } from 'app/shared/sort/sort.service';
 import { IPitch } from '../../pitch/pitch.model';
 import { PitchModalComponent } from '../../pitch/modal/pitch-modal.component';
 import { PitchBookingModalComponent } from '../booking-modal/pitch-booking-modal.component';
+import { Account } from 'app/core/auth/account.model';
+import { FontResizeService } from '../../../layouts/navbar/navbar.service';
+import { Observable } from 'rxjs';
+import { VERSION } from 'app/app.constants';
 
 @Component({
   selector: 'jhi-pitch-booking',
@@ -25,15 +29,17 @@ export class PitchBookingComponent implements OnInit {
   predicate = 'id';
   ascending = true;
   keyword = '';
+  version = '';
+  account: Account | null = null;
   fontSizeMultiplier: number = 1; // Font size multiplier property
-
   constructor(
     protected pitchBookingService: PitchBookingService,
     protected activatedRoute: ActivatedRoute,
     public router: Router,
     protected sortService: SortService,
     protected modalService: NgbModal,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private fontResizeService: FontResizeService
   ) {}
 
   trackId = (_index: number, item: IPitchBooking): number => this.pitchBookingService.getPitchBookingIdentifier(item);
@@ -45,6 +51,9 @@ export class PitchBookingComponent implements OnInit {
       if (params.pitch) {
         this.pitch = JSON.parse(params.pitch);
       }
+    });
+    this.fontResizeService.fontSizeMultiplier$.subscribe(multiplier => {
+      this.fontSizeMultiplier = multiplier;
     });
   }
 
@@ -151,6 +160,21 @@ export class PitchBookingComponent implements OnInit {
         this.isLoading = false;
         this.onResponseSuccess(res);
       },
+    });
+  }
+  // Font size adjustment methods
+  getFontSizeKey(): string {
+    return `fontSizeMultiplier_${this.account?.login || 'default'}`;
+  }
+
+  updateFontSize(): void {
+    localStorage.setItem(this.getFontSizeKey(), this.fontSizeMultiplier.toString());
+    this.fontResizeService.setFontSizeMultiplier(this.fontSizeMultiplier);
+  }
+  scrollDown() {
+    window.scrollTo({
+      top: window.innerHeight,
+      behavior: 'smooth',
     });
   }
 }
