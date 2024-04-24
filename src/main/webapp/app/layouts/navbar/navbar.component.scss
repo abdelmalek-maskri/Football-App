@@ -185,6 +185,32 @@ $base-font-size: 16px; /* Adjusted base font size to 16px */
   color: black;
 }
 
+.font-size-slider {
+  -webkit-appearance: none;
+  appearance: none;
+
+  width: 100%;
+  height: 15px;
+
+  //background color
+  background: black;
+  // Rounded corners
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+// the appearance of the thumb
+.font-size-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+
+  width: 17px;
+  height: 17px;
+  background: white;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
 .selectEffect {
   display: block;
   font-size: 14px;

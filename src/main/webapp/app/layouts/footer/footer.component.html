@@ -1,9 +1,11 @@
 <div class="footer">
   <br />
   <div style="display: flex; gap: 1em; justify-content: center">
-    <a href="/gdpr">GDPR Policy</a>
-    <a href="/cookie-policy">Cookie Policy</a>
+    <a href="/gdpr" class="dynamic-text-size" [style.fontSize]="fontSizeMultiplier + 'rem'">GDPR Policy</a>
+    <a href="/cookie-policy" class="dynamic-text-size" [style.fontSize]="fontSizeMultiplier + 'rem'">Cookie Policy</a>
   </div>
   <br />
-  <p>You are accessing an experimental web application developed by participants of the Team Project 2024 module.</p>
+  <p class="dynamic-text-size" [style.fontSize]="fontSizeMultiplier + 'rem'">
+    You are accessing an experimental web application developed by participants of the Team Project 2024 module.
+  </p>
 </div>
