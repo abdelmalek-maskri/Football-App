@@ -33,7 +33,7 @@ export class CommentComponent implements OnInit {
   ascending = true;
   userPerPage = 3;
   currentUserPage = 1;
-  matchPerPage = 6;
+  matchPerPage = 5;
   currentMatchPage = 1;
 
   version = '';
