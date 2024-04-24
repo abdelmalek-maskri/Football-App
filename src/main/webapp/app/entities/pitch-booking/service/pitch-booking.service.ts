@@ -68,6 +68,15 @@ export class PitchBookingService {
       .pipe(map(res => this.convertResponseArrayFromServer(res)));
   }
 
+  queryByUserProfileId(userProfileId: number | null): Observable<HttpResponse<IPitchBooking[]>> {
+    const options = createRequestOption({ userProfileId }); // Include userProfileId in the request parameters
+    const url = `${this.resourceUrl}/user/${userProfileId}`; // Append userProfileId to the URL path
+    // Log the URL being passed over
+    console.log('URL:', url);
+
+    return this.http.get<IPitchBooking[]>(url, { observe: 'response' });
+  }
+
   // Method to get available time slots for a specified date
   getAvailableTimeSlots(date: Dayjs): Observable<EntityArrayResponseType> {
     const isoDateString = date.toISOString(); // Convert Dayjs to ISO string bcs its weird

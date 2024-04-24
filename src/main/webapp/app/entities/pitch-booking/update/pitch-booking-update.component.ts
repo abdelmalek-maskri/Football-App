@@ -1,7 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
-import { Observable, throwError } from 'rxjs';
 import { catchError, finalize, map } from 'rxjs/operators';
 import { NgbDateStruct, NgbModule, NgbTimeStruct } from '@ng-bootstrap/ng-bootstrap';
 import { PitchBookingFormService, PitchBookingFormGroup } from './pitch-booking-form.service';
@@ -16,6 +15,11 @@ import dayjs, { Dayjs } from 'dayjs';
 import { MatDatepickerInputEvent, MatDatepickerModule } from '@angular/material/datepicker';
 import { ChangeDetectorRef } from '@angular/core';
 import { tryUnwrapForwardRef } from '@angular/compiler-cli/src/ngtsc/annotations/common';
+import { AccountService } from 'app/core/auth/account.service';
+import { FontResizeService } from '../../../layouts/navbar/navbar.service';
+import { Observable } from 'rxjs';
+import { VERSION } from 'app/app.constants';
+import { Account } from '../../../core/auth/account.model';
 
 @Component({
   selector: 'jhi-pitch-booking-update',
@@ -51,13 +55,21 @@ export class PitchBookingUpdateComponent implements OnInit {
   existingBookings: { startTime: Dayjs | null | undefined; endTime: Dayjs | null | undefined }[] = [];
   // Filtered time slots based on existing bookings
   filteredTimeSlots: { value: string; viewValue: string }[] = [];
+  user_profile_id: number | null = null; // User profile ID
+
+  version = '';
+  account: Account | null = null;
+  fontSizeMultiplier: number = 1; // Font size multiplier property
+
   constructor(
     protected pitchBookingService: PitchBookingService,
     protected pitchBookingFormService: PitchBookingFormService,
     protected teamService: TeamService,
     protected pitchService: PitchService,
     protected activatedRoute: ActivatedRoute,
-    private cd: ChangeDetectorRef
+    private cd: ChangeDetectorRef,
+    private accountService: AccountService, // Inject AccountService
+    private fontResizeService: FontResizeService
   ) {}
 
   compareTeam = (o1: ITeam | null, o2: ITeam | null): boolean => this.teamService.compareTeam(o1, o2);
@@ -98,6 +110,26 @@ export class PitchBookingUpdateComponent implements OnInit {
 
       this.loadRelationshipsOptions();
     });
+
+    this.accountService.identity().subscribe(account => {
+      if (account) {
+        this.user_profile_id = account.id; // Retrieve user profile ID
+      }
+    });
+
+    this.fontResizeService.fontSizeMultiplier$.subscribe(multiplier => {
+      this.fontSizeMultiplier = multiplier;
+    });
+  }
+
+  // Font size adjustment methods
+  getFontSizeKey(): string {
+    return `fontSizeMultiplier_${this.account?.login || 'default'}`;
+  }
+
+  updateFontSize(): void {
+    localStorage.setItem(this.getFontSizeKey(), this.fontSizeMultiplier.toString());
+    this.fontResizeService.setFontSizeMultiplier(this.fontSizeMultiplier);
   }
 
   previousState(): void {
@@ -131,9 +163,14 @@ export class PitchBookingUpdateComponent implements OnInit {
       console.error('startTime or endTime is null or empty');
       return;
     }
+
+    // Assign user profile ID to pitch booking object
+    pitchBooking.userProfileId = this.user_profile_id;
+
     console.log('Start Time:', pitchBooking.startTime);
     console.log('End Time:', pitchBooking.endTime);
     console.log('booking', pitchBooking);
+    console.log('upi', pitchBooking.userProfileId);
     if (pitchBooking.id !== null) {
       this.subscribeToSaveResponse(this.pitchBookingService.update(pitchBooking));
     } else {

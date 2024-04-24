@@ -197,6 +197,13 @@ public class PitchBookingResource {
         return pitchBookingRepository.findAll();
     }
 
+    @GetMapping("/pitch-bookings/user/{userProfileId}")
+    public ResponseEntity<List<PitchBooking>> getPitchBookingsByUserProfileId(@PathVariable Long userProfileId) {
+        log.debug("REST request to get PitchBookings by userProfileId : {}", userProfileId);
+        List<PitchBooking> pitchBookings = pitchBookingRepository.findByUserProfileId(userProfileId);
+        return ResponseEntity.ok().body(pitchBookings);
+    }
+
     /**
      * {@code GET  /pitch-bookings/:id} : get the "id" pitchBooking.
      *

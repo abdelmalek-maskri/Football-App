@@ -22,4 +22,6 @@ public interface PitchBookingRepository extends JpaRepository<PitchBooking, Long
     List<PitchBooking> findBookedPitchesBasedOnDate(@Param("date") Instant date);
 
     List<PitchBooking> findPitchByPitchName(String keyword);
+
+    List<PitchBooking> findByUserProfileId(Long userProfileId);
 }

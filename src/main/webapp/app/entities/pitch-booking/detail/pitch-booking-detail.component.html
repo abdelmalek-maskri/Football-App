@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container main-page dynamic-text-size" [style.fontSize]="fontSizeMultiplier * 1.5 + 'rem'">
   <div class="col-8">
     <div *ngIf="pitchBooking">
       <h2 data-cy="pitchBookingDetailsHeading"><span>Pitch Booking</span></h2>
@@ -47,6 +47,10 @@
 
       <button type="button" [routerLink]="['/pitch-booking', pitchBooking.id, 'edit']" class="btn btn-primary">
         <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
+      </button>
+
+      <button type="button" (click)="deletePb(pitchBooking.id)" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Delete</span>
       </button>
     </div>
   </div>

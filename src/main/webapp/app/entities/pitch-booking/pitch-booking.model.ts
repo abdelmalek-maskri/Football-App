@@ -9,6 +9,7 @@ export interface IPitchBooking {
   endTime?: dayjs.Dayjs | null;
   team?: Pick<ITeam, 'id'> | null;
   pitch?: Pick<IPitch, 'id'> | null;
+  userProfileId?: number | null; // New property for user profile ID
 }
 
 export type NewPitchBooking = Omit<IPitchBooking, 'id'> & { id: null };
