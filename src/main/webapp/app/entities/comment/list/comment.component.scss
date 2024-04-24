@@ -160,7 +160,7 @@ li {
 .banner-container-page-title {
   position: absolute;
   font-family: 'Anton', sans-serif;
-  top: 0.75em; /* Adjust top positioning as needed */
+  top: 1.5em; /* Adjust top positioning as needed */
   right: 1em; /* Adjust left positioning as needed */
   text-transform: uppercase;
   line-height: 6vw;
@@ -169,6 +169,8 @@ li {
   color: white; /* White text color */
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Text shadow for better visibility */
   transition: color 0.3s ease; /* Smooth transition for color change */
+  text-decoration: none;
+  cursor: pointer;
 }
 .banner-container-page-title:hover {
   color: green; /* Change text color to green on hover */
