@@ -31,6 +31,10 @@
     </div>
 
     <div class="font-size-slider-container">
+      <!--
+      <p class="dynamic-text-size" [style.fontSize]="fontSizeMultiplier*0.9 + 'rem'">Font Size</p>
+      -->
+      <div class="lowerA">A</div>
       <input
         type="range"
         min="0.5"
@@ -40,6 +44,7 @@
         (ngModelChange)="updateFontSize()"
         class="font-size-slider"
       />
+      <div class="upperA">A</div>
     </div>
 
     <a
