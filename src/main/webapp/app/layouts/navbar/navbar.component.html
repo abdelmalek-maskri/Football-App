@@ -1,4 +1,4 @@
-<nav data-cy="navbar" class="navbar navbar-light navbar-expand-md">
+<nav data-cy="navbar" class="navbar navbar-light navbar-expand-md" id="navbar">
   <div class="container-fluid">
     <a
       class="navbar-brand logo"
@@ -31,6 +31,10 @@
     </div>
 
     <div class="font-size-slider-container">
+      <!--
+      <p class="dynamic-text-size" [style.fontSize]="fontSizeMultiplier*0.9 + 'rem'">Font Size</p>
+      -->
+      <div class="lowerA">A</div>
       <input
         type="range"
         min="0.5"
@@ -40,6 +44,7 @@
         (ngModelChange)="updateFontSize()"
         class="font-size-slider"
       />
+      <div class="upperA">A</div>
     </div>
 
     <a
@@ -350,7 +355,7 @@
               </a>
             </li>
             <li *ngSwitchCase="true">
-              <a class="dropdown-item" (click)="logout()" id="logout" data-cy="logout">
+              <a class="dropdown-item" routerLink="" (click)="logout()" id="logout" data-cy="logout">
                 <fa-icon icon="sign-out-alt" [fixedWidth]="true"></fa-icon>
                 <span>Sign out</span>
               </a>

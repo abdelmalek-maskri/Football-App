@@ -88,7 +88,8 @@ li {
   height: auto;
 }
 .player_img {
-  width: 25%;
+  height: 100px;
+  width: 100px;
   height: auto;
   float: left;
 }
@@ -98,6 +99,8 @@ li {
   align-items: center;
   height: 80vh;
   overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis; /* 使用省略号截断 */
 }
 
 .button-container {
@@ -126,6 +129,9 @@ li {
   flex-wrap: wrap;
   background-color: #f7f7f7;
 }
+.list:focus {
+  border: 1px solid #ccc;
+}
 .column {
   flex: 1 1 20%; /* 每列占据 20% 的宽度 */
   padding: 10px;
@@ -133,12 +139,13 @@ li {
 }
 .comment_span {
   margin-left: 10px;
-  background-image: url('../../../../content/images/Comment_Background.png');
   background-size: cover;
   display: inline-block;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  width: 42%;
+  height: 15%;
 }
 
 .floating-widget {

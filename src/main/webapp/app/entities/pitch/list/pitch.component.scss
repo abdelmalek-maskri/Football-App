@@ -21,6 +21,8 @@
   color: white; /* White text color */
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Text shadow for better visibility */
   transition: color 0.3s ease; /* Smooth transition for color change */
+  text-decoration: none; /* Remove underline */
+  cursor: pointer; /* Change cursor to indicate clickable */
 }
 .banner-container-page-title:hover {
   color: green;
@@ -46,7 +48,7 @@
 .page-title {
   font-weight: bold; /* Bold font weight */
   text-transform: uppercase;
-  font-size: 4em;
+  font-size: 2em;
   margin-left: 0.5em;
 }
 
@@ -92,7 +94,7 @@
   font-size: 1.25em;
   padding-left: 0.25em;
   padding-right: 0.25em;
-  padding-top: 0.1em;
+  padding-top: 0.01em;
   padding-bottom: 0.1em;
 
   color: #ffffff;
