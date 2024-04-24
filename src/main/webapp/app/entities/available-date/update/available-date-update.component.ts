@@ -15,6 +15,7 @@ import { TeamService } from 'app/entities/team/service/team.service';
 @Component({
   selector: 'jhi-available-date-update',
   templateUrl: './available-date-update.component.html',
+  styleUrls: ['./available-date-update.component.scss'],
 })
 export class AvailableDateUpdateComponent implements OnInit {
   isSaving = false;
