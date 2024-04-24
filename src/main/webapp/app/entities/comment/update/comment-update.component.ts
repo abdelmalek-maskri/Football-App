@@ -20,7 +20,7 @@ import { UserService } from 'app/entities/user/user.service';
 @Component({
   selector: 'jhi-comment-update',
   templateUrl: './comment-update.component.html',
-  styleUrls: ['./comment-update.component.scss'],
+  styleUrls: ['./comment-update.component.scss', '../../../../content/scss/updatePage.scss'],
 })
 export class CommentUpdateComponent implements OnInit {
   isSaving = false;

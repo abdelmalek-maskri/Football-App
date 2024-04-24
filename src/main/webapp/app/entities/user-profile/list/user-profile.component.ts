@@ -174,4 +174,10 @@ export class UserProfileComponent implements OnInit {
       return [predicate + ',' + ascendingQueryParam];
     }
   }
+  scrollDown() {
+    window.scrollTo({
+      top: window.innerHeight,
+      behavior: 'smooth',
+    });
+  }
 }
