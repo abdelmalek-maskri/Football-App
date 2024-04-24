@@ -122,8 +122,8 @@ export class AvailableDateFormService {
   ): IAvailableDate | NewAvailableDate {
     return {
       ...rawAvailableDate,
-      fromTime: dayjs(rawAvailableDate.fromTime, DATE_TIME_FORMAT),
-      toTime: dayjs(rawAvailableDate.toTime, DATE_TIME_FORMAT),
+      fromTime: dayjs(rawAvailableDate.fromTime),
+      toTime: dayjs(rawAvailableDate.fromTime),
       userProfile: this.theUser,
     };
   }
