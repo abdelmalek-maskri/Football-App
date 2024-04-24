@@ -78,7 +78,7 @@ export class AvailableDateFormService {
           validators: [Validators.required],
         }
       ),
-      fromTime: new FormControl(availableDateRawValue.fromTime, {
+      fromTime: new FormControl(new Date().toLocaleDateString(), {
         validators: [Validators.required],
       }),
       toTime: new FormControl(availableDateRawValue.toTime, {
