@@ -188,19 +188,15 @@
             <div class="team-container grid-items">
               <div *ngIf="userProfile.team; else noTeam">
                 <h3 class="dynamic-text-size" [style.fontSize]="fontSizeMultiplier * 2 + 'rem'">Team</h3>
-                <a
-                  [routerLink]="['/team', userProfile.team.id, 'view']"
-                  class="team-items"
-                  class="dynamic-text-size"
-                  [style.fontSize]="fontSizeMultiplier + 'rem'"
-                  >{{ usersTeam?.name }}</a
-                >
-                <div *ngIf="usersTeam?.image; else playerTemplate" class="team-items">
-                  <img
-                    [src]="'data:' + usersTeam?.imageContentType + ';base64,' + usersTeam?.image"
-                    alt="image of team logo"
-                    class="rating"
-                  />
+                <div class="team-items" [routerLink]="['/team', userProfile.team.id, 'view']">
+                  <div *ngIf="usersTeam?.image; else playerTemplate">
+                    <img
+                      [src]="'data:' + usersTeam?.imageContentType + ';base64,' + usersTeam?.image"
+                      alt="image of team logo"
+                      class="teamPic"
+                    />
+                  </div>
+                  <p class="dynamic-text-size" [style.fontSize]="fontSizeMultiplier + 'rem'">{{ usersTeam?.name }}</p>
                 </div>
               </div>
             </div>
