@@ -103,6 +103,7 @@
           class="list"
           style="margin: 20px"
           *ngFor="let match of matches!.slice(getMatchStartIndex(), getMatchEndIndex()); let i = index"
+          tabindex="0"
         >
           <div class="column" (click)="navigateToMatchLD(match.id)">
             <div class="bl">

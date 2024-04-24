@@ -1,4 +1,4 @@
-<nav data-cy="navbar" class="navbar navbar-light navbar-expand-md">
+<nav data-cy="navbar" class="navbar navbar-light navbar-expand-md" id="navbar">
   <div class="container-fluid">
     <a
       class="navbar-brand logo"
@@ -355,7 +355,7 @@
               </a>
             </li>
             <li *ngSwitchCase="true">
-              <a class="dropdown-item" (click)="logout()" id="logout" data-cy="logout">
+              <a class="dropdown-item" routerLink="" (click)="logout()" id="logout" data-cy="logout">
                 <fa-icon icon="sign-out-alt" [fixedWidth]="true"></fa-icon>
                 <span>Sign out</span>
               </a>

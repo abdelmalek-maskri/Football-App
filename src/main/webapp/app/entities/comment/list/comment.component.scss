@@ -126,6 +126,9 @@ li {
   flex-wrap: wrap;
   background-color: #f7f7f7;
 }
+.list:focus {
+  border: 1px solid #ccc;
+}
 .column {
   flex: 1 1 20%; /* 每列占据 20% 的宽度 */
   padding: 10px;
