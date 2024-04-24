@@ -29,7 +29,7 @@
     <!-- <a *ngFor="let pitch of pitches" class="card" [routerLink]="['/pitch-booking/new']"> -->
     <a *ngFor="let pitch of pitches" class="card" (click)="openModal(pitch)">
       <div class="card-content">
-        <img src="content/images/bournbrook.jpg" />
+        <img src="content/images/bournbrook.jpg" alt="banner for cards" />
         <div id="inner-card-content">
           <h1>{{ pitch.name }}</h1>
           <!-- <img src="content/images/logo-pitch.png" /> -->

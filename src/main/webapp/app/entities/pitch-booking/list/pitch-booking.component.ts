@@ -15,6 +15,8 @@ import { Account } from 'app/core/auth/account.model';
 import { FontResizeService } from '../../../layouts/navbar/navbar.service';
 import { Observable } from 'rxjs';
 import { VERSION } from 'app/app.constants';
+import { User } from '../../../admin/user-management/user-management.model';
+import { AccountService } from 'app/core/auth/account.service';
 
 @Component({
   selector: 'jhi-pitch-booking',
@@ -22,6 +24,7 @@ import { VERSION } from 'app/app.constants';
   styleUrls: ['pitch-booking.component.scss'],
 })
 export class PitchBookingComponent implements OnInit {
+  currentAccount: Account | null = null;
   pitchBookings?: IPitchBooking[];
   isLoading = false;
   pitch: any;
@@ -39,7 +42,8 @@ export class PitchBookingComponent implements OnInit {
     protected sortService: SortService,
     protected modalService: NgbModal,
     private route: ActivatedRoute,
-    private fontResizeService: FontResizeService
+    private fontResizeService: FontResizeService,
+    private accountService: AccountService
   ) {}
 
   trackId = (_index: number, item: IPitchBooking): number => this.pitchBookingService.getPitchBookingIdentifier(item);
@@ -55,6 +59,7 @@ export class PitchBookingComponent implements OnInit {
     this.fontResizeService.fontSizeMultiplier$.subscribe(multiplier => {
       this.fontSizeMultiplier = multiplier;
     });
+    this.accountService.identity().subscribe(account => (this.currentAccount = account));
   }
 
   delete(pitchBooking: IPitchBooking): void {
@@ -139,6 +144,7 @@ export class PitchBookingComponent implements OnInit {
     }
   }
   openModal(pitchBooking: IPitchBooking) {
+    console.log(this.currentAccount);
     const options: NgbModalOptions = {
       centered: true,
       animation: true,
