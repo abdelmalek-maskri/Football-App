@@ -167,4 +167,11 @@ export class TournamentComponent implements OnInit {
   hideDetails() {
     this.showDetails = false;
   }
+
+  scrollDown() {
+    window.scrollTo({
+      top: window.innerHeight,
+      behavior: 'smooth',
+    });
+  }
 }

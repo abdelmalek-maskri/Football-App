@@ -105,7 +105,7 @@
   padding-top: 45px;
   margin-bottom: 200px;
 }
-.image-container h2 {
+.image-container-h2 {
   position: absolute;
   z-index: 13;
   color: white;
@@ -120,8 +120,10 @@
   margin-bottom: 0.5rem;
   margin-top: 0;
   font-family: 'Anton';
+  text-decoration: none;
+  cursor: pointer;
 }
-.image-container h2:hover {
+.image-container-h2:hover {
   color: #5ada86;
 }
 
