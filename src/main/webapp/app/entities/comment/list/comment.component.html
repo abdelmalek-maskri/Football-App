@@ -10,7 +10,11 @@
   <div class="container">
     <div class="button-container">
       <div class="title-box">
-        <a style="font-size: 18px" href="../user-profile" class="dynamic-text-size" [style.fontSize]="fontSizeMultiplier + 'rem'"
+        <a
+          style="font-size: 18px; color: black"
+          href="../user-profile"
+          class="dynamic-text-size"
+          [style.fontSize]="fontSizeMultiplier + 'rem'"
           >All-Time Players</a
         >
       </div>
@@ -79,7 +83,7 @@
         (click)="prevUserPage()"
         [disabled]="currentUserPage === 1"
       >
-        < prevPage
+        < Prev
       </button>
       <button
         class="dynamic-text-size"
@@ -88,13 +92,13 @@
         (click)="nextUserPage()"
         [disabled]="getUserEndIndex() >= userProfiles!.length"
       >
-        nextPage >
+        Next >
       </button>
     </div>
 
     <div class="button-container">
       <div class="title-box">
-        <a class="dynamic-text-size" [style.fontSize]="fontSizeMultiplier + 'rem'" style="font-size: 18px" href="../match"
+        <a class="dynamic-text-size" [style.fontSize]="fontSizeMultiplier + 'rem'" style="font-size: 18px; color: black" href="../match"
           >Players In The Match</a
         >
       </div>
@@ -103,6 +107,7 @@
           class="list"
           style="margin: 20px"
           *ngFor="let match of matches!.slice(getMatchStartIndex(), getMatchEndIndex()); let i = index"
+          tabindex="0"
         >
           <div class="column" (click)="navigateToMatchLD(match.id)">
             <div class="bl">
@@ -127,7 +132,7 @@
         (click)="prevMatchPage()"
         [disabled]="currentMatchPage === 1"
       >
-        < prevPage
+        < Prev
       </button>
       <button
         class="dynamic-text-size"
@@ -136,7 +141,7 @@
         (click)="nextMatchPage()"
         [disabled]="getMatchEndIndex() >= matches!.length"
       >
-        nextPage >
+        Next >
       </button>
     </div>
   </div>
