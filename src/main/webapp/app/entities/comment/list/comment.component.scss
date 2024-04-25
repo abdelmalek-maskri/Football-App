@@ -88,8 +88,9 @@ li {
   height: auto;
 }
 .player_img {
-  height: 100px;
-  width: 100px;
+  width: 25%;
+  max-height: 100px;
+  max-width: 100px;
   height: auto;
   float: left;
 }
