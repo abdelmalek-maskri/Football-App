@@ -75,9 +75,9 @@
           </div>
           <div class="col">
             <div id="matchScore">
-              <div *ngIf="match.homeScore && match.awayScore; else toPlay">
+              <div *ngIf="match.homeScore != null && match.awayScore != null; else toPlay">
                 <h2 class="dynamic-text-size" [style.fontSize]="fontSizeMultiplier * 1.5 + 'rem'">
-                  {{ match.homeScore }} - {{ match.homeScore }}
+                  {{ match.homeScore }} - {{ match.awayScore }}
                 </h2>
               </div>
             </div>

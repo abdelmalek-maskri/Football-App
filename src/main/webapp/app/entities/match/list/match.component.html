@@ -62,11 +62,11 @@
                   </div>
                   <div class="col-2 text-center">
                     <span class="vs">
-                      <span *ngIf="match.homeScore" class="dynamic-text-size" [style.fontSize]="fontSizeMultiplier * 1.2 + 'rem'">{{
+                      <span *ngIf="match.homeScore != null" class="dynamic-text-size" [style.fontSize]="fontSizeMultiplier * 1.2 + 'rem'">{{
                         match.homeScore
                       }}</span
                       >&ensp; vs &ensp;<span
-                        *ngIf="match.awayScore"
+                        *ngIf="match.awayScore != null"
                         class="dynamic-text-size"
                         [style.fontSize]="fontSizeMultiplier * 1.2 + 'rem'"
                         >{{ match.awayScore }}</span
