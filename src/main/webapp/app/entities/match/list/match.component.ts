@@ -133,7 +133,7 @@ export class MatchComponent implements OnInit {
     let matchesDatedTemp: IMatchDated[] = [];
     data.forEach((item: IMatch) => {
       if (item.date != null) {
-        dateRepeated = item.date.format('MMMM d');
+        dateRepeated = item.date.format('MMMM D');
 
         const itemIndex = matchesDatedTemp.findIndex((i: IMatchDated) => i.date != null && dateRepeated != null && i.date == dateRepeated);
         // if same date
@@ -148,7 +148,7 @@ export class MatchComponent implements OnInit {
         });
       }
     });
-    matchesDatedTemp.sort();
+    //matchesDatedTemp.sort();
     return matchesDatedTemp.sort(this.sortService.startSort('date', 1));
   }
 
