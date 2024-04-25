@@ -37,6 +37,10 @@ public class PitchBooking implements Serializable {
     @Column(name = "end_time", nullable = false)
     private Instant endTime;
 
+    @NotNull
+    @Column(name = "user_profile_id", nullable = false)
+    private Long userProfileId; // Added field for user_profile_id
+
     @ManyToOne
     @JsonIgnoreProperties(value = { "owner", "bookings", "availableDates", "members", "contacts", "tournaments" }, allowSetters = true)
     private Team team;
@@ -123,6 +127,14 @@ public class PitchBooking implements Serializable {
     public PitchBooking pitch(Pitch pitch) {
         this.setPitch(pitch);
         return this;
+    }
+
+    public Long getUserProfileId() {
+        return this.userProfileId;
+    }
+
+    public void setUserProfileId(Long userProfileId) {
+        this.userProfileId = userProfileId;
     }
 
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here

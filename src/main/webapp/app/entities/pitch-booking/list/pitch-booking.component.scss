@@ -40,15 +40,22 @@
 }
 
 #top-row-right-aligned {
+  padding-right: 1em;
+  padding-top: 1em;
   display: flex;
-  justify-content: flex-start;
+  justify-content: flex-end;
   align-items: center;
   height: auto;
   gap: 0.5em;
-  /*background-color: #BBBBBB;*/
 }
 #top-row-left-aligned {
-  /*background-color: #BBBBBB;*/
+  padding-left: 1em; /* Adjust padding for spacing */
+  display: flex;
+  align-items: center;
+}
+
+#top-row-left-aligned span {
+  margin-right: 0.5em; /* Adjust margin for spacing */
 }
 
 #search-box {
@@ -197,15 +204,17 @@
 
 #inner-card-content {
   display: flex;
+  flex-wrap: wrap;
 
   img {
     width: 38%;
     height: 38%;
-    order: 1; /* Set the order to 1 to make it appear on the left */
+    order: 1;
   }
-  h1 {
-    flex: 1; /* Take up remaining space */
-    order: 2; /* Set the order to 2 to make it appear on the right */
+  .view-booking-text {
+    height: 4em;
+    flex: 1;
+    order: 2;
     font-size: 0.8em;
   }
 }

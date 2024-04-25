@@ -17,6 +17,7 @@ import { Observable } from 'rxjs';
 import { VERSION } from 'app/app.constants';
 import { User } from '../../../admin/user-management/user-management.model';
 import { AccountService } from 'app/core/auth/account.service';
+import dayjs from 'dayjs';
 
 @Component({
   selector: 'jhi-pitch-booking',
@@ -25,6 +26,7 @@ import { AccountService } from 'app/core/auth/account.service';
 })
 export class PitchBookingComponent implements OnInit {
   pitchBookings?: IPitchBooking[];
+  pitchBookingSorted?: IPitchBooking[];
   isLoading = false;
   pitch: any;
 
@@ -34,6 +36,8 @@ export class PitchBookingComponent implements OnInit {
   version = '';
   account: Account | null = null;
   fontSizeMultiplier: number = 1; // Font size multiplier property
+  user_profile_id: number | null = null; // User profile ID
+
   constructor(
     protected pitchBookingService: PitchBookingService,
     protected activatedRoute: ActivatedRoute,
@@ -41,13 +45,14 @@ export class PitchBookingComponent implements OnInit {
     protected sortService: SortService,
     protected modalService: NgbModal,
     private route: ActivatedRoute,
-    private fontResizeService: FontResizeService
+    private fontResizeService: FontResizeService,
+    private accountService: AccountService // Inject AccountService
   ) {}
 
   trackId = (_index: number, item: IPitchBooking): number => this.pitchBookingService.getPitchBookingIdentifier(item);
 
   ngOnInit(): void {
-    this.load();
+    //this.load();
     // Retrieve pitch details from query parameters
     this.route.queryParams.subscribe(params => {
       if (params.pitch) {
@@ -57,6 +62,19 @@ export class PitchBookingComponent implements OnInit {
     this.fontResizeService.fontSizeMultiplier$.subscribe(multiplier => {
       this.fontSizeMultiplier = multiplier;
     });
+    this.accountService.identity().subscribe(account => {
+      if (account) {
+        this.user_profile_id = account.id; // Retrieve user profile ID
+      }
+    });
+
+    // Retrieve user ID from route or authentication service
+    this.activatedRoute.params.subscribe(params => {
+      if (this.user_profile_id) {
+        this.queryByUserProfileIdBackend();
+      }
+    });
+    console.log(this.pitchBookings);
   }
 
   delete(pitchBooking: IPitchBooking): void {
@@ -102,6 +120,7 @@ export class PitchBookingComponent implements OnInit {
 
   protected onResponseSuccess(response: EntityArrayResponseType): void {
     const dataFromBody = this.fillComponentAttributesFromResponseBody(response.body);
+    console.log(dataFromBody);
     this.pitchBookings = this.refineData(dataFromBody);
   }
 
@@ -141,6 +160,7 @@ export class PitchBookingComponent implements OnInit {
     }
   }
   openModal(pitchBooking: IPitchBooking) {
+    console.log(this.user_profile_id);
     const options: NgbModalOptions = {
       centered: true,
       animation: true,
@@ -178,5 +198,29 @@ export class PitchBookingComponent implements OnInit {
       top: window.innerHeight,
       behavior: 'smooth',
     });
+  }
+
+  queryByUserProfileIdBackend(): void {
+    this.isLoading = true;
+    const queryObject = {
+      sort: this.getSortQueryParam(), // You can pass additional parameters if needed
+    };
+
+    this.pitchBookingService.queryByUserProfileId(this.user_profile_id).subscribe({
+      next: (res: EntityArrayResponseType) => {
+        this.isLoading = false;
+        this.onResponseSuccess(res);
+        console.log('Pitch Bookings:', res.body);
+      },
+      error: error => {
+        this.isLoading = false;
+        // Handle error
+      },
+    });
+  }
+
+  // Method to convert Day.js object to readable format
+  getReadableDate(bookingDate: dayjs.Dayjs | null | undefined): string {
+    return dayjs(bookingDate).format('MMM DD, YYYY'); // Adjust format string as needed
   }
 }
