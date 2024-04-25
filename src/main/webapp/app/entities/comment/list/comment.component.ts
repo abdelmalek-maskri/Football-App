@@ -26,7 +26,9 @@ import { VERSION } from 'app/app.constants';
 export class CommentComponent implements OnInit {
   comments?: IComment[];
   matches?: IMatch[] = [];
-  userProfiles?: (IUserProfile & { averageRating?: number } & { contentOfHighestLikedComment?: string | undefined })[] = [];
+  userProfiles?: (IUserProfile & { averageRating?: number } & { trueRating?: number } & {
+    contentOfHighestLikedComment?: string | undefined;
+  })[] = [];
   isLoading = false;
 
   predicate = 'id';
@@ -134,6 +136,7 @@ export class CommentComponent implements OnInit {
             }
           }
           userProfile.averageRating = Math.round(totalRating / counter);
+          userProfile.trueRating = userProfile.averageRating;
           if (userProfile.averageRating >= 1 && userProfile.averageRating < 1.5) {
             userProfile.averageRating = 1;
           } else if (userProfile.averageRating >= 1.5 && userProfile.averageRating < 2) {
@@ -150,8 +153,10 @@ export class CommentComponent implements OnInit {
             userProfile.averageRating = 4;
           } else if (userProfile.averageRating >= 4.5 && userProfile.averageRating < 5) {
             userProfile.averageRating = 4.5;
-          } else {
+          } else if (userProfile.averageRating == 5) {
             userProfile.averageRating = 5;
+          } else {
+            userProfile.averageRating = 0;
           }
         }
       }

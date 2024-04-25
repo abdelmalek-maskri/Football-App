@@ -45,7 +45,7 @@
               >
                 {{ userProfile.name }}
               </div>
-              <ng-container *ngIf="userProfile.averageRating; else noRating">
+              <ng-container *ngIf="userProfile.averageRating != 0; else noRating">
                 <div class="rating-content" [attr.data-rating]="userProfile.averageRating">
                   <span class="dynamic-text-size" [style.fontSize]="fontSizeMultiplier + 'rem'">★</span
                   ><span class="dynamic-text-size" [style.fontSize]="fontSizeMultiplier + 'rem'">★</span
@@ -65,7 +65,7 @@
                   {{ userProfile.contentOfHighestLikedComment }}
                 </div>
                 <span class="dynamic-text-size num" [style.fontSize]="fontSizeMultiplier + 'rem'" *ngIf="userProfile.averageRating">{{
-                  userProfile.averageRating
+                  userProfile.trueRating
                 }}</span>
                 <span class="dynamic-text-size num" [style.fontSize]="fontSizeMultiplier + 'rem'" *ngIf="userProfile.averageRating == null"
                   >Loading...</span
