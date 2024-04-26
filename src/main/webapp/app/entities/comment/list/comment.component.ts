@@ -52,9 +52,6 @@ export class CommentComponent implements OnInit {
     private fontResizeService: FontResizeService,
     protected MatchService: MatchService
   ) {
-    if (this.userProfiles) {
-      this.userProfiles.sort((a, b) => b!.averageRating! - a!.averageRating!);
-    }
     if (VERSION) {
       this.version = VERSION.toLowerCase().startsWith('v') ? VERSION : `v${VERSION}`;
     }
@@ -160,6 +157,7 @@ export class CommentComponent implements OnInit {
           }
         }
       }
+      this.userProfiles!.sort((a, b) => b!.averageRating! - a!.averageRating!);
     });
   }
   // Font size adjustment methods
