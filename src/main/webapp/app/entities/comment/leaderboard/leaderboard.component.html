@@ -72,7 +72,11 @@
               </a>
               <div class="gitment-comment-main">
                 <div class="gitment-comment-header">
-                  <a class="gitment-comment-name" style="display: flex; align-items: center">
+                  <a
+                    class="gitment-comment-name"
+                    style="display: flex; align-items: center"
+                    [routerLink]="['/user-profile', comment!.author!.id, 'view']"
+                  >
                     {{ comment!.author!.id | userNamePipe: users! }}
                     <div style="margin-left: 20px" class="rating-content" [attr.data-rating]="comment.rating">
                       <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
@@ -117,7 +121,11 @@
               </a>
               <div class="gitment-comment-main">
                 <div class="gitment-comment-header">
-                  <a class="gitment-comment-name" style="display: flex; align-items: center">
+                  <a
+                    class="gitment-comment-name"
+                    style="display: flex; align-items: center"
+                    [routerLink]="['/user-profile', comment!.author!.id, 'view']"
+                  >
                     {{ comment!.author!.id | userNamePipe: users! }}
                   </a>
 
