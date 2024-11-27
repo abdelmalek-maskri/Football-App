@@ -13,26 +13,26 @@ Password: At#5W!nKtZPd2@*sU98UoRvLi6M!hRM9
 
 Detailed Features 
 
-#User Registration and Profile Customization :
+# User Registration and Profile Customization :
 
 Football Connect provides an effortless registration process, inviting people to join our vibrant football community. Upon joining, users are prompted to create their public user profile by specifying their preferences of name, profile picture, and contact details which can be used for other users to contact them. Users can also select their play position (i.e. striker, defence, etc.), and whether they would also like to referee for matches. In addition to this, players can add their availability which will appear on their profile as well as contact details allowing other users to contact them so that they can connect. 
 
-#Player Networking and Searching :
+# Player Networking and Searching :
 The player search feature allows users to find one another by position, area they are in, or name. This feature helps to create a network which is essential for the coordination of local matches, and uniting football players around the world. The application provides a sense of community and passion for football, allowing users to develop meaningful connections with one another as they participate in playing games of football together. Thus, this feature makes it very easy for users to find players for their matches and teams. 
 
-#Team Formation, Management and Searching :
+# Team Formation, Management and Searching :
 For those looking to join a team, we have a team search page where users can browse through all the registered teams on our app. Users can discover lots of different teams near them and click on a team to view its team profile. Here, they can see the full name and description of the team, a list of players who are playing for them, and the teams game schedule and play-type too. If someone wants to form their own team, then they can do so by clicking on the create team button. Registration for a new team is as simple as completing a short form and uploading a picture of the team’s icon. Then, the team is publicly discoverable on our team search page, where the user can invite their friends to search up and join their team. 
 
-#Pitch Finder and Scheduler :
+# Pitch Finder and Scheduler :
 Our app simplifies the task of finding and booking football pitches. A user can view a list of pitch locations, what time they are available, and then book them. The pitch booking feature lets them book a pitch for their next game or practice session, making it easy to plan ahead. This feature helps the user to tackle the hassle of locating and reserving a place to play, ensuring that teams can focus on playing or practicing for games rather than having to worry about the hassle of finding and booking pitches. 
 
-#Tournaments :
+# Tournaments :
 This feature is for competitive players and teams looking to compete in tournaments which are hosted on our application. Players can join an open tournament for their team, and users are able to see a list of all the upcoming matches and see scores of the previous matches which have been played. This feature brings an aspect of competition in our app, as each team participating would strive to succeed in winning each tournament. Tournaments are scheduled to be hosted one after another, allowing teams to have another chance at competing again if they have been knocked out of the tournament after a loss. 
 
-#Match Updates and Scores :
+# Match Updates and Scores :
 The Matches page allows users to see the matches of a tournament, alongside with updates and scores of each game that has taken place. The matches are displayed on a monthly calendar, and groups matches occurring by day. This keeps users in the loop with their team's progress and the outcome of games that they are interested in. Upon clicking on a match, you can view more details about it such as details of the home and away team, a list of players from each team, the score of the game, and referee of the match. 
 
-#Player Performance Feedback and Ratings :
+# Player Performance Feedback and Ratings :
 The feedback and rating system on Football Connect allows players to leave reviews about each other’s performance. After a match, users can leave comments and ratings for players that they've played with or against. On the leaderboard, the ratings of each user are ranked from highest to lowest and by clicking on them you can see how everyone in the community has rated and reviewed each other's performance.  You can also leave likes on a comment, and the comments with the most likes will be promoted further to the top of the page. 
  
 
